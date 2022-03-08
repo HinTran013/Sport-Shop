@@ -44,6 +44,15 @@ export default function MainContainer() {
 
             return <Ionicons name={iconName} size={size} color={color} />;
           },
+          tabBarActiveTintColor: "#DB3022",
+          tabBarStyle: {
+            paddingBottom: 10,
+            paddingTop: 10,
+            height: 60,
+            borderTopLeftRadius: 22,
+            borderTopRightRadius: 22,
+            position: "absolute",
+          },
         })}
       >
         <Tab.Screen name={homeName} component={HomeScreen} />
