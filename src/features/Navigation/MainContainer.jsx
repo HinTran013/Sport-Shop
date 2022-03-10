@@ -53,6 +53,7 @@ export default function MainContainer() {
             borderTopRightRadius: 22,
             position: "absolute",
           },
+          headerShown: false,
         })}
       >
         <Tab.Screen name={homeName} component={HomeScreen} />
