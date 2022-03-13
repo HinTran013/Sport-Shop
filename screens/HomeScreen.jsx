@@ -1,18 +1,33 @@
 import React from "react";
-import { View, Text, Platform, StatusBar, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import BigBanner from "../src/components/Big Banner/BigBanner";
+import ProductSectionHeader from "../src/components/Product Section Header/ProductSectionHeader";
+import ProductItem from "../src/components/Product Item/ProductItem";
 
-var backgroundImg = require("../assets/twoFashionGirls.png");
+const backgroundImg = require("../assets/twoFashionGirls.png");
+const productImg = require("../assets/pinkDressGirl.png");
 
 export default function HomeScreen() {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <BigBanner
         backgroundImage={backgroundImg}
         text="Fashion Sale"
         buttonText={"Check"}
       />
-    </View>
+      <View style={styles.mainContentContainer}>
+        <ProductSectionHeader
+          header="New"
+          subHeader="You've never seen it before"
+        />
+      </View>
+
+      <ScrollView style={styles.productsContainer}>
+        <ProductItem img={productImg} />
+      </ScrollView>
+
+      <View style={{ paddingBottom: 1000 }}></View>
+    </ScrollView>
   );
 }
 
@@ -20,4 +35,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  mainContentContainer: {
+    paddingLeft: 12,
+    paddingRight: 12,
+    paddingTop: 20,
+  },
+  productsContainer: {},
 });

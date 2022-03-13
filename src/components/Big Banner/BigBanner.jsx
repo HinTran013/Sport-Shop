@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, ImageBackground, Image, StyleSheet } from "react-native";
-import RoundedButton from "../RoundedButton";
+import RoundedButton from "../Rounded Button/RoundedButton";
 
 const BigBanner = ({ backgroundImage, text, buttonText }) => {
   return (
