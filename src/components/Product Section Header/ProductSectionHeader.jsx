@@ -2,12 +2,13 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 const ProductSectionHeader = ({
-  marginTopBot = 0,
+  marginTop = 0,
+  marginBot = 0,
   header = "",
   subHeader = "",
 }) => {
   return (
-    <View style={styles(marginTopBot).container}>
+    <View style={styles(marginTop, marginBot).container}>
       <View>
         <Text style={styles().header}>{header}</Text>
         <Text style={styles().subHeader}>{subHeader}</Text>
@@ -18,14 +19,14 @@ const ProductSectionHeader = ({
   );
 };
 
-const styles = (margin) =>
+const styles = (marginTop, marginBot) =>
   StyleSheet.create({
     container: {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
-      marginTop: margin,
-      marginBottom: margin,
+      marginTop: marginTop,
+      marginBottom: marginBot,
     },
     header: {
       fontSize: 26,

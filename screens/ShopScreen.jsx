@@ -3,31 +3,38 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 
 export default function ShopScreen() {
   return (
-    <View style={{justifyContent: "center", backgroundColor: "#F9F9F9",}}>
-      <View style={ styles.viewHeadLine}>
+    <View style={{ justifyContent: "center", backgroundColor: "#F9F9F9" }}>
+      <View style={styles.viewHeadLine}>
         <Text style={styles.headLine}>Sport Shirt</Text>
         <View style={styles.viewTags}>Tags</View>
         <View style={styles.viewSearch}>
           <TouchableOpacity style={styles.divFilter}>
-            <Image source={require("../assets/filter.png")} style={ styles.imageSize}/>
-            <Text style={ styles.viewSearchText}>Filters</Text>
+            <Image
+              source={require("../assets/filter.png")}
+              style={styles.imageSize}
+            />
+            <Text style={styles.viewSearchText}>Filters</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.divFilter}>
-            <Image source={require("../assets/updown.png")} style={ styles.imageSize}/>
-            <Text style={ styles.viewSearchText}>Price: Lowest to Highest</Text>
+            <Image
+              source={require("../assets/updown.png")}
+              style={styles.imageSize}
+            />
+            <Text style={styles.viewSearchText}>Price: Lowest to Highest</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.divFilter}>
-            <Image source={require("../assets/grid.png")} style={ styles.imageSize}/>
+            <Image
+              source={require("../assets/grid.png")}
+              style={styles.imageSize}
+            />
           </TouchableOpacity>
         </View>
       </View>
-
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-
   viewHeadLine: {
     paddingLeft: 20,
     paddingBottom: 5,
@@ -55,7 +62,7 @@ const styles = StyleSheet.create({
   },
   divFilter: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
   imageSize: {
     width: 18,
@@ -64,7 +71,6 @@ const styles = StyleSheet.create({
   },
   viewSearchText: {
     fontSize: 14,
-    fontWeight: 400,
-  }
-
-})
+    fontWeight: "400",
+  },
+});

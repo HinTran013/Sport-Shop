@@ -16,6 +16,7 @@ const BigBanner = ({ backgroundImage, text, buttonText }) => {
           width={160}
           height={40}
           fontSize={17}
+          elevation={10}
         />
       </View>
     </ImageBackground>
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
     textShadowColor: "rgba(0, 0, 0, 0.5)",
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
+    elevation: 5,
   },
 });
 
