@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native";
 import ProductTag from "../src/components/ProductTag/ProductTag";
+import HorizontalProduct from "../src/components/Horizontal Product/HorizontalProduct";
 
 import FilterImg from "../assets/filter.png"
 import UpdownImg from "../assets/updown.png"
 import ListImg from "../assets/list.png"
 import GridImg from "../assets/grid.png"
+
+const pulloverImg = require("../assets/pullover.png");
 
 export default function ShopScreen() {
   const [flipView, setFlipView] = useState(false);
@@ -14,14 +17,15 @@ export default function ShopScreen() {
   const dummyData = ["T-shirts", "Crop tops", "Sleeveless", "Shirts"];
 
   return (
-    <View style={{ justifyContent: "center", backgroundColor: "#F9F9F9" }}>
+    <View style={{ justifyContent: "center"}}>
       <View style={styles.viewHeadLine}>
         <Text style={styles.headLine}>Sport Shirt</Text>
         <View style={styles.viewTags}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {dummyData.map( (x) => <ProductTag name={x} />)}
+            {dummyData.map( (x) => <ProductTag name={x} key={x} />)}
           </ScrollView>
         </View>
+
         <View style={styles.viewSearch}>
           <TouchableOpacity style={styles.divFilter}>
             <Image
@@ -47,6 +51,16 @@ export default function ShopScreen() {
           </TouchableOpacity>
         </View>
       </View>
+
+      <ScrollView>
+        <HorizontalProduct img={pulloverImg} />
+        <HorizontalProduct img={pulloverImg} />
+        <HorizontalProduct img={pulloverImg} />
+        <HorizontalProduct img={pulloverImg} />
+        <HorizontalProduct img={pulloverImg} />
+        <HorizontalProduct img={pulloverImg} />
+      </ScrollView>
+     
     </View>
   );
 }
@@ -56,6 +70,14 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingBottom: 5,
     backgroundColor: "white",
+    marginBottom: 15,
+    //shadow - working on IOS
+    shadowColor: "black",
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 2,
+    //shadow - working on android
+    elevation: 8,
   },
   headLine: {
     color: "black",
@@ -72,6 +94,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f9f9f9",
     flexDirection: "row",
     justifyContent: "space-between",
+    padding: 5,
     marginTop: 5,
     marginBottom: 5,
     marginRight: 10,
