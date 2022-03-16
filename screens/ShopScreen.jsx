@@ -1,32 +1,47 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native";
+import ProductTag from "../src/components/ProductTag/ProductTag";
+
+import FilterImg from "../assets/filter.png"
+import UpdownImg from "../assets/updown.png"
+import ListImg from "../assets/list.png"
+import GridImg from "../assets/grid.png"
 
 export default function ShopScreen() {
+  const [flipView, setFlipView] = useState(false);
+  const onPressFlipViewHandler = () => { setFlipView(!flipView) }
+
+  const dummyData = ["T-shirts", "Crop tops", "Sleeveless", "Shirts"];
+
   return (
     <View style={{ justifyContent: "center", backgroundColor: "#F9F9F9" }}>
       <View style={styles.viewHeadLine}>
         <Text style={styles.headLine}>Sport Shirt</Text>
         <View style={styles.viewTags}>
-          <Text>Tags</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {dummyData.map( (x) => <ProductTag name={x} />)}
+          </ScrollView>
         </View>
         <View style={styles.viewSearch}>
           <TouchableOpacity style={styles.divFilter}>
             <Image
-              source={require("../assets/filter.png")}
+              source={FilterImg}
               style={styles.imageSize}
             />
             <Text style={styles.viewSearchText}>Filters</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.divFilter}>
             <Image
-              source={require("../assets/updown.png")}
+              source={UpdownImg}
               style={styles.imageSize}
             />
             <Text style={styles.viewSearchText}>Price: Lowest to Highest</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.divFilter}>
+          <TouchableOpacity
+              style={styles.divFilter}
+              onPress={onPressFlipViewHandler}>
             <Image
-              source={require("../assets/grid.png")}
+              source={flipView ? ListImg : GridImg}
               style={styles.imageSize}
             />
           </TouchableOpacity>
@@ -38,7 +53,7 @@ export default function ShopScreen() {
 
 const styles = StyleSheet.create({
   viewHeadLine: {
-    paddingLeft: 20,
+    paddingLeft: 10,
     paddingBottom: 5,
     backgroundColor: "white",
   },
@@ -50,7 +65,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   viewTags: {
-    backgroundColor: "red",
     marginTop: 5,
     marginBottom: 5,
   },
