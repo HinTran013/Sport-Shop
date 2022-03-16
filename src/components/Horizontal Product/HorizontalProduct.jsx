@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import StarRating from "react-native-star-rating";
 import { IconButton } from "react-native-paper";
+import ProductBadge from "../Product Badge/ProductBadge";
 
-const HorizontalProduct = (props) => {
+const HorizontalProduct = ({ img, badgeType = "", badgeContent = "", isSale = false }) => {
     const [starRate, setStarRate] = useState(4.5);
     const [favIcon, setFavIcon] = useState({
         isFavorite: false,
@@ -30,7 +31,7 @@ const HorizontalProduct = (props) => {
             <View style={styles.containerTouch}>
                 <TouchableOpacity style={styles.viewProduct}>
                     <View style={styles.viewImg}>
-                        <Image style={styles.styleImg} source={props.img} resizeMode="stretch" />
+                        <Image style={styles.styleImg} source={img} resizeMode="stretch" />
                     </View>
 
                     <View style={styles.viewInfomation}>
@@ -58,6 +59,11 @@ const HorizontalProduct = (props) => {
                             color={favIcon.color}
                             style={styles.favIcon}
                             onPress={handleOnPressFavIcon} />
+                        <View style={styles.viewBadge}>
+                            <ProductBadge
+                                type={badgeType}
+                                content={badgeContent} />
+                        </View>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -119,6 +125,11 @@ const styles = StyleSheet.create({
     textStarRate: {
         color: "#9B9B9B",
         fontSize: 14,
+    },
+    viewBadge: {
+        position: "absolute",
+        top: 5,
+        right: 10,
     },
     favIcon: {
         position: "absolute",

@@ -53,7 +53,7 @@ export default function ShopScreen() {
       </View>
 
       <ScrollView>
-        <HorizontalProduct img={pulloverImg} />
+        <HorizontalProduct img={pulloverImg} badgeContent = "hot!" badgeType="hot"/>
         <HorizontalProduct img={pulloverImg} />
         <HorizontalProduct img={pulloverImg} />
         <HorizontalProduct img={pulloverImg} />
