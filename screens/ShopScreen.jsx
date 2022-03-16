@@ -6,7 +6,9 @@ export default function ShopScreen() {
     <View style={{ justifyContent: "center", backgroundColor: "#F9F9F9" }}>
       <View style={styles.viewHeadLine}>
         <Text style={styles.headLine}>Sport Shirt</Text>
-        <View style={styles.viewTags}>Tags</View>
+        <View style={styles.viewTags}>
+          <Text>Tags</Text>
+        </View>
         <View style={styles.viewSearch}>
           <TouchableOpacity style={styles.divFilter}>
             <Image
