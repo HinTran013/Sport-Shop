@@ -16,10 +16,10 @@ const CategoriesScreen = () => {
                 <Text style={styles.textChooseCategory}>Choose category</Text>
             </View>
 
-            <View>
+            <View style={styles.viewContainCategory}>
                 <ScrollView>
                     {dummyData.map((x) =>
-                        <TouchableOpacity style={styles.viewCategory}>
+                        <TouchableOpacity style={styles.viewCategory} key={x}>
                             <View>
                                 <Text style={styles.textCategory}>{x}</Text>
                             </View>
@@ -34,6 +34,7 @@ const CategoriesScreen = () => {
 const styles = StyleSheet.create({
     viewScreen: {
         backgroundColor: "#f0f0f0",
+        paddingBottom: 50,
     },
     viewButton: {
         backgroundColor: "#DB3022",
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     },
 
     viewChooseCategory: {
-        marginVertical: 10,
+        marginTop: 10,
         marginLeft: 15,
     },
     textChooseCategory: {
@@ -67,8 +68,7 @@ const styles = StyleSheet.create({
     },
 
     viewContainCategory: {
-        marginTop: 10,
-        marginHorizontal: 10,
+        marginTop: 0,
     },
     viewCategory: {
         marginTop: 15,
