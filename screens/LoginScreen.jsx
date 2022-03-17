@@ -8,7 +8,7 @@ import {
   Image,
   Alert,
 } from "react-native";
-import firebase from "../src/firebase"
+//import firebase from "../src/firebase"
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");

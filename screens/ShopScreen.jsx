@@ -1,34 +1,51 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native";
+import { Button } from "react-native-paper";
+
 import ProductTag from "../src/components/ProductTag/ProductTag";
+import HorizontalProduct from "../src/components/Horizontal Product/HorizontalProduct";
+import ProductItem from "../src/components/Product Item/ProductItem";
+
 
 import FilterImg from "../assets/filter.png"
 import UpdownImg from "../assets/updown.png"
 import ListImg from "../assets/list.png"
 import GridImg from "../assets/grid.png"
 
-export default function ShopScreen() {
+const pulloverImg = require("../assets/pullover.png");
+const productImg = require("../assets/fashionWoman.png");
+
+
+export default function ShopScreen({ navigation }) {
   const [flipView, setFlipView] = useState(false);
   const onPressFlipViewHandler = () => { setFlipView(!flipView) }
 
   const dummyData = ["T-shirts", "Crop tops", "Sleeveless", "Shirts"];
 
   return (
-    <View style={{ justifyContent: "center", backgroundColor: "#F9F9F9" }}>
+    <View style={{ justifyContent: "center" }}>
       <View style={styles.viewHeadLine}>
         <Text style={styles.headLine}>Sport Shirt</Text>
         <View style={styles.viewTags}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {dummyData.map( (x) => <ProductTag name={x} />)}
+            {dummyData.map((x) => <ProductTag name={x} key={x} />)}
           </ScrollView>
         </View>
+
         <View style={styles.viewSearch}>
-          <TouchableOpacity style={styles.divFilter}>
-            <Image
+          <TouchableOpacity>
+            <Button
+              icon={FilterImg}
+              color="black"
+              uppercase={false}
+              disabled={false}
+              onPress={() => { navigation.navigate('Category')}}>
+              {/* <Image
               source={FilterImg}
-              style={styles.imageSize}
-            />
-            <Text style={styles.viewSearchText}>Filters</Text>
+              style={styles.imageSize}/>
+            <Text style={styles.viewSearchText}>Filters</Text> */}
+              <Text style={styles.viewSearchText}>Filters</Text>
+            </Button>
           </TouchableOpacity>
           <TouchableOpacity style={styles.divFilter}>
             <Image
@@ -38,8 +55,8 @@ export default function ShopScreen() {
             <Text style={styles.viewSearchText}>Price: Lowest to Highest</Text>
           </TouchableOpacity>
           <TouchableOpacity
-              style={styles.divFilter}
-              onPress={onPressFlipViewHandler}>
+            style={styles.divFilter}
+            onPress={onPressFlipViewHandler}>
             <Image
               source={flipView ? ListImg : GridImg}
               style={styles.imageSize}
@@ -47,6 +64,30 @@ export default function ShopScreen() {
           </TouchableOpacity>
         </View>
       </View>
+
+      <ScrollView>
+        <View style={flipView ? styles.scrollViewStyle : {}}>
+
+          {flipView ?
+            [
+              <ProductItem key={"0"} img={productImg} badgeContent="hot!" badgeType="hot" />,
+              <ProductItem key={"1"} img={productImg} badgeContent="hot!" badgeType="hot" />,
+              <ProductItem key={"2"} img={productImg} badgeContent="hot!" badgeType="hot" />,
+              <ProductItem key={"3"} img={productImg} badgeContent="hot!" badgeType="hot" />,
+              <ProductItem key={"4"} img={productImg} badgeContent="hot!" badgeType="hot" />
+            ]
+            :
+            [
+              <HorizontalProduct key={"5"} img={pulloverImg} badgeContent="hot!" badgeType="hot" />,
+              <HorizontalProduct key={"6"} img={pulloverImg} badgeContent="hot!" badgeType="hot" />,
+              <HorizontalProduct key={"7"} img={pulloverImg} />,
+              <HorizontalProduct key={"8"} img={pulloverImg} />,
+              <HorizontalProduct key={"9"} img={pulloverImg} badgeContent="hot!" badgeType="hot" />
+            ]
+          }
+        </View>
+      </ScrollView>
+
     </View>
   );
 }
@@ -56,6 +97,14 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingBottom: 5,
     backgroundColor: "white",
+    marginBottom: 15,
+    //shadow - working on IOS
+    shadowColor: "black",
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 2,
+    //shadow - working on android
+    elevation: 8,
   },
   headLine: {
     color: "black",
@@ -72,6 +121,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f9f9f9",
     flexDirection: "row",
     justifyContent: "space-between",
+    paddingHorizontal: 5,
     marginTop: 5,
     marginBottom: 5,
     marginRight: 10,
@@ -88,5 +138,14 @@ const styles = StyleSheet.create({
   viewSearchText: {
     fontSize: 14,
     fontWeight: "400",
+    color: "black",
   },
+
+  scrollViewStyle: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    marginHorizontal: 15,
+    marginBottom: 150,
+  }
 });
