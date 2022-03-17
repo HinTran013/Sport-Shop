@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, FlatList } from "react-native";
 import ProductTag from "../src/components/ProductTag/ProductTag";
 import HorizontalProduct from "../src/components/Horizontal Product/HorizontalProduct";
 
@@ -7,8 +7,10 @@ import FilterImg from "../assets/filter.png"
 import UpdownImg from "../assets/updown.png"
 import ListImg from "../assets/list.png"
 import GridImg from "../assets/grid.png"
+import ProductItem from "../src/components/Product Item/ProductItem";
 
 const pulloverImg = require("../assets/pullover.png");
+const productImg = require("../assets/fashionWoman.png");
 
 export default function ShopScreen() {
   const [flipView, setFlipView] = useState(false);
@@ -53,12 +55,26 @@ export default function ShopScreen() {
       </View>
 
       <ScrollView>
-        <HorizontalProduct img={pulloverImg} badgeContent = "hot!" badgeType="hot"/>
-        <HorizontalProduct img={pulloverImg} />
-        <HorizontalProduct img={pulloverImg} />
-        <HorizontalProduct img={pulloverImg} />
-        <HorizontalProduct img={pulloverImg} />
-        <HorizontalProduct img={pulloverImg} />
+        <View style={flipView ? styles.scrollViewStyle : {}}>
+
+          {flipView ?
+            [
+              <ProductItem img={productImg} badgeContent="hot!" badgeType="hot" />,
+              <ProductItem img={productImg} badgeContent="hot!" badgeType="hot" />,
+              <ProductItem img={productImg} badgeContent="hot!" badgeType="hot" />,
+              <ProductItem img={productImg} badgeContent="hot!" badgeType="hot" />,
+              <ProductItem img={productImg} badgeContent="hot!" badgeType="hot" />
+            ]
+            :
+            [
+              <HorizontalProduct img={pulloverImg} badgeContent="hot!" badgeType="hot"/>,
+              <HorizontalProduct img={pulloverImg} badgeContent="hot!" badgeType="hot"/>,
+              <HorizontalProduct img={pulloverImg} />,
+              <HorizontalProduct img={pulloverImg} />,
+              <HorizontalProduct img={pulloverImg} badgeContent="hot!" badgeType="hot"/>
+            ]
+          }
+        </View>
       </ScrollView>
      
     </View>
@@ -112,4 +128,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "400",
   },
+
+  scrollViewStyle: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    marginHorizontal: 15,
+    marginBottom: 150,
+  }
 });

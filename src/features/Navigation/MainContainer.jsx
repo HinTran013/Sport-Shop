@@ -24,7 +24,7 @@ export default function MainContainer() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName={shopName}
+        initialRouteName={homeName}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
