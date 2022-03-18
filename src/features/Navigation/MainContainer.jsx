@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 //screens
@@ -12,13 +12,13 @@ import CartScreen from "../../../screens/CartScreen";
 import FavoritesScreen from "../../../screens/FavoritesScreen";
 import ProfileScreen from "../../../screens/ProfileScreen";
 import CategoriesScreen from "../../../screens/CategoriesScreen";
+import ProductDetailsScreen from "../../../screens/ProductDetailsScreen";
 //screen names
 const homeName = "Home";
 const shopName = "Shop";
 const cartName = "Cart";
 const favoritesName = "Favorites";
 const profileName = "Profile";
-
 
 const ShopStack = createNativeStackNavigator();
 const ShopStackScreen = () => {
@@ -28,12 +28,33 @@ const ShopStackScreen = () => {
         name={shopName}
         component={ShopScreen}
         options={{
-            headerShown: false
-          }} />
-      <ShopStack.Screen name="Category" component={CategoriesScreen}/>
+          headerShown: false,
+        }}
+      />
+      <ShopStack.Screen name="Category" component={CategoriesScreen} />
     </ShopStack.Navigator>
-  )
-}
+  );
+};
+
+const homeStack = createNativeStackNavigator();
+const HomeStackScreen = () => {
+  return (
+    <homeStack.Navigator>
+      <homeStack.Screen
+        name={"HomeStack"}
+        options={{
+          headerShown: false,
+        }}
+        component={HomeScreen}
+      />
+      <homeStack.Screen
+        name="ProductDetails"
+        options={{ headerShown: false }}
+        component={ProductDetailsScreen}
+      />
+    </homeStack.Navigator>
+  );
+};
 
 const Tab = createBottomTabNavigator();
 
@@ -73,7 +94,7 @@ export default function MainContainer() {
           headerShown: false,
         })}
       >
-        <Tab.Screen name={homeName} component={HomeScreen} />
+        <Tab.Screen name={homeName} component={HomeStackScreen} />
         <Tab.Screen name={shopName} component={ShopStackScreen} />
         <Tab.Screen name={cartName} component={CartScreen} />
         <Tab.Screen name={favoritesName} component={FavoritesScreen} />

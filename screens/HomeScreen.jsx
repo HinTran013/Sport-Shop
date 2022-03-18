@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import BigBanner from "../src/components/Big Banner/BigBanner";
 import ProductSectionHeader from "../src/components/Product Section Header/ProductSectionHeader";
 import ProductItem from "../src/components/Product Item/ProductItem";
@@ -7,7 +13,7 @@ import ProductItem from "../src/components/Product Item/ProductItem";
 const backgroundImg = require("../assets/twoFashionGirls.png");
 const productImg = require("../assets/fashionWoman.png");
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation, route }) {
   return (
     <ScrollView style={styles.container}>
       <BigBanner
@@ -27,12 +33,17 @@ export default function HomeScreen() {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         >
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="NEW"
-            badgeType="sale"
-          />
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => navigation.push("ProductDetails")}
+          >
+            <ProductItem
+              img={productImg}
+              marginRight={20}
+              badgeContent="NEW"
+              badgeType="sale"
+            />
+          </TouchableOpacity>
           <ProductItem
             img={productImg}
             marginRight={20}
