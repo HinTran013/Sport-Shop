@@ -29,6 +29,7 @@ export default function ShopScreen({ navigation }) {
         <View style={styles.viewTags}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {dummyData.map((x) => <ProductTag name={x} key={x} />)}
+            <ProductTag name={"..."} onPress={() => { navigation.navigate('Category')}} />
           </ScrollView>
         </View>
 
@@ -38,12 +39,7 @@ export default function ShopScreen({ navigation }) {
               icon={FilterImg}
               color="black"
               uppercase={false}
-              disabled={false}
-              onPress={() => { navigation.navigate('Category')}}>
-              {/* <Image
-              source={FilterImg}
-              style={styles.imageSize}/>
-            <Text style={styles.viewSearchText}>Filters</Text> */}
+              disabled={false} >
               <Text style={styles.viewSearchText}>Filters</Text>
             </Button>
           </TouchableOpacity>

@@ -5,7 +5,7 @@ import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAt
 const ProductTag = (props) => {
     return (
         <View style={styles.divBackground}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={props.onPress}>
                 <Text style={{color: "white"}}>{ props.name }</Text>
             </TouchableOpacity>
         </View>

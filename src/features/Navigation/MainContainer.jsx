@@ -25,7 +25,7 @@ const ShopStackScreen = () => {
   return (
     <ShopStack.Navigator>
       <ShopStack.Screen
-        name={shopName}
+        name={"Shop Stack"}
         component={ShopScreen}
         options={{
           headerShown: false,
