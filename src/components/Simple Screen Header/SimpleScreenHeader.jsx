@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
-import { SliderBox } from "react-native-image-slider-box";
 
 const SimpleScreenHeader = ({
   headerTitle = "",

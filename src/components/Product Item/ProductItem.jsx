@@ -115,6 +115,7 @@ const styles = (marginRight) =>
       shadowRadius: 2,
       //shadow - working on android
       elevation: 5,
+      zIndex: 999,
     },
     badgeContainer: {
       position: "absolute",
