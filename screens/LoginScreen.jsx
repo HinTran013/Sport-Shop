@@ -8,11 +8,28 @@ import {
   Image,
   Alert,
 } from "react-native";
-//import firebase from "../src/firebase"
+
+import { firebaseConfig } from "../src/firebase-config";
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        Alert.alert(error.message);
+      });
+  };
 
   return (
     <View style={styles.container}>

@@ -13,8 +13,7 @@ import GlobalStyles from "./src/GlobalStyles";
 function App() {
   return (
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
-      {/* <OrderDetailScreen /> */}
-      <MainContainer />
+      <LoginScreen />
     </SafeAreaView>
   );
 }
