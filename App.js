@@ -1,8 +1,6 @@
 import React from "react";
 
-import {
-  SafeAreaView
-} from "react-native";
+import { SafeAreaView } from "react-native";
 import LoginScreen from "./screens/LoginScreen";
 
 import OrderDetailScreen from "./screens/OrderDetailScreen";
@@ -13,7 +11,8 @@ import GlobalStyles from "./src/GlobalStyles";
 function App() {
   return (
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
-      <LoginScreen />
+      {/* <LoginScreen /> */}
+      <MainContainer />
     </SafeAreaView>
   );
 }

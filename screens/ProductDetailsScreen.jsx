@@ -6,7 +6,10 @@ import { SliderBox } from "react-native-image-slider-box";
 import { IconButton } from "react-native-paper";
 import { Button } from "react-native-elements";
 import StarRating from "react-native-star-rating";
-import { Item } from "./ProfileScreen";
+import ProductContentItem from "../src/components/Product Detail Content Item/ProductContentItem";
+import ProductItem from "../src/components/Product Item/ProductItem";
+
+const productImg = require("../assets/fashionWoman.png");
 
 const imgSource = [
   require("../assets/slider1.png"),
@@ -110,7 +113,6 @@ const ProductDetailsScreen = ({ navigation }) => {
           onPress={handleOnPressFavIcon}
         />
       </View>
-
       <View style={styles().basicProductInfoContainer}>
         <View>
           <Text style={{ fontSize: 26, fontWeight: "bold" }}>H&M</Text>
@@ -146,7 +148,6 @@ const ProductDetailsScreen = ({ navigation }) => {
           <Text style={{ fontWeight: "bold", fontSize: 26 }}>$19.99</Text>
         </View>
       </View>
-
       <View style={{ padding: 20 }}>
         <Text style={{ textAlign: "justify", fontSize: 16 }}>
           Short dress in soft cotton jersey with decorative buttons down the
@@ -155,8 +156,64 @@ const ProductDetailsScreen = ({ navigation }) => {
           frill trim.
         </Text>
       </View>
+      <ProductContentItem
+        headerTitle={"Item details"}
+        mainContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nulla magna, faucibus sed risus sit amet, malesuada consequat leo. Donec sit amet tincidunt magna. Morbi varius purus at erat cursus, vitae iaculis risus mattis."
+      />
+      <ProductContentItem
+        headerTitle={"Shipping information"}
+        mainContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nulla magna, faucibus sed risus sit amet, malesuada consequat leo. Donec sit amet tincidunt magna. Morbi varius purus at erat cursus, vitae iaculis risus mattis."
+        containerStyle={{ marginTop: -1 }}
+      />
+      <ProductContentItem
+        headerTitle={"Support"}
+        mainContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nulla magna, faucibus sed risus sit amet, malesuada consequat leo. Donec sit amet tincidunt magna. Morbi varius purus at erat cursus, vitae iaculis risus mattis."
+        containerStyle={{ marginTop: -1 }}
+      />
+      {/* recommend products */}
+      <View
+        style={{
+          flexDirection: "row",
+          padding: 20,
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+          You can also like
+        </Text>
+        <Text style={{ color: "#9B9B9B" }}>12 items</Text>
+      </View>
+      <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <ProductItem
+            img={productImg}
+            marginRight={20}
+            badgeContent="hot!"
+            badgeType="hot"
+          />
+          <ProductItem
+            img={productImg}
+            marginRight={20}
+            badgeContent="hot!"
+            badgeType="hot"
+          />
+          <ProductItem
+            img={productImg}
+            marginRight={20}
+            badgeContent="hot!"
+            badgeType="hot"
+          />
+          <ProductItem
+            img={productImg}
+            marginRight={20}
+            badgeContent="hot!"
+            badgeType="hot"
+          />
+        </ScrollView>
+      </View>
 
-      <View style={{ paddingBottom: 100 }}></View>
+      <View style={{ paddingBottom: 70 }}></View>
     </ScrollView>
   );
 };

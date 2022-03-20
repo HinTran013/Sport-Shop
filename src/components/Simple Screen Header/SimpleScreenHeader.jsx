@@ -7,9 +7,10 @@ const SimpleScreenHeader = ({
   isShared = false,
   onBackPress,
   onSharePress,
+  containerStyle = {},
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       <TouchableOpacity onPress={onBackPress}>
         <Icon type="font-awesome" name="chevron-left" />
       </TouchableOpacity>
