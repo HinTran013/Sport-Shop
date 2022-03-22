@@ -2,15 +2,14 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import SimpleScreenHeader from "../src/components/Simple Screen Header/SimpleScreenHeader";
 import { SliderBox } from "react-native-image-slider-box";
-// import DropDownPicker from "react-native-dropdown-picker";
 import { IconButton } from "react-native-paper";
 import { Button } from "react-native-elements";
 import StarRating from "react-native-star-rating";
 import ProductContentItem from "../src/components/Product Detail Content Item/ProductContentItem";
 import ProductItem from "../src/components/Product Item/ProductItem";
+import GridBottomModal from "../src/components/Simple Grid Bottom Modal/GridBottomModal";
 
 const productImg = require("../assets/fashionWoman.png");
-
 const imgSource = [
   require("../assets/slider1.png"),
   require("../assets/slider2.png"),
@@ -39,6 +38,14 @@ const ProductDetailsScreen = ({ navigation }) => {
         });
   };
 
+  //modal useState
+  const [isSizeModalOpen, setIsSizeModalOpen] = useState(false);
+
+  //close modal
+  function closeSizeModal() {
+    setIsSizeModalOpen(false);
+  }
+
   return (
     <ScrollView style={styles().container}>
       <SimpleScreenHeader
@@ -54,6 +61,7 @@ const ProductDetailsScreen = ({ navigation }) => {
       />
       <View style={styles().dropFavContainer}>
         <Button
+          onPress={() => setIsSizeModalOpen(true)}
           title={"Size"}
           titleStyle={{ color: "black" }}
           containerStyle={{
@@ -212,6 +220,13 @@ const ProductDetailsScreen = ({ navigation }) => {
           />
         </ScrollView>
       </View>
+
+      <GridBottomModal
+        visible={isSizeModalOpen}
+        header="Select size"
+        isSizeModal={true}
+        closeModalFunc={closeSizeModal}
+      />
 
       <View style={{ paddingBottom: 70 }}></View>
     </ScrollView>
