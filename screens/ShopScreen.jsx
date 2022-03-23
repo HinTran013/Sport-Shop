@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native";
-import { Button } from "react-native-paper";
 
 import ProductTag from "../src/components/ProductTag/ProductTag";
 import HorizontalProduct from "../src/components/Horizontal Product/HorizontalProduct";
@@ -15,7 +14,6 @@ import GridImg from "../assets/grid.png"
 const pulloverImg = require("../assets/pullover.png");
 const productImg = require("../assets/fashionWoman.png");
 
-
 export default function ShopScreen({ navigation }) {
   const [flipView, setFlipView] = useState(false);
   const onPressFlipViewHandler = () => { setFlipView(!flipView) }
@@ -23,27 +21,33 @@ export default function ShopScreen({ navigation }) {
   const dummyData = ["T-shirts", "Crop tops", "Sleeveless", "Shirts"];
 
   return (
-    <View style={{ justifyContent: "center" }}>
+    <View>
       <View style={styles.viewHeadLine}>
         <Text style={styles.headLine}>Sport Shirt</Text>
         <View style={styles.viewTags}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {dummyData.map((x) => <ProductTag name={x} key={x} />)}
-            <ProductTag name={"..."} onPress={() => { navigation.navigate('Category')}} />
+            <ProductTag name={`...`} onPress={() => { navigation.navigate('Category') }} />
           </ScrollView>
         </View>
 
         <View style={styles.viewSearch}>
-          <TouchableOpacity>
-            <Button
+          <TouchableOpacity
+            style={styles.divFilter}
+            onPress={() => { navigation.navigate("Filters")}}>
+            {/* <Button
               icon={FilterImg}
               color="black"
               uppercase={false}
-              disabled={false} >
-              <Text style={styles.viewSearchText}>Filters</Text>
-            </Button>
+              labelStyle={labelStyle.label}> */}
+            <Image
+              source={FilterImg}
+              style={styles.imageSize}
+            />
+            <Text style={styles.viewSearchText}>Filters</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.divFilter}>
+          <TouchableOpacity
+            style={styles.divFilter}>
             <Image
               source={UpdownImg}
               style={styles.imageSize}
@@ -88,9 +92,17 @@ export default function ShopScreen({ navigation }) {
   );
 }
 
+// const labelStyle = StyleSheet.create({
+//   label: {
+//     fontSize: 15,
+//     fontWeight: "normal",
+//     letterSpacing: 0.5,
+//   }
+// })
+
 const styles = StyleSheet.create({
   viewHeadLine: {
-    paddingLeft: 10,
+    paddingLeft: 7,
     paddingBottom: 5,
     backgroundColor: "white",
     marginBottom: 15,
@@ -118,9 +130,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 5,
+    paddingVertical: 5,
     marginTop: 5,
     marginBottom: 5,
-    marginRight: 10,
+    marginHorizontal: 5,
   },
   divFilter: {
     flexDirection: "row",

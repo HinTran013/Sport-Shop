@@ -1,0 +1,206 @@
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import MultiSlider from "@ptomasroos/react-native-multi-slider";
+
+const arrColors = ["#020202", "#f0f0f0", "#B82222", "#BEA9A9", "#E2BB8D", "#151867"]
+const arrSizes = ["S", "XS", "M", "L", "XL", "XXL"];
+const arrCategories = ["All", "Women", "Men", " Boys", "Girls"]
+
+
+const ColorFilterItem = ({ backgroundColor }) => {
+    const [isColorSelected, setIsColorSelected] = useState(false);
+    const handlerColorSelected = () => setIsColorSelected(!isColorSelected)
+
+    return (
+        <TouchableOpacity
+            onPress={handlerColorSelected}>
+            <View style={colorStyle(isColorSelected).selected}>
+                <View style={[{ backgroundColor: backgroundColor }, colorStyle().colorFill]}></View>
+            </View>
+        </TouchableOpacity>
+    )
+}
+
+const SizeFilterItem = ({ size }) => {
+    const [isSizeSelected, setIsSizeSelected] = useState(false)
+    const handlerSizeSelected = () => setIsSizeSelected(!isSizeSelected)
+
+    return (
+        <TouchableOpacity
+            style={rectStyle(isSizeSelected).rect}
+            onPress={handlerSizeSelected}>
+                <Text style={{color: isSizeSelected ?  "white" : "black"}}>{size}</Text>
+        </TouchableOpacity>
+    )
+}
+
+const CategoryFilterItem = ({ category }) => {
+    const [isCategorySelected, setIsCategorySelected] = useState(false)
+    const handlerCategorySelected = () => setIsCategorySelected(!isCategorySelected)
+
+    return (
+        <TouchableOpacity
+            style={rectStyle(isCategorySelected).rect}
+            onPress={handlerCategorySelected}>
+                <Text style={{color: isCategorySelected ?  "white" : "black"}}>{category}</Text>
+        </TouchableOpacity>
+    )
+}
+
+const FiltersScreen = () => {
+
+    return (
+        <ScrollView style={{marginBottom: 70}}>
+            <View>
+                <View style={styles.categoryView}>
+                    <Text style={styles.categoryText}>Price range</Text>
+                    <View style={styles.whiteBox}>
+                        <View style={styles.labelView}>
+                            <Text>$0</Text>
+                            <Text>$5000</Text>
+                        </View>
+                        <MultiSlider
+                            values={[0, 5000]}
+                            min={0}
+                            max={5000}
+                            sliderLength={350}
+                            containerStyle={sliderStyle.container}
+                            trackStyle={sliderStyle.track}
+                            markerStyle={sliderStyle.marker}
+                            selectedStyle={sliderStyle.selected}
+                            allowOverlap={false}
+                        />
+                    </View>
+                </View>
+
+                <View style={styles.categoryView}>
+                    <Text style={styles.categoryText}>Colors</Text>
+                    <View
+                        style={[styles.whiteBox, styles.whiteBoxFlexStart]}>
+                        {arrColors.map((item, index) =>
+                            <ColorFilterItem
+                                backgroundColor={item}
+                                key={index}
+                            />)
+                        }
+                    </View>
+                </View>
+
+                <View style={styles.categoryView}>
+                    <Text style={styles.categoryText}>Sizes</Text>
+                    <View style={[styles.whiteBox, styles.whiteBoxFlexStart]}>
+                        {arrSizes.map((item, index) => <SizeFilterItem size={item} key={index}/>)}
+                    </View>
+                </View>
+
+                <View style={styles.categoryView}>
+                    <Text style={styles.categoryText}>Category</Text>
+                    <View style={[styles.whiteBox, styles.whiteBoxFlexStart]}>
+                        {arrCategories.map((item, index) => <CategoryFilterItem category={item} key={index} />)}
+                    </View>
+                </View>
+            </View>
+        </ScrollView>
+    )
+}
+
+const rectStyle = (isSelected) => StyleSheet.create({
+    rect: {
+        borderColor: isSelected ? "#DB3022" : "#9B9B9B",
+        borderWidth: 1,
+        borderRadius: 8,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+
+        backgroundColor: isSelected ? "#DB3022" : "transparent",
+        marginRight: 10,
+        marginBottom: 10,
+    },
+})
+
+const colorStyle = (isSelected) => StyleSheet.create({
+    colorFill: {
+        width: 36,
+        height: 36,
+        borderRadius: 90,
+    },
+    selected: {
+        justifyContent: "center",
+        alignItems: "center",
+        width: 43,
+        height: 43,
+        backgroundColor: "transparent",
+        borderRadius: 90,
+        borderColor: isSelected ? "#DB3022" : "white",
+        borderWidth: 1,
+
+        marginRight: 10,
+    },
+})
+
+const sliderStyle = StyleSheet.create({
+    container: {
+        height: 20,
+    },
+    track: {
+        height: 4,
+        backgroundColor: "#9B9B9B",
+    },
+    marker: {
+        top: 2,
+        backgroundColor: "#DB3022"
+    },
+    selected: {
+        backgroundColor: "#DB3022"
+    }
+})
+
+const styles = StyleSheet.create({
+    container: {
+
+    },
+
+    categoryView: {
+        marginBottom: 10,
+    },
+    categoryText: {
+        fontSize: 15,
+        fontWeight: "700",
+        letterSpacing: 0.4,
+        marginVertical: 12,
+        marginLeft: 15,
+    },
+    whiteBox: {
+        backgroundColor: "white",
+        paddingTop: 15,
+        paddingBottom: 10,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+
+        //shadow - working on IOS
+        shadowColor: "black",
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        //shadow - working on android
+        elevation: 3,
+    },
+    labelView: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: 360,
+
+        marginBottom: 7,
+    },
+
+    whiteBoxFlexStart: {
+        flexDirection: "row",
+        alignItems: "flex-start",
+        flexWrap: "wrap",
+        paddingHorizontal: 15,
+    }
+})
+
+export default FiltersScreen;
