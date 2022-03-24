@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from "react-native";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
+
+import BottomButtonsModal from "../src/components/BottomButtonsModal/BottomButtonsModal";
 
 const arrColors = ["#020202", "#f0f0f0", "#B82222", "#BEA9A9", "#E2BB8D", "#151867"]
 const arrSizes = ["S", "XS", "M", "L", "XL", "XXL"];
@@ -29,7 +31,7 @@ const SizeFilterItem = ({ size }) => {
         <TouchableOpacity
             style={rectStyle(isSizeSelected).rect}
             onPress={handlerSizeSelected}>
-                <Text style={{color: isSizeSelected ?  "white" : "black"}}>{size}</Text>
+            <Text style={{ color: isSizeSelected ? "white" : "black" }}>{size}</Text>
         </TouchableOpacity>
     )
 }
@@ -42,67 +44,85 @@ const CategoryFilterItem = ({ category }) => {
         <TouchableOpacity
             style={rectStyle(isCategorySelected).rect}
             onPress={handlerCategorySelected}>
-                <Text style={{color: isCategorySelected ?  "white" : "black"}}>{category}</Text>
+            <Text style={{ color: isCategorySelected ? "white" : "black" }}>{category}</Text>
         </TouchableOpacity>
     )
 }
 
-const FiltersScreen = () => {
+
+// This is actually a filter modal
+const FiltersScreen = ({ visible, toggleFunc }) => {
+
+    //const [isModalVisible, setIsModalVisible] = useState(visible)
+    //const toggleFilterModal = () => setIsModalVisible(!isModalVisible)
 
     return (
-        <ScrollView style={{marginBottom: 70}}>
-            <View>
-                <View style={styles.categoryView}>
-                    <Text style={styles.categoryText}>Price range</Text>
-                    <View style={styles.whiteBox}>
-                        <View style={styles.labelView}>
-                            <Text>$0</Text>
-                            <Text>$5000</Text>
+        <Modal
+            animationType="slide"
+            transparent={false}
+            visible={visible}
+            style={{ position: "relative" }}>
+            
+            <Text>Filters</Text>
+
+            <ScrollView>
+                <View style={styles.container}>
+                    <View style={styles.categoryView}>
+                        <Text style={styles.categoryText}>Price range</Text>
+                        <View style={styles.whiteBox}>
+                            <View style={styles.labelView}>
+                                <Text>$0</Text>
+                                <Text>$5000</Text>
+                            </View>
+                            <MultiSlider
+                                values={[0, 5000]}
+                                min={0}
+                                max={5000}
+                                sliderLength={350}
+                                containerStyle={sliderStyle.container}
+                                trackStyle={sliderStyle.track}
+                                markerStyle={sliderStyle.marker}
+                                selectedStyle={sliderStyle.selected}
+                                allowOverlap={false}
+                            />
                         </View>
-                        <MultiSlider
-                            values={[0, 5000]}
-                            min={0}
-                            max={5000}
-                            sliderLength={350}
-                            containerStyle={sliderStyle.container}
-                            trackStyle={sliderStyle.track}
-                            markerStyle={sliderStyle.marker}
-                            selectedStyle={sliderStyle.selected}
-                            allowOverlap={false}
-                        />
+                    </View>
+
+                    <View style={styles.categoryView}>
+                        <Text style={styles.categoryText}>Colors</Text>
+                        <View
+                            style={[styles.whiteBox, styles.whiteBoxFlexStart]}>
+                            {arrColors.map((item, index) =>
+                                <ColorFilterItem
+                                    backgroundColor={item}
+                                    key={index}
+                                />)
+                            }
+                        </View>
+                    </View>
+
+                    <View style={styles.categoryView}>
+                        <Text style={styles.categoryText}>Sizes</Text>
+                        <View style={[styles.whiteBox, styles.whiteBoxFlexStart]}>
+                            {arrSizes.map((item, index) => <SizeFilterItem size={item} key={index} />)}
+                        </View>
+                    </View>
+
+                    <View style={styles.categoryView}>
+                        <Text style={styles.categoryText}>Category</Text>
+                        <View style={[styles.whiteBox, styles.whiteBoxFlexStart]}>
+                            {arrCategories.map((item, index) => <CategoryFilterItem category={item} key={index} />)}
+                        </View>
                     </View>
                 </View>
 
-                <View style={styles.categoryView}>
-                    <Text style={styles.categoryText}>Colors</Text>
-                    <View
-                        style={[styles.whiteBox, styles.whiteBoxFlexStart]}>
-                        {arrColors.map((item, index) =>
-                            <ColorFilterItem
-                                backgroundColor={item}
-                                key={index}
-                            />)
-                        }
-                    </View>
-                </View>
+            </ScrollView>
 
-                <View style={styles.categoryView}>
-                    <Text style={styles.categoryText}>Sizes</Text>
-                    <View style={[styles.whiteBox, styles.whiteBoxFlexStart]}>
-                        {arrSizes.map((item, index) => <SizeFilterItem size={item} key={index}/>)}
-                    </View>
-                </View>
-
-                <View style={styles.categoryView}>
-                    <Text style={styles.categoryText}>Category</Text>
-                    <View style={[styles.whiteBox, styles.whiteBoxFlexStart]}>
-                        {arrCategories.map((item, index) => <CategoryFilterItem category={item} key={index} />)}
-                    </View>
-                </View>
-            </View>
-        </ScrollView>
+            <BottomButtonsModal closeModalFunc={toggleFunc} />
+        </Modal>
     )
 }
+
 
 const rectStyle = (isSelected) => StyleSheet.create({
     rect: {
@@ -157,9 +177,9 @@ const sliderStyle = StyleSheet.create({
 
 const styles = StyleSheet.create({
     container: {
-
+        paddingBottom: 70,
+        backgroundColor: "#f9f9f9",
     },
-
     categoryView: {
         marginBottom: 10,
     },

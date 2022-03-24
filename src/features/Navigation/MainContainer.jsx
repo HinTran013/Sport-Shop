@@ -35,9 +35,9 @@ const ShopStackScreen = () => {
       <ShopStack.Screen
         name="Category"
         component={CategoriesScreen} />
-      <ShopStack.Screen
+      {/* <ShopStack.Screen
         name="Filters"
-        component={FiltersScreen}/>
+        component={FiltersScreen}/> */}
     </ShopStack.Navigator>
   );
 };

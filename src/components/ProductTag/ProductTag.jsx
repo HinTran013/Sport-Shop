@@ -15,10 +15,10 @@ const ProductTag = (props) => {
 const styles = StyleSheet.create({
     divBackground: {
         backgroundColor: "black",
-        borderRadius: 20,
+        borderRadius: 25,
         paddingVertical: 7,
         paddingHorizontal: 20,
-        marginRight: 10
+        marginRight: 5
     },
 });
 

@@ -10,15 +10,20 @@ import FilterImg from "../assets/filter.png"
 import UpdownImg from "../assets/updown.png"
 import ListImg from "../assets/list.png"
 import GridImg from "../assets/grid.png"
+import FiltersScreen from "./FiltersScreen";
 
 const pulloverImg = require("../assets/pullover.png");
 const productImg = require("../assets/fashionWoman.png");
 
-export default function ShopScreen({ navigation }) {
-  const [flipView, setFlipView] = useState(false);
-  const onPressFlipViewHandler = () => { setFlipView(!flipView) }
+const dummyData = ["T-shirts", "Crop tops", "Sleeveless", "Shirts"];
 
-  const dummyData = ["T-shirts", "Crop tops", "Sleeveless", "Shirts"];
+export default function ShopScreen({ navigation }) {
+
+  const [flipView, setFlipView] = useState(false);
+  const onPressFlipViewHandler = () => { setFlipView(!flipView) };
+
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const toggleFilterModal = () => { setIsFilterVisible(!isFilterVisible) };
 
   return (
     <View>
@@ -34,7 +39,7 @@ export default function ShopScreen({ navigation }) {
         <View style={styles.viewSearch}>
           <TouchableOpacity
             style={styles.divFilter}
-            onPress={() => { navigation.navigate("Filters")}}>
+            onPress={toggleFilterModal}>
             {/* <Button
               icon={FilterImg}
               color="black"
@@ -65,7 +70,7 @@ export default function ShopScreen({ navigation }) {
         </View>
       </View>
 
-      <ScrollView>
+      <ScrollView style={{height: 460,}}>
         <View style={flipView ? styles.scrollViewStyle : {}}>
 
           {flipView ?
@@ -74,7 +79,9 @@ export default function ShopScreen({ navigation }) {
               <ProductItem key={"1"} img={productImg} badgeContent="hot!" badgeType="hot" />,
               <ProductItem key={"2"} img={productImg} badgeContent="hot!" badgeType="hot" />,
               <ProductItem key={"3"} img={productImg} badgeContent="hot!" badgeType="hot" />,
-              <ProductItem key={"4"} img={productImg} badgeContent="hot!" badgeType="hot" />
+              <ProductItem key={"4"} img={productImg} badgeContent="hot!" badgeType="hot" />,
+              <ProductItem key={"10"} img={productImg} badgeContent="hot!" badgeType="hot" />,
+              <ProductItem key={"11"} img={productImg} badgeContent="hot!" badgeType="hot" />
             ]
             :
             [
@@ -82,12 +89,15 @@ export default function ShopScreen({ navigation }) {
               <HorizontalProduct key={"6"} img={pulloverImg} badgeContent="hot!" badgeType="hot" />,
               <HorizontalProduct key={"7"} img={pulloverImg} />,
               <HorizontalProduct key={"8"} img={pulloverImg} />,
-              <HorizontalProduct key={"9"} img={pulloverImg} badgeContent="hot!" badgeType="hot" />
+              <HorizontalProduct key={"9"} img={pulloverImg} badgeContent="hot!" badgeType="hot" />,
+              <HorizontalProduct key={"12"} img={pulloverImg} />,
+              <HorizontalProduct key={"13"} img={pulloverImg} />,
             ]
           }
         </View>
       </ScrollView>
 
+      <FiltersScreen visible={isFilterVisible} toggleFunc={toggleFilterModal}/>
     </View>
   );
 }
@@ -102,7 +112,6 @@ export default function ShopScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   viewHeadLine: {
-    paddingLeft: 7,
     paddingBottom: 5,
     backgroundColor: "white",
     marginBottom: 15,
@@ -115,6 +124,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   headLine: {
+    paddingLeft: 7,
     color: "black",
     fontWeight: "bold",
     fontSize: 30,
@@ -133,7 +143,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginTop: 5,
     marginBottom: 5,
-    marginHorizontal: 5,
+    marginHorizontal: 10,
   },
   divFilter: {
     flexDirection: "row",
@@ -155,6 +165,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-around",
     marginHorizontal: 15,
-    marginBottom: 150,
+
+    paddingBottom: 20,
   }
 });
