@@ -40,10 +40,15 @@ const ProductDetailsScreen = ({ navigation }) => {
 
   //modal useState
   const [isSizeModalOpen, setIsSizeModalOpen] = useState(false);
+  const [isColorModalOpen, setIsColorModalOpen] = useState(false);
 
   //close modal
   function closeSizeModal() {
     setIsSizeModalOpen(false);
+  }
+
+  function closeColorModal() {
+    setIsColorModalOpen(false);
   }
 
   return (
@@ -112,6 +117,7 @@ const ProductDetailsScreen = ({ navigation }) => {
             flex: 1,
             alignItems: "flex-end",
           }}
+          onPress={() => setIsColorModalOpen(true)}
         />
 
         <IconButton
@@ -224,8 +230,15 @@ const ProductDetailsScreen = ({ navigation }) => {
       <GridBottomModal
         visible={isSizeModalOpen}
         header="Select size"
-        isSizeModal={true}
+        gridContent={["S", "XS", "M", "L", "XL", "XXL"]}
         closeModalFunc={closeSizeModal}
+      />
+
+      <GridBottomModal
+        visible={isColorModalOpen}
+        header="Select color"
+        gridContent={["Black", "Blue", "Yellow", "White"]}
+        closeModalFunc={closeColorModal}
       />
 
       <View style={{ paddingBottom: 70 }}></View>

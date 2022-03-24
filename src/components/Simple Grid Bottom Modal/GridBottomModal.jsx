@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { View, Modal, StyleSheet, Text, Dimensions } from "react-native";
 import { Button } from "react-native-elements";
-import { call } from "react-native-reanimated";
-
-const sizes = ["S", "XS", "M", "L", "XL", "XXL"];
 const screenWidth = Dimensions.get("window").width;
 
 const GridBottomModal = ({
   visible,
   header,
-  isSizeModal = false,
+  gridContent = [],
   closeModalFunc,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(visible);
@@ -31,34 +28,32 @@ const GridBottomModal = ({
           <Text style={styles.headerText}>{header}</Text>
         </View>
 
-        {isSizeModal && (
-          <View style={styles.sizeContainer}>
-            {sizes.map((item, index) => {
-              return (
-                <Button
-                  key={index}
-                  title={item}
-                  buttonStyle={{
-                    width: (screenWidth - 40 - 40) / 3,
-                    backgroundColor: chosenSize === index ? "#DB3022" : "white",
-                    borderColor: "#9b9b9b",
-                    borderWidth: StyleSheet.hairlineWidth,
-                    paddingTop: 10,
-                    paddingBottom: 10,
-                    borderRadius: 8,
-                  }}
-                  containerStyle={{
-                    marginTop: 20,
-                  }}
-                  titleStyle={{
-                    color: chosenSize === index ? "white" : "black",
-                  }}
-                  onPress={() => handleChosenSize(index)}
-                />
-              );
-            })}
-          </View>
-        )}
+        <View style={styles.sizeContainer}>
+          {gridContent.map((item, index) => {
+            return (
+              <Button
+                key={index}
+                title={item}
+                buttonStyle={{
+                  width: (screenWidth - 40 - 40) / 3,
+                  backgroundColor: chosenSize === index ? "#DB3022" : "white",
+                  borderColor: "#9b9b9b",
+                  borderWidth: StyleSheet.hairlineWidth,
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  borderRadius: 8,
+                }}
+                containerStyle={{
+                  marginTop: 20,
+                }}
+                titleStyle={{
+                  color: chosenSize === index ? "white" : "black",
+                }}
+                onPress={() => handleChosenSize(index)}
+              />
+            );
+          })}
+        </View>
 
         {/* Close Modal Button */}
         <Button
