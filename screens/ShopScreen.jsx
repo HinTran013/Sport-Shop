@@ -23,7 +23,7 @@ export default function ShopScreen({ navigation }) {
   const onPressFlipViewHandler = () => { setFlipView(!flipView) };
 
   const [isFilterVisible, setIsFilterVisible] = useState(false);
-  const toggleFilterModal = () => { setIsFilterVisible(!isFilterVisible) };
+  //const toggleFilterModal = () => { setIsFilterVisible(!isFilterVisible) };
 
   return (
     <View>
@@ -39,7 +39,7 @@ export default function ShopScreen({ navigation }) {
         <View style={styles.viewSearch}>
           <TouchableOpacity
             style={styles.divFilter}
-            onPress={toggleFilterModal}>
+            onPress={() => { navigation.navigate("Filters", { visible: isFilterVisible })}}>
             {/* <Button
               icon={FilterImg}
               color="black"
@@ -97,7 +97,7 @@ export default function ShopScreen({ navigation }) {
         </View>
       </ScrollView>
 
-      <FiltersScreen visible={isFilterVisible} toggleFunc={toggleFilterModal}/>
+      {/* <FiltersScreen visible={isFilterVisible} toggleFunc={toggleFilterModal}/> */}
     </View>
   );
 }

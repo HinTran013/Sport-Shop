@@ -1,8 +1,12 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from "react-native";
+import React, {useState} from "react";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal, Image } from "react-native";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
+import { IconButton } from "react-native-paper";
 
 import BottomButtonsModal from "../src/components/BottomButtonsModal/BottomButtonsModal";
+
+import ArrowBackImg from "../assets/arrow.png"
+import { Icon } from "react-native-elements";
 
 const arrColors = ["#020202", "#f0f0f0", "#B82222", "#BEA9A9", "#E2BB8D", "#151867"]
 const arrSizes = ["S", "XS", "M", "L", "XL", "XXL"];
@@ -51,10 +55,12 @@ const CategoryFilterItem = ({ category }) => {
 
 
 // This is actually a filter modal
-const FiltersScreen = ({ visible, toggleFunc }) => {
+const FiltersScreen = ({ visible, navigation }) => {
 
     //const [isModalVisible, setIsModalVisible] = useState(visible)
     //const toggleFilterModal = () => setIsModalVisible(!isModalVisible)
+
+    const goBackFunc = () => navigation.goBack();
 
     return (
         <Modal
@@ -63,7 +69,16 @@ const FiltersScreen = ({ visible, toggleFunc }) => {
             visible={visible}
             style={{ position: "relative" }}>
             
-            <Text>Filters</Text>
+            <View style={styles.headerView}>
+                {/* <Image
+                    source={ArrowBackImg}
+                    style={{ width: 21, height: 21 }}
+                    /> */}
+                <IconButton
+                    icon={ArrowBackImg}
+                    onPress={goBackFunc} />
+                <Text style={styles.headerText}>Filters</Text>
+            </View>
 
             <ScrollView>
                 <View style={styles.container}>
@@ -118,7 +133,7 @@ const FiltersScreen = ({ visible, toggleFunc }) => {
 
             </ScrollView>
 
-            <BottomButtonsModal closeModalFunc={toggleFunc} />
+            <BottomButtonsModal closeModalFunc={goBackFunc}/>
         </Modal>
     )
 }
@@ -180,6 +195,28 @@ const styles = StyleSheet.create({
         paddingBottom: 70,
         backgroundColor: "#f9f9f9",
     },
+    headerView: {
+        height: 45,
+        backgroundColor: "white",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+
+        //shadow - working on IOS
+        shadowColor: "black",
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        //shadow - working on android
+        elevation: 3,
+    },
+    headerText: {
+        fontSize: 18,
+        fontWeight: "700",
+        letterSpacing: 0.3,
+
+        marginLeft: 15,
+    },
     categoryView: {
         marginBottom: 10,
     },
@@ -191,7 +228,7 @@ const styles = StyleSheet.create({
         marginLeft: 15,
     },
     whiteBox: {
-        backgroundColor: "white",
+        backgroundColor: "#f9f9f9",
         paddingTop: 15,
         paddingBottom: 10,
         display: "flex",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -23,6 +23,7 @@ const profileName = "Profile";
 
 const ShopStack = createNativeStackNavigator();
 const ShopStackScreen = () => {
+
   return (
     <ShopStack.Navigator>
       <ShopStack.Screen
@@ -34,10 +35,17 @@ const ShopStackScreen = () => {
       />
       <ShopStack.Screen
         name="Category"
-        component={CategoriesScreen} />
-      {/* <ShopStack.Screen
+        component={CategoriesScreen}
+        options={{
+            presentation: "modal"
+        }} />
+      <ShopStack.Screen
         name="Filters"
-        component={FiltersScreen}/> */}
+        component={FiltersScreen}
+        options={{
+          presentation: "modal"
+        }} />
+      
     </ShopStack.Navigator>
   );
 };
