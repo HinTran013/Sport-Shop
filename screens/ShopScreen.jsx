@@ -10,7 +10,8 @@ import FilterImg from "../assets/filter.png"
 import UpdownImg from "../assets/updown.png"
 import ListImg from "../assets/list.png"
 import GridImg from "../assets/grid.png"
-import FiltersScreen from "./FiltersScreen";
+//import FiltersScreen from "./FiltersScreen";
+import BottomSortModal from "../src/components/BottomModals/BottomSortModal";
 
 const pulloverImg = require("../assets/pullover.png");
 const productImg = require("../assets/fashionWoman.png");
@@ -24,6 +25,9 @@ export default function ShopScreen({ navigation }) {
 
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   //const toggleFilterModal = () => { setIsFilterVisible(!isFilterVisible) };
+
+  const [isSortVisible, setIsSortVisible] = useState(false);
+  const toggleSortModal = () => setIsSortVisible(!isSortVisible)
 
   return (
     <View>
@@ -52,7 +56,8 @@ export default function ShopScreen({ navigation }) {
             <Text style={styles.viewSearchText}>Filters</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.divFilter}>
+            style={styles.divFilter}
+            onPress={toggleSortModal}>
             <Image
               source={UpdownImg}
               style={styles.imageSize}
@@ -97,6 +102,7 @@ export default function ShopScreen({ navigation }) {
         </View>
       </ScrollView>
 
+      <BottomSortModal visible={isSortVisible} toggleModal={toggleSortModal}/>
       {/* <FiltersScreen visible={isFilterVisible} toggleFunc={toggleFilterModal}/> */}
     </View>
   );
@@ -163,9 +169,10 @@ const styles = StyleSheet.create({
   scrollViewStyle: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     marginHorizontal: 15,
 
+    paddingHorizontal: 20,
     paddingBottom: 20,
   }
 });

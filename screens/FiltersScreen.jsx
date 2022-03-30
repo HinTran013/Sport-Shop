@@ -1,12 +1,11 @@
 import React, {useState} from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from "react-native";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import { IconButton } from "react-native-paper";
 
-import BottomButtonsModal from "../src/components/BottomButtonsModal/BottomButtonsModal";
+import BottomButtonsModal from "../src/components/BottomModals/BottomButtonsModal"
 
 import ArrowBackImg from "../assets/arrow.png"
-import { Icon } from "react-native-elements";
 
 const arrColors = ["#020202", "#f0f0f0", "#B82222", "#BEA9A9", "#E2BB8D", "#151867"]
 const arrSizes = ["S", "XS", "M", "L", "XL", "XXL"];
@@ -138,7 +137,6 @@ const FiltersScreen = ({ visible, navigation }) => {
     )
 }
 
-
 const rectStyle = (isSelected) => StyleSheet.create({
     rect: {
         borderColor: isSelected ? "#DB3022" : "#9B9B9B",
@@ -196,11 +194,13 @@ const styles = StyleSheet.create({
         backgroundColor: "#f9f9f9",
     },
     headerView: {
-        height: 45,
+        height: 55,
         backgroundColor: "white",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+
+        paddingLeft: 10,
 
         //shadow - working on IOS
         shadowColor: "black",
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
         fontWeight: "700",
         letterSpacing: 0.3,
 
-        marginLeft: 15,
+        marginLeft: 25,
     },
     categoryView: {
         marginBottom: 10,
