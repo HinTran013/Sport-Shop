@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -12,6 +12,7 @@ import CartScreen from "../../../screens/CartScreen";
 import FavoritesScreen from "../../../screens/FavoritesScreen";
 import ProfileScreen from "../../../screens/ProfileScreen";
 import CategoriesScreen from "../../../screens/CategoriesScreen";
+import FiltersScreen from "../../../screens/FiltersScreen";
 import ProductDetailsScreen from "../../../screens/ProductDetailsScreen";
 //screen names
 const homeName = "Home";
@@ -22,6 +23,7 @@ const profileName = "Profile";
 
 const ShopStack = createNativeStackNavigator();
 const ShopStackScreen = () => {
+
   return (
     <ShopStack.Navigator>
       <ShopStack.Screen
@@ -31,7 +33,19 @@ const ShopStackScreen = () => {
           headerShown: false,
         }}
       />
-      <ShopStack.Screen name="Category" component={CategoriesScreen} />
+      <ShopStack.Screen
+        name="Category"
+        component={CategoriesScreen}
+        options={{
+            presentation: "modal"
+        }} />
+      <ShopStack.Screen
+        name="Filters"
+        component={FiltersScreen}
+        options={{
+          presentation: "modal"
+        }} />
+      
     </ShopStack.Navigator>
   );
 };
