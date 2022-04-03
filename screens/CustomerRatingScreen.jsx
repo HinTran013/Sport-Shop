@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import SimpleScreenHeader from "../src/components/Simple Screen Header/SimpleScreenHeader";
 import ProductRating from "../src/components/Product Rating/ProductRating";
 import ReviewCard from "../src/components/Product Rating/ReviewCard";
 import { Button } from "react-native-elements";
 import { Icon } from "react-native-elements";
+import RatingBottomSheet from "../src/components/Product Rating/RatingBottomSheet";
 
 const CustomerRatingScreen = ({ navigation }) => {
+  const [showReviewSheet, setShowReviewSheet] = useState(false);
+
+  const closeReviewBottom = () => {
+    setShowReviewSheet(false);
+  };
+
   return (
     <View style={{ position: "relative", flex: 1 }}>
       <ScrollView style={styles.container}>
@@ -36,6 +43,7 @@ const CustomerRatingScreen = ({ navigation }) => {
         <View style={{ paddingBottom: 80 }}></View>
       </ScrollView>
       <Button
+        onPress={() => setShowReviewSheet(!showReviewSheet)}
         iconPosition="left"
         icon={
           <Icon
@@ -61,6 +69,11 @@ const CustomerRatingScreen = ({ navigation }) => {
           paddingBottom: 10,
           backgroundColor: "#DB3022",
         }}
+      />
+
+      <RatingBottomSheet
+        isVisible={showReviewSheet}
+        closeSheet={closeReviewBottom}
       />
     </View>
   );
