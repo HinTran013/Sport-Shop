@@ -13,7 +13,7 @@ import { firebaseConfig } from "../src/firebase-config";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,17 +24,17 @@ export default function LoginScreen() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
+        navigation.navigate("Main");
       })
       .catch((error) => {
         Alert.alert(error.message);
       });
   };
-
+ 
   return (
     <View style={styles.container}>
       <View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Main")}>
           <Image source={require("../assets/arrow-left.png")} />
         </TouchableOpacity>
         <Text style={styles.title}>Login</Text>
@@ -74,22 +74,9 @@ export default function LoginScreen() {
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.socialContainer}>
-        <Text style={styles.social}>Or log in with social account</Text>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          <TouchableOpacity style={styles.buttonSocial}>
-            <Image source={require("../assets/google.png")} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonSocial}>
-            <Image source={require("../assets/facebook.png")} />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <TouchableOpacity style={{ marginTop: 50 }} onPress={() => navigation.navigate("Signup")}>
+        <Text style={styles.social}>Or sign up with new account</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -105,7 +92,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#f9f9f9",
     padding: 14,
     height: "100%",
-    justifyContent: "space-between",
   },
   input: {
     marginTop: 10,
@@ -133,26 +119,8 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5,
   },
-  socialContainer: {
-    flexDirection: "column",
-    alignContent: "flex-end",
-  },
   social: {
     fontSize: 14,
     textAlign: "center",
-  },
-  buttonSocial: {
-    paddingHorizontal: 35,
-    paddingVertical: 20,
-    backgroundColor: "white",
-    alignSelf: "flex-start",
-    borderRadius: 20,
-    marginHorizontal: 20,
-    marginVertical: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 19,
-    elevation: 5,
   },
 });
