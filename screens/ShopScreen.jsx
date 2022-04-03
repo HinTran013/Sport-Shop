@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native";
-import { Button } from "react-native-paper";
 
 import ProductTag from "../src/components/ProductTag/ProductTag";
 import HorizontalProduct from "../src/components/Horizontal Product/HorizontalProduct";
@@ -11,39 +10,54 @@ import FilterImg from "../assets/filter.png"
 import UpdownImg from "../assets/updown.png"
 import ListImg from "../assets/list.png"
 import GridImg from "../assets/grid.png"
+//import FiltersScreen from "./FiltersScreen";
+import BottomSortModal from "../src/components/BottomModals/BottomSortModal";
 
 const pulloverImg = require("../assets/pullover.png");
 const productImg = require("../assets/fashionWoman.png");
 
+const dummyData = ["T-shirts", "Crop tops", "Sleeveless", "Shirts"];
 
 export default function ShopScreen({ navigation }) {
-  const [flipView, setFlipView] = useState(false);
-  const onPressFlipViewHandler = () => { setFlipView(!flipView) }
 
-  const dummyData = ["T-shirts", "Crop tops", "Sleeveless", "Shirts"];
+  const [flipView, setFlipView] = useState(false);
+  const onPressFlipViewHandler = () => { setFlipView(!flipView) };
+
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  //const toggleFilterModal = () => { setIsFilterVisible(!isFilterVisible) };
+
+  const [isSortVisible, setIsSortVisible] = useState(false);
+  const toggleSortModal = () => setIsSortVisible(!isSortVisible)
 
   return (
-    <View style={{ justifyContent: "center" }}>
+    <View>
       <View style={styles.viewHeadLine}>
         <Text style={styles.headLine}>Sport Shirt</Text>
         <View style={styles.viewTags}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {dummyData.map((x) => <ProductTag name={x} key={x} />)}
-            <ProductTag name={"..."} onPress={() => { navigation.navigate('Category')}} />
+            <ProductTag name={`...`} onPress={() => { navigation.navigate('Category') }} />
           </ScrollView>
         </View>
 
         <View style={styles.viewSearch}>
-          <TouchableOpacity>
-            <Button
+          <TouchableOpacity
+            style={styles.divFilter}
+            onPress={() => { navigation.navigate("Filters", { visible: isFilterVisible })}}>
+            {/* <Button
               icon={FilterImg}
               color="black"
               uppercase={false}
-              disabled={false} >
-              <Text style={styles.viewSearchText}>Filters</Text>
-            </Button>
+              labelStyle={labelStyle.label}> */}
+            <Image
+              source={FilterImg}
+              style={styles.imageSize}
+            />
+            <Text style={styles.viewSearchText}>Filters</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.divFilter}>
+          <TouchableOpacity
+            style={styles.divFilter}
+            onPress={toggleSortModal}>
             <Image
               source={UpdownImg}
               style={styles.imageSize}
@@ -61,7 +75,7 @@ export default function ShopScreen({ navigation }) {
         </View>
       </View>
 
-      <ScrollView>
+      <ScrollView style={{height: 460,}}>
         <View style={flipView ? styles.scrollViewStyle : {}}>
 
           {flipView ?
@@ -70,7 +84,9 @@ export default function ShopScreen({ navigation }) {
               <ProductItem key={"1"} img={productImg} badgeContent="hot!" badgeType="hot" />,
               <ProductItem key={"2"} img={productImg} badgeContent="hot!" badgeType="hot" />,
               <ProductItem key={"3"} img={productImg} badgeContent="hot!" badgeType="hot" />,
-              <ProductItem key={"4"} img={productImg} badgeContent="hot!" badgeType="hot" />
+              <ProductItem key={"4"} img={productImg} badgeContent="hot!" badgeType="hot" />,
+              <ProductItem key={"10"} img={productImg} badgeContent="hot!" badgeType="hot" />,
+              <ProductItem key={"11"} img={productImg} badgeContent="hot!" badgeType="hot" />
             ]
             :
             [
@@ -78,19 +94,30 @@ export default function ShopScreen({ navigation }) {
               <HorizontalProduct key={"6"} img={pulloverImg} badgeContent="hot!" badgeType="hot" />,
               <HorizontalProduct key={"7"} img={pulloverImg} />,
               <HorizontalProduct key={"8"} img={pulloverImg} />,
-              <HorizontalProduct key={"9"} img={pulloverImg} badgeContent="hot!" badgeType="hot" />
+              <HorizontalProduct key={"9"} img={pulloverImg} badgeContent="hot!" badgeType="hot" />,
+              <HorizontalProduct key={"12"} img={pulloverImg} />,
+              <HorizontalProduct key={"13"} img={pulloverImg} />,
             ]
           }
         </View>
       </ScrollView>
 
+      <BottomSortModal visible={isSortVisible} toggleModal={toggleSortModal}/>
+      {/* <FiltersScreen visible={isFilterVisible} toggleFunc={toggleFilterModal}/> */}
     </View>
   );
 }
 
+// const labelStyle = StyleSheet.create({
+//   label: {
+//     fontSize: 15,
+//     fontWeight: "normal",
+//     letterSpacing: 0.5,
+//   }
+// })
+
 const styles = StyleSheet.create({
   viewHeadLine: {
-    paddingLeft: 10,
     paddingBottom: 5,
     backgroundColor: "white",
     marginBottom: 15,
@@ -103,6 +130,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   headLine: {
+    paddingLeft: 7,
     color: "black",
     fontWeight: "bold",
     fontSize: 30,
@@ -118,9 +146,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 5,
+    paddingVertical: 5,
     marginTop: 5,
     marginBottom: 5,
-    marginRight: 10,
+    marginHorizontal: 10,
   },
   divFilter: {
     flexDirection: "row",
@@ -140,8 +169,10 @@ const styles = StyleSheet.create({
   scrollViewStyle: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     marginHorizontal: 15,
-    marginBottom: 150,
+
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   }
 });

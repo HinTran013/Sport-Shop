@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import SimpleScreenHeader from "../src/components/Simple Screen Header/SimpleScreenHeader";
 import { SliderBox } from "react-native-image-slider-box";
 import { IconButton } from "react-native-paper";
@@ -131,7 +137,10 @@ const ProductDetailsScreen = ({ navigation }) => {
         <View>
           <Text style={{ fontSize: 26, fontWeight: "bold" }}>H&M</Text>
           <Text style={{ color: "#9B9B9B" }}>Short black dress</Text>
-          <View style={styles().starSection}>
+          <TouchableOpacity
+            onPress={() => navigation.push("Review")}
+            style={styles().starSection}
+          >
             <StarRating
               containerStyle={styles().starContainer}
               buttonStyle={{
@@ -155,7 +164,7 @@ const ProductDetailsScreen = ({ navigation }) => {
             >
               (10)
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
 
         <View>
