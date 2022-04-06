@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -14,6 +14,7 @@ import ProfileScreen from "../../../screens/ProfileScreen";
 import CategoriesScreen from "../../../screens/CategoriesScreen";
 import FiltersScreen from "../../../screens/FiltersScreen";
 import ProductDetailsScreen from "../../../screens/ProductDetailsScreen";
+import CustomerRatingScreen from "../../../screens/CustomerRatingScreen";
 //screen names
 const homeName = "Home";
 const shopName = "Shop";
@@ -23,7 +24,6 @@ const profileName = "Profile";
 
 const ShopStack = createNativeStackNavigator();
 const ShopStackScreen = () => {
-
   return (
     <ShopStack.Navigator>
       <ShopStack.Screen
@@ -37,15 +37,16 @@ const ShopStackScreen = () => {
         name="Category"
         component={CategoriesScreen}
         options={{
-            presentation: "modal"
-        }} />
+          presentation: "modal",
+        }}
+      />
       <ShopStack.Screen
         name="Filters"
         component={FiltersScreen}
         options={{
-          presentation: "modal"
-        }} />
-      
+          presentation: "modal",
+        }}
+      />
     </ShopStack.Navigator>
   );
 };
@@ -65,6 +66,12 @@ const HomeStackScreen = () => {
         name="ProductDetails"
         options={{ headerShown: false }}
         component={ProductDetailsScreen}
+      />
+
+      <homeStack.Screen
+        name="Review"
+        options={{ headerShown: false }}
+        component={CustomerRatingScreen}
       />
     </homeStack.Navigator>
   );
