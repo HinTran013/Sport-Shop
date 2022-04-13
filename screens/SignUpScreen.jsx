@@ -16,25 +16,29 @@ export default function SignUpScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const handleSignUp = () => {
-    const auth = getAuth();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        const db = getDatabase();
-        set(ref(db, "users/" + user.uid), {
-          name: name,
-          email: email,
-          password: password,
+    if (password.length >= 8) {
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          const db = getDatabase();
+          set(ref(db, "users/" + user.uid), {
+            name: name,
+            email: email,
+            password: password,
+          });
+          Alert.alert("Bạn đã đăng ký thành công!");
+          navigation.navigate("Login");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          Alert.alert(errorMessage);
         });
-        Alert.alert("Bạn đã đăng ký thành công!");
-        navigation.navigate("Login");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        Alert.alert(errorMessage);
-      });
+    } else {
+      Alert.alert("Mật khẩu phải lớn hơn 8 ký tự!");
+    }
   };
 
   return (

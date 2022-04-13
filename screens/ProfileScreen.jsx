@@ -35,7 +35,7 @@ export default function ProfileScreen({ navigation }) {
       });
   }
 
-  return (
+  return auth.currentUser ? (
     <View style={styles.container}>
       <Text style={styles.title}>My Profile</Text>
       <PersonalInformation
@@ -50,8 +50,38 @@ export default function ProfileScreen({ navigation }) {
       <Item title="My reviews" content="Review for 4 items" />
       <Item title="Settings" content="Notifications, password" />
       <TouchableOpacity style={styles.button} onPress={handleSignOut}>
-        <Text style={{ color: "white", alignSelf: "flex-start" }}>
+        <Text
+          style={{
+            color: "white",
+            alignSelf: "flex-start",
+            fontSize: 18,
+            marginHorizontal: 10,
+          }}
+        >
           Sign out
+        </Text>
+      </TouchableOpacity>
+    </View>
+  ) : (
+    <View style={styles.container2}>
+      <Image
+        source={require("../assets/login-warning.jpg")}
+        style={{ width: 300, height: 300 }}
+      />
+      <Text style={{ fontSize: 20 }}>You haven't signed in!</Text>
+      <TouchableOpacity
+        style={styles.button2}
+        onPress={() => navigation.navigate("Login")}
+      >
+        <Text
+          style={{
+            color: "white",
+            alignSelf: "flex-start",
+            fontSize: 18,
+            marginHorizontal: 10,
+          }}
+        >
+          Sign In
         </Text>
       </TouchableOpacity>
     </View>
@@ -72,6 +102,25 @@ const styles = StyleSheet.create({
   button: {
     marginTop: "auto",
     marginBottom: 60,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    backgroundColor: "#DB3022",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 5,
+    alignSelf: "center",
+  },
+  container2: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    backgroundColor: "white",
+  },
+  button2: {
+    marginTop: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 30,

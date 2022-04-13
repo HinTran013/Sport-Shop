@@ -33,7 +33,7 @@ export default function LoginScreen({ navigation }) {
  
   return (
     <View style={styles.container}>
-      <View>
+      <View style={{ flex: 1 }}>
         <TouchableOpacity onPress={() => navigation.navigate("Main")}>
           <Image source={require("../assets/arrow-left.png")} />
         </TouchableOpacity>
@@ -74,8 +74,8 @@ export default function LoginScreen({ navigation }) {
           </Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={{ marginTop: 50 }} onPress={() => navigation.navigate("Signup")}>
-        <Text style={styles.social}>Or sign up with new account</Text>
+      <TouchableOpacity style={{ marginBottom: 30 }} onPress={() => navigation.navigate("Signup")}>
+        <Text style={styles.social}>Don't have an account? <Text style={{ fontWeight: 'bold' }}>Sign Up</Text></Text>
       </TouchableOpacity>
     </View>
   );
