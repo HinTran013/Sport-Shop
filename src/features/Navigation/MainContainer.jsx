@@ -81,46 +81,44 @@ const Tab = createBottomTabNavigator();
 
 export default function MainContainer() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName={homeName}
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            let rn = route.name;
+    <Tab.Navigator
+      initialRouteName={homeName}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          let rn = route.name;
 
-            if (rn === homeName) {
-              iconName = focused ? "home" : "home-outline";
-            } else if (rn === shopName) {
-              iconName = focused ? "pricetags" : "pricetags-outline";
-            } else if (rn === cartName) {
-              iconName = focused ? "cart" : "cart-outline";
-            } else if (rn === favoritesName) {
-              iconName = focused ? "heart" : "heart-outline";
-            } else if (rn === profileName) {
-              iconName = focused ? "person" : "person-outline";
-            }
+          if (rn === homeName) {
+            iconName = focused ? "home" : "home-outline";
+          } else if (rn === shopName) {
+            iconName = focused ? "pricetags" : "pricetags-outline";
+          } else if (rn === cartName) {
+            iconName = focused ? "cart" : "cart-outline";
+          } else if (rn === favoritesName) {
+            iconName = focused ? "heart" : "heart-outline";
+          } else if (rn === profileName) {
+            iconName = focused ? "person" : "person-outline";
+          }
 
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: "#DB3022",
-          tabBarStyle: {
-            paddingBottom: 10,
-            paddingTop: 10,
-            height: 60,
-            borderTopLeftRadius: 22,
-            borderTopRightRadius: 22,
-            position: "absolute",
-          },
-          headerShown: false,
-        })}
-      >
-        <Tab.Screen name={homeName} component={HomeStackScreen} />
-        <Tab.Screen name={shopName} component={ShopStackScreen} />
-        <Tab.Screen name={cartName} component={CartScreen} />
-        <Tab.Screen name={favoritesName} component={FavoritesScreen} />
-        <Tab.Screen name={profileName} component={ProfileScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: "#DB3022",
+        tabBarStyle: {
+          paddingBottom: 10,
+          paddingTop: 10,
+          height: 60,
+          borderTopLeftRadius: 22,
+          borderTopRightRadius: 22,
+          position: "absolute",
+        },
+        headerShown: false,
+      })}
+    >
+      <Tab.Screen name={homeName} component={HomeStackScreen} />
+      <Tab.Screen name={shopName} component={ShopStackScreen} />
+      <Tab.Screen name={cartName} component={CartScreen} />
+      <Tab.Screen name={favoritesName} component={FavoritesScreen} />
+      <Tab.Screen name={profileName} component={ProfileScreen} />
+    </Tab.Navigator>
   );
 }
