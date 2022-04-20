@@ -49,7 +49,7 @@ export default function LoginScreen({ navigation }) {
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)}
         />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Forgot")}>
           <View
             style={{
               flexDirection: "row",
