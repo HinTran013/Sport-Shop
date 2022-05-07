@@ -65,7 +65,22 @@ export default function HomeScreen({ navigation, route }) {
             newProducts.map((newProduct, index) => {
               return (
                 <TouchableOpacity
-                  onPress={() => navigation.push("ProductDetails")}
+                  onPress={() =>
+                    navigation.navigate("ProductDetails", {
+                      images: newProduct.images,
+                      brand: newProduct.brand,
+                      name: newProduct.name,
+                      price: newProduct.price,
+                      rating: newProduct.totalRating,
+                      details: newProduct.detailedDesc,
+                      shortDescription: newProduct.shortDesc,
+                      shippingInfo: newProduct.shippingInfo,
+                      supportInfo: newProduct.supportInfo,
+                      category: newProduct.category,
+                      colors: newProduct.colors,
+                      sizes: newProduct.sizes,
+                    })
+                  }
                   key={index}
                 >
                   <ProductItem
@@ -97,7 +112,22 @@ export default function HomeScreen({ navigation, route }) {
             hotProducts.map((hotProducts, index) => {
               return (
                 <TouchableOpacity
-                  onPress={() => navigation.push("ProductDetails")}
+                  onPress={() =>
+                    navigation.navigate("ProductDetails", {
+                      images: hotProducts.images,
+                      brand: hotProducts.brand,
+                      name: hotProducts.name,
+                      price: hotProducts.price,
+                      rating: hotProducts.totalRating,
+                      details: hotProducts.detailedDesc,
+                      shortDescription: hotProducts.shortDesc,
+                      shippingInfo: hotProducts.shippingInfo,
+                      supportInfo: hotProducts.supportInfo,
+                      category: hotProducts.category,
+                      colors: hotProducts.colors,
+                      sizes: hotProducts.sizes,
+                    })
+                  }
                   key={index}
                 >
                   <ProductItem
@@ -129,7 +159,22 @@ export default function HomeScreen({ navigation, route }) {
             saleProducts.map((saleProducts, index) => {
               return (
                 <TouchableOpacity
-                  onPress={() => navigation.push("ProductDetails")}
+                  onPress={() =>
+                    navigation.navigate("ProductDetails", {
+                      images: saleProducts.images,
+                      brand: saleProducts.brand,
+                      name: saleProducts.name,
+                      price: saleProducts.price,
+                      rating: saleProducts.totalRating,
+                      details: saleProducts.detailedDesc,
+                      shortDescription: saleProducts.shortDesc,
+                      shippingInfo: saleProducts.shippingInfo,
+                      supportInfo: saleProducts.supportInfo,
+                      category: saleProducts.category,
+                      colors: saleProducts.colors,
+                      sizes: saleProducts.sizes,
+                    })
+                  }
                   key={index}
                 >
                   <ProductItem

@@ -68,9 +68,27 @@ const getSaleProducts = (numberOfProducts, setDataFunc) => {
   });
 };
 
+// get relative items (the products which are the same category as the product you're viewing)
+const getRelativeProducts = (numberOfProducts, category, setDataFunc) => {
+  let relativeProducts = [];
+  const productRef = ref(database, "data/products");
+
+  onValue(productRef, (snapShot) => {
+    snapShot.forEach((childSnapShot) => {
+      if (childSnapShot.child("category").val() === category) {
+        relativeProducts.push(childSnapShot.val());
+      }
+    });
+
+    relativeProducts = relativeProducts.slice(0, numberOfProducts);
+    setDataFunc(relativeProducts);
+  });
+};
+
 export {
   getProductInfo,
   getRecentProductNodes,
   getHotProducts,
   getSaleProducts,
+  getRelativeProducts,
 };

@@ -29,9 +29,7 @@ const ProductContentItem = ({
 
       {isShowContent && (
         <View style={styles().contentContainer}>
-          <Text style={{ fontSize: 16, textAlign: "justify" }}>
-            {mainContent}
-          </Text>
+          <Text style={{ fontSize: 16 }}>{mainContent}</Text>
         </View>
       )}
     </TouchableOpacity>

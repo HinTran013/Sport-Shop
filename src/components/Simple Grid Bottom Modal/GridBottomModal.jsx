@@ -8,6 +8,7 @@ const GridBottomModal = ({
   header,
   gridContent = [],
   closeModalFunc,
+  setDataFunc,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(visible);
   const [chosenSize, setChosenSize] = useState(-1);
@@ -48,8 +49,12 @@ const GridBottomModal = ({
                 }}
                 titleStyle={{
                   color: chosenSize === index ? "white" : "black",
+                  textTransform: "uppercase",
                 }}
-                onPress={() => handleChosenSize(index)}
+                onPress={() => {
+                  handleChosenSize(index);
+                  setDataFunc(item);
+                }}
               />
             );
           })}
