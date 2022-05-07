@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,11 @@ import StarRating from "react-native-star-rating";
 import ProductContentItem from "../src/components/Product Detail Content Item/ProductContentItem";
 import ProductItem from "../src/components/Product Item/ProductItem";
 import GridBottomModal from "../src/components/Simple Grid Bottom Modal/GridBottomModal";
+
+import {
+  getProductInfo,
+  getRecentProductNodes,
+} from "../src/utils/Product Utils/product";
 
 const productImg = require("../assets/fashionWoman.png");
 const imgSource = [
@@ -47,6 +52,8 @@ const ProductDetailsScreen = ({ navigation }) => {
   //modal useState
   const [isSizeModalOpen, setIsSizeModalOpen] = useState(false);
   const [isColorModalOpen, setIsColorModalOpen] = useState(false);
+
+  useEffect(() => {}, []);
 
   //close modal
   function closeSizeModal() {

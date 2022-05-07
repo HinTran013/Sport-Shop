@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,15 +10,43 @@ import BigBanner from "../src/components/Big Banner/BigBanner";
 import ProductSectionHeader from "../src/components/Product Section Header/ProductSectionHeader";
 import ProductItem from "../src/components/Product Item/ProductItem";
 
-const backgroundImg = require("../assets/twoFashionGirls.png");
-const productImg = require("../assets/fashionWoman.png");
+import {
+  getRecentProductNodes,
+  getHotProducts,
+  getSaleProducts,
+} from "../src/utils/Product Utils/product";
+
+const backgroundImg =
+  "https://firebasestorage.googleapis.com/v0/b/sport-shop-60073.appspot.com/o/products%2Fsneakers%2Ferik-mclean-e_qqXYMDyfM-unsplash.jpg?alt=media&token=4b323763-4d28-4b73-9f21-c896de8e318e";
 
 export default function HomeScreen({ navigation, route }) {
+  const [newProducts, setNewProducts] = useState([]);
+  const [hotProducts, setHotProducts] = useState([]);
+  const [saleProducts, setSaleProducts] = useState([]);
+
+  useEffect(() => {
+    getRecentProductNodes(5, handleSetNewProducts);
+    getHotProducts(4, handleSetHotProducts);
+    getSaleProducts(4, handleSetSaleProducts);
+  }, []);
+
+  const handleSetNewProducts = (data) => {
+    setNewProducts(data);
+  };
+
+  const handleSetHotProducts = (data) => {
+    setHotProducts(data);
+  };
+
+  const handleSetSaleProducts = (data) => {
+    setSaleProducts(data);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <BigBanner
         backgroundImage={backgroundImg}
-        text="Fashion Sale"
+        text="Be Yourself"
         buttonText={"Check"}
       />
       <View style={styles.mainContentContainer}>
@@ -33,35 +61,25 @@ export default function HomeScreen({ navigation, route }) {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         >
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => navigation.push("ProductDetails")}
-          >
-            <ProductItem
-              img={productImg}
-              marginRight={20}
-              badgeContent="NEW"
-              badgeType="sale"
-            />
-          </TouchableOpacity>
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="NEW"
-            badgeType="sale"
-          />
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="NEW"
-            badgeType="sale"
-          />
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="NEW"
-            badgeType="sale"
-          />
+          {newProducts.length !== 0 &&
+            newProducts.map((newProduct, index) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => navigation.push("ProductDetails")}
+                  key={index}
+                >
+                  <ProductItem
+                    imgURL={newProduct.images[0]}
+                    marginRight={20}
+                    badgeType="sale"
+                    badgeContent="NEW"
+                    brand={newProduct.brand}
+                    price={newProduct.price}
+                    name={newProduct.name}
+                  />
+                </TouchableOpacity>
+              );
+            })}
         </ScrollView>
 
         <ProductSectionHeader
@@ -75,30 +93,25 @@ export default function HomeScreen({ navigation, route }) {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         >
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="hot!"
-            badgeType="hot"
-          />
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="hot!"
-            badgeType="hot"
-          />
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="hot!"
-            badgeType="hot"
-          />
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="hot!"
-            badgeType="hot"
-          />
+          {hotProducts.length !== 0 &&
+            hotProducts.map((hotProducts, index) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => navigation.push("ProductDetails")}
+                  key={index}
+                >
+                  <ProductItem
+                    imgURL={hotProducts.images[0]}
+                    marginRight={20}
+                    badgeType="hot"
+                    badgeContent="HOT"
+                    brand={hotProducts.brand}
+                    price={hotProducts.price}
+                    name={hotProducts.name}
+                  />
+                </TouchableOpacity>
+              );
+            })}
         </ScrollView>
 
         <ProductSectionHeader
@@ -112,30 +125,25 @@ export default function HomeScreen({ navigation, route }) {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         >
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="-20%"
-            badgeType="hot"
-          />
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="-15%"
-            badgeType="hot"
-          />
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="-5%"
-            badgeType="hot"
-          />
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="-2%"
-            badgeType="hot"
-          />
+          {saleProducts.length !== 0 &&
+            saleProducts.map((saleProducts, index) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => navigation.push("ProductDetails")}
+                  key={index}
+                >
+                  <ProductItem
+                    imgURL={saleProducts.images[0]}
+                    marginRight={20}
+                    badgeType="hot"
+                    badgeContent="SALE"
+                    brand={saleProducts.brand}
+                    price={saleProducts.price}
+                    name={saleProducts.name}
+                  />
+                </TouchableOpacity>
+              );
+            })}
         </ScrollView>
       </View>
       <View style={{ paddingBottom: 75 }}></View>

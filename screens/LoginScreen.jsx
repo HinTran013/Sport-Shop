@@ -13,12 +13,12 @@ import { firebaseConfig } from "../src/firebase-config";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
