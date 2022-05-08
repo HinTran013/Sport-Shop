@@ -3,16 +3,16 @@ import { ref, onValue, query, limitToLast, equalTo } from "firebase/database";
 
 // const productRef = ref(database, "data/products");
 
-const getProductInfo = (productId) => {
+const getProductInfo = (productId, setData) => {
   const productRef = ref(database, "data/products/" + productId);
   let productData;
 
   onValue(productRef, (snapShot) => {
     const data = snapShot.val();
     productData = data;
+    setData(data);
   });
 
-  console.log(productData);
   return productData;
 };
 

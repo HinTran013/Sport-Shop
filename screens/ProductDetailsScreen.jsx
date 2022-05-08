@@ -34,6 +34,8 @@ const ProductDetailsScreen = ({ route, navigation }) => {
     category,
     colors,
     sizes,
+    numberOfReviews,
+    id,
   } = route.params;
 
   // favIcon useState
@@ -103,7 +105,7 @@ const ProductDetailsScreen = ({ route, navigation }) => {
       <SimpleScreenHeader
         headerTitle={name}
         onBackPress={() => navigation.pop()}
-        isShared={true}
+        isShared={false}
       />
       <ScrollView>
         <SliderBox
@@ -188,7 +190,11 @@ const ProductDetailsScreen = ({ route, navigation }) => {
             </Text>
             <Text style={{ color: "#9B9B9B" }}>{name}</Text>
             <TouchableOpacity
-              onPress={() => navigation.push("Review")}
+              onPress={() =>
+                navigation.push("Review", {
+                  id: id,
+                })
+              }
               style={styles().starSection}
             >
               <StarRating
@@ -212,7 +218,7 @@ const ProductDetailsScreen = ({ route, navigation }) => {
                   fontSize: 14,
                 }}
               >
-                (10)
+                ({numberOfReviews})
               </Text>
             </TouchableOpacity>
           </View>
@@ -259,7 +265,7 @@ const ProductDetailsScreen = ({ route, navigation }) => {
                 return (
                   <TouchableOpacity
                     onPress={() =>
-                      navigation.navigate("ProductDetails", {
+                      navigation.push("ProductDetails", {
                         images: relativeProducts.images,
                         brand: relativeProducts.brand,
                         name: relativeProducts.name,
@@ -272,6 +278,7 @@ const ProductDetailsScreen = ({ route, navigation }) => {
                         category: relativeProducts.category,
                         colors: relativeProducts.colors,
                         sizes: relativeProducts.sizes,
+                        numberOfReviews: relativeProducts.numberOfReviews,
                       })
                     }
                     key={index}
@@ -306,9 +313,9 @@ const ProductDetailsScreen = ({ route, navigation }) => {
           closeModalFunc={closeColorModal}
           setData={handleProductColor}
         />
-      </ScrollView>
 
-      <View style={{ paddingBottom: 70 }}></View>
+        <View style={{ paddingBottom: 70 }}></View>
+      </ScrollView>
     </View>
   );
 };

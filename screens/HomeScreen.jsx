@@ -79,6 +79,8 @@ export default function HomeScreen({ navigation, route }) {
                       category: newProduct.category,
                       colors: newProduct.colors,
                       sizes: newProduct.sizes,
+                      numberOfReviews: newProduct.numberOfReviews,
+                      id: newProduct.id,
                     })
                   }
                   key={index}
@@ -91,6 +93,7 @@ export default function HomeScreen({ navigation, route }) {
                     brand={newProduct.brand}
                     price={newProduct.price}
                     name={newProduct.name}
+                    numberOfReviews={newProduct.numberOfReviews}
                   />
                 </TouchableOpacity>
               );
@@ -126,6 +129,8 @@ export default function HomeScreen({ navigation, route }) {
                       category: hotProducts.category,
                       colors: hotProducts.colors,
                       sizes: hotProducts.sizes,
+                      numberOfReviews: hotProducts.numberOfReviews,
+                      id: hotProducts.id,
                     })
                   }
                   key={index}
@@ -138,6 +143,7 @@ export default function HomeScreen({ navigation, route }) {
                     brand={hotProducts.brand}
                     price={hotProducts.price}
                     name={hotProducts.name}
+                    numberOfReviews={hotProducts.numberOfReviews}
                   />
                 </TouchableOpacity>
               );
@@ -173,6 +179,8 @@ export default function HomeScreen({ navigation, route }) {
                       category: saleProducts.category,
                       colors: saleProducts.colors,
                       sizes: saleProducts.sizes,
+                      numberOfReviews: saleProducts.numberOfReviews,
+                      id: saleProducts.id,
                     })
                   }
                   key={index}
@@ -185,6 +193,7 @@ export default function HomeScreen({ navigation, route }) {
                     brand={saleProducts.brand}
                     price={saleProducts.price}
                     name={saleProducts.name}
+                    numberOfReviews={saleProducts.numberOfReviews}
                   />
                 </TouchableOpacity>
               );

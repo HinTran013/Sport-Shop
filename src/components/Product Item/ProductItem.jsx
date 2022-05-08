@@ -18,6 +18,7 @@ const ProductItem = ({
   name = "",
   brand = "",
   price = -1,
+  numberOfReviews = 0,
 }) => {
   // variables of favorite icon
   const [favIcon, setFavIcon] = useState({
@@ -84,7 +85,7 @@ const ProductItem = ({
               fontSize: 14,
             }}
           >
-            (10)
+            ({numberOfReviews})
           </Text>
         </View>
 
