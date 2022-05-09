@@ -30,7 +30,7 @@ export default function LoginScreen({ navigation }) {
         Alert.alert(error.message);
       });
   };
- 
+
   return (
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
@@ -74,8 +74,14 @@ export default function LoginScreen({ navigation }) {
           </Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={{ marginBottom: 30 }} onPress={() => navigation.navigate("Signup")}>
-        <Text style={styles.social}>Don't have an account? <Text style={{ fontWeight: 'bold' }}>Sign Up</Text></Text>
+      <TouchableOpacity
+        style={{ marginBottom: 30 }}
+        onPress={() => navigation.navigate("Signup")}
+      >
+        <Text style={styles.social}>
+          Don't have an account?{" "}
+          <Text style={{ fontWeight: "bold" }}>Sign Up</Text>
+        </Text>
       </TouchableOpacity>
     </View>
   );

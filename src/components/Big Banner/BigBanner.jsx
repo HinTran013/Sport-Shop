@@ -6,7 +6,7 @@ const BigBanner = ({ backgroundImage, text, buttonText }) => {
   return (
     <ImageBackground
       style={styles.background}
-      source={backgroundImage}
+      source={{ uri: backgroundImage }}
       resizeMode="cover"
     >
       <View style={styles.contentPosition}>

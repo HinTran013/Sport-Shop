@@ -10,13 +10,15 @@ import ProductBadge from "../Product Badge/ProductBadge";
 // if you don't pass the "badgeType" prop, the badge won't be shown
 
 const ProductItem = ({
-  img,
+  imgURL,
   marginRight = 0,
   badgeType = "",
   badgeContent = "",
   isSale = false,
-  oldPrice = "0",
-  newPrice = "0",
+  name = "",
+  brand = "",
+  price = -1,
+  numberOfReviews = 0,
 }) => {
   // variables of favorite icon
   const [favIcon, setFavIcon] = useState({
@@ -43,7 +45,11 @@ const ProductItem = ({
     <View style={styles(marginRight).container}>
       {/* Image section: also contains fav icon and product badge */}
       <View>
-        <Image style={styles().img} source={img} resizeMode="cover" />
+        <Image
+          style={styles().img}
+          source={{ uri: imgURL }}
+          resizeMode="cover"
+        />
         <IconButton
           icon={favIcon.name}
           color={favIcon.color}
@@ -79,14 +85,14 @@ const ProductItem = ({
               fontSize: 14,
             }}
           >
-            (10)
+            ({numberOfReviews})
           </Text>
         </View>
 
         {/* Product basic information */}
-        <Text style={styles().productBrand}>Dorothy Perkins</Text>
-        <Text style={styles().productName}>T-shirt SPANISH</Text>
-        <Text style={styles().productPrice}>$9</Text>
+        <Text style={styles().productBrand}>{brand}</Text>
+        <Text style={styles().productName}>{name}</Text>
+        <Text style={styles().productPrice}>${price}</Text>
       </View>
     </View>
   );

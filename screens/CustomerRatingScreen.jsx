@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import SimpleScreenHeader from "../src/components/Simple Screen Header/SimpleScreenHeader";
 import ProductRating from "../src/components/Product Rating/ProductRating";
@@ -6,13 +6,31 @@ import ReviewCard from "../src/components/Product Rating/ReviewCard";
 import { Button } from "react-native-elements";
 import { Icon } from "react-native-elements";
 import RatingBottomSheet from "../src/components/Product Rating/RatingBottomSheet";
+import { getProductInfo } from "../src/utils/Product Utils/product";
 
-const CustomerRatingScreen = ({ navigation }) => {
+const CustomerRatingScreen = ({ route, navigation }) => {
+  const { id } = route.params;
+
+  // product data use state
+  const [productData, setProductData] = useState(null);
+
+  // is show review sheet
   const [showReviewSheet, setShowReviewSheet] = useState(false);
 
+  // method
   const closeReviewBottom = () => {
     setShowReviewSheet(false);
   };
+
+  const handleGetProductData = (data) => {
+    setProductData(data);
+  };
+
+  useEffect(() => {
+    getProductInfo(id, handleGetProductData);
+  }, []);
+
+  console.log("data: ", productData);
 
   return (
     <View style={{ position: "relative", flex: 1 }}>
@@ -23,20 +41,30 @@ const CustomerRatingScreen = ({ navigation }) => {
         />
         <View style={styles.mainContentContainer}>
           <View style={{ alignItems: "center", marginTop: 15 }}>
-            <ProductRating />
+            <ProductRating
+              numberOfReviews={productData && productData.numberOfReviews}
+              totalRating={productData && productData.totalRating}
+            />
           </View>
 
           <View>
-            <Text style={{ fontWeight: "bold", fontSize: 24, marginTop: 15 }}>
-              8 Reviews
-            </Text>
-          </View>
-
-          <View>
+            {/* <ReviewCard containerStyle={{ marginTop: 25 }} />
             <ReviewCard containerStyle={{ marginTop: 25 }} />
             <ReviewCard containerStyle={{ marginTop: 25 }} />
-            <ReviewCard containerStyle={{ marginTop: 25 }} />
-            <ReviewCard containerStyle={{ marginTop: 25 }} />
+            <ReviewCard containerStyle={{ marginTop: 25 }} /> */}
+            {productData &&
+              productData.reviews.map((item, index) => {
+                return (
+                  <ReviewCard
+                    containerStyle={{ marginTop: 25 }}
+                    key={index}
+                    name={item.user}
+                    rating={item.rating}
+                    date={item.date}
+                    comment={item.comment}
+                  />
+                );
+              })}
           </View>
         </View>
 

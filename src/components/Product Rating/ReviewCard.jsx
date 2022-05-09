@@ -2,10 +2,10 @@ import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import StarRating from "react-native-star-rating";
 
-const ReviewCard = ({ containerStyle }) => {
+const ReviewCard = ({ containerStyle, name, rating, date, comment }) => {
   return (
     <View style={[styles.container, containerStyle]}>
-      <Text style={styles.customerName}>Helene Moore</Text>
+      <Text style={styles.customerName}>{name}</Text>
       <View
         style={{
           flexDirection: "row",
@@ -19,7 +19,7 @@ const ReviewCard = ({ containerStyle }) => {
               marginRight: 5,
             }}
             maxStars={5}
-            rating={4.5}
+            rating={rating}
             starSize={15}
             fullStarColor="#FFBA49"
             halfStarColor="#FFBA49"
@@ -28,18 +28,12 @@ const ReviewCard = ({ containerStyle }) => {
           />
         </View>
         <View>
-          <Text style={{ color: "#9B9B9B" }}>June 5, 2022</Text>
+          <Text style={{ color: "#9B9B9B" }}>{date}</Text>
         </View>
       </View>
 
       <View>
-        <Text style={styles.description}>
-          The dress is great! Very classy and comfortable. It fit perfectly! I'm
-          5'7" and 130 pounds. I am a 34B chest. This dress would be too long
-          for those who are shorter but could be hemmed. I wouldn't recommend it
-          for those big chested as I am smaller chested and it fit me perfectly.
-          The underarms were not too wide and the dress was made well.
-        </Text>
+        <Text style={styles.description}>{comment}</Text>
       </View>
 
       <View style={styles.imageContainer}>

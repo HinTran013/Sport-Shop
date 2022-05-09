@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,22 +15,69 @@ import ProductContentItem from "../src/components/Product Detail Content Item/Pr
 import ProductItem from "../src/components/Product Item/ProductItem";
 import GridBottomModal from "../src/components/Simple Grid Bottom Modal/GridBottomModal";
 
-const productImg = require("../assets/fashionWoman.png");
-const imgSource = [
-  require("../assets/slider1.png"),
-  require("../assets/slider2.png"),
-  require("../assets/slider3.png"),
-  require("../assets/slider4.png"),
-];
+import { getRelativeProducts } from "../src/utils/Product Utils/product";
 
-const ProductDetailsScreen = ({ navigation }) => {
+const productImg = require("../assets/fashionWoman.png");
+
+const ProductDetailsScreen = ({ route, navigation }) => {
+  // product params passed
+  const {
+    images,
+    brand,
+    name,
+    price,
+    rating,
+    details,
+    shortDescription,
+    shippingInfo,
+    supportInfo,
+    category,
+    colors,
+    sizes,
+    numberOfReviews,
+    id,
+  } = route.params;
+
+  // favIcon useState
   const [favIcon, setFavIcon] = useState({
     isFavorite: false,
     name: "heart-outline",
     color: "#9B9B9B",
   });
 
-  const handleOnPressFavIcon = () => {
+  //modal useState
+  const [isSizeModalOpen, setIsSizeModalOpen] = useState(false);
+  const [isColorModalOpen, setIsColorModalOpen] = useState(false);
+
+  // product Images
+  const [productImages, setProductImages] = useState([]);
+
+  // size and color use state
+  const [productSize, setProductSize] = useState("Size");
+  const [productColor, setProductColor] = useState("Color");
+
+  // relative products use state
+  const [relativeProducts, setRelativeProducts] = useState([]);
+
+  useEffect(() => {
+    // set product images
+    setProductImages(images);
+
+    // set relative products
+    getRelativeProducts(5, category, setRelativeProducts);
+  }, []);
+
+  // handle size and color
+  function handleProductSize(data) {
+    setProductSize(data);
+  }
+
+  function handleProductColor(data) {
+    setProductColor(data);
+  }
+
+  // handle favorite
+  function handleOnPressFavIcon() {
     return favIcon.isFavorite
       ? setFavIcon({
           isFavorite: false,
@@ -42,11 +89,7 @@ const ProductDetailsScreen = ({ navigation }) => {
           name: "heart",
           color: "#DB3022",
         });
-  };
-
-  //modal useState
-  const [isSizeModalOpen, setIsSizeModalOpen] = useState(false);
-  const [isColorModalOpen, setIsColorModalOpen] = useState(false);
+  }
 
   //close modal
   function closeSizeModal() {
@@ -58,200 +101,222 @@ const ProductDetailsScreen = ({ navigation }) => {
   }
 
   return (
-    <ScrollView style={styles().container}>
+    <View style={styles().container}>
       <SimpleScreenHeader
-        headerTitle={"Short dress"}
+        headerTitle={name}
         onBackPress={() => navigation.pop()}
-        isShared={true}
+        isShared={false}
       />
-      <SliderBox
-        images={imgSource}
-        sliderBoxHeight={400}
-        dotColor="#DB3022"
-        circleLoop={true}
-      />
-      <View style={styles().dropFavContainer}>
-        <Button
-          onPress={() => setIsSizeModalOpen(true)}
-          title={"Size"}
-          titleStyle={{ color: "black" }}
-          containerStyle={{
-            flex: 1,
-            marginLeft: 20,
-          }}
-          buttonStyle={{
-            backgroundColor: "white",
-            borderRadius: 10,
-            borderColor: "#ccc",
-            borderWidth: 1,
-            paddingTop: 10,
-            paddingBottom: 10,
-          }}
-          icon={{
-            name: "chevron-down",
-            type: "font-awesome",
-            size: 12,
-          }}
-          iconPosition="right"
-          iconContainerStyle={{
-            flex: 1,
-            alignItems: "flex-end",
-          }}
+      <ScrollView>
+        <SliderBox
+          images={productImages}
+          sliderBoxHeight={400}
+          dotColor="#DB3022"
+          circleLoop={true}
         />
-        <Button
-          title={"Color"}
-          titleStyle={{ color: "black" }}
-          containerStyle={{
-            flex: 1,
-            marginLeft: 20,
-          }}
-          buttonStyle={{
-            backgroundColor: "white",
-            borderRadius: 10,
-            borderColor: "#ccc",
-            borderWidth: 1,
-            paddingTop: 10,
-            paddingBottom: 10,
-          }}
-          icon={{
-            name: "chevron-down",
-            type: "font-awesome",
-            size: 12,
-          }}
-          iconPosition="right"
-          iconContainerStyle={{
-            flex: 1,
-            alignItems: "flex-end",
-          }}
-          onPress={() => setIsColorModalOpen(true)}
-        />
+        <View style={styles().dropFavContainer}>
+          <Button
+            onPress={() => setIsSizeModalOpen(true)}
+            title={productSize}
+            titleStyle={{ color: "black", textTransform: "capitalize" }}
+            containerStyle={{
+              flex: 1,
+              marginLeft: 20,
+            }}
+            buttonStyle={{
+              backgroundColor: "white",
+              borderRadius: 10,
+              borderColor: "#ccc",
+              borderWidth: 1,
+              paddingTop: 10,
+              paddingBottom: 10,
+            }}
+            icon={{
+              name: "chevron-down",
+              type: "font-awesome",
+              size: 12,
+            }}
+            iconPosition="right"
+            iconContainerStyle={{
+              flex: 1,
+              alignItems: "flex-end",
+            }}
+          />
+          <Button
+            title={productColor}
+            titleStyle={{ color: "black", textTransform: "capitalize" }}
+            containerStyle={{
+              flex: 1,
+              marginLeft: 20,
+            }}
+            buttonStyle={{
+              backgroundColor: "white",
+              borderRadius: 10,
+              borderColor: "#ccc",
+              borderWidth: 1,
+              paddingTop: 10,
+              paddingBottom: 10,
+            }}
+            icon={{
+              name: "chevron-down",
+              type: "font-awesome",
+              size: 12,
+            }}
+            iconPosition="right"
+            iconContainerStyle={{
+              flex: 1,
+              alignItems: "flex-end",
+            }}
+            onPress={() => setIsColorModalOpen(true)}
+          />
 
-        <IconButton
-          icon={favIcon.name}
-          color={favIcon.color}
-          style={styles().favIcon}
-          onPress={handleOnPressFavIcon}
-        />
-      </View>
-      <View style={styles().basicProductInfoContainer}>
-        <View>
-          <Text style={{ fontSize: 26, fontWeight: "bold" }}>H&M</Text>
-          <Text style={{ color: "#9B9B9B" }}>Short black dress</Text>
-          <TouchableOpacity
-            onPress={() => navigation.push("Review")}
-            style={styles().starSection}
-          >
-            <StarRating
-              containerStyle={styles().starContainer}
-              buttonStyle={{
-                marginRight: 5,
-              }}
-              maxStars={5}
-              rating={4.5}
-              starSize={15}
-              fullStarColor="#FFBA49"
-              halfStarColor="#FFBA49"
-              emptyStarColor="#FFBA49"
-              disabled={true}
-            />
-
+          <IconButton
+            icon={favIcon.name}
+            color={favIcon.color}
+            style={styles().favIcon}
+            onPress={handleOnPressFavIcon}
+          />
+        </View>
+        <View style={styles().basicProductInfoContainer}>
+          <View>
             <Text
               style={{
-                marginTop: 6,
-                color: "#9B9B9B",
-                fontSize: 14,
+                fontSize: 26,
+                fontWeight: "bold",
+                textTransform: "capitalize",
               }}
             >
-              (10)
+              {brand}
             </Text>
-          </TouchableOpacity>
+            <Text style={{ color: "#9B9B9B" }}>{name}</Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.push("Review", {
+                  id: id,
+                })
+              }
+              style={styles().starSection}
+            >
+              <StarRating
+                containerStyle={styles().starContainer}
+                buttonStyle={{
+                  marginRight: 5,
+                }}
+                maxStars={5}
+                rating={rating}
+                starSize={15}
+                fullStarColor="#FFBA49"
+                halfStarColor="#FFBA49"
+                emptyStarColor="#FFBA49"
+                disabled={true}
+              />
+
+              <Text
+                style={{
+                  marginTop: 6,
+                  color: "#9B9B9B",
+                  fontSize: 14,
+                }}
+              >
+                ({numberOfReviews})
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View>
+            <Text style={{ fontWeight: "bold", fontSize: 26 }}>${price}</Text>
+          </View>
+        </View>
+        <View style={{ padding: 20 }}>
+          <Text style={{ fontSize: 16 }}>{shortDescription}</Text>
+        </View>
+        <ProductContentItem
+          headerTitle={"Item details"}
+          mainContent={details}
+        />
+        <ProductContentItem
+          headerTitle={"Shipping information"}
+          mainContent={shippingInfo}
+          containerStyle={{ marginTop: -1 }}
+        />
+        <ProductContentItem
+          headerTitle={"Support"}
+          mainContent={supportInfo}
+          containerStyle={{ marginTop: -1 }}
+        />
+        {/* recommend products */}
+        <View
+          style={{
+            flexDirection: "row",
+            padding: 20,
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+            You can also like
+          </Text>
+          <Text style={{ color: "#9B9B9B" }}>12 items</Text>
+        </View>
+        <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            {relativeProducts.length !== 0 &&
+              relativeProducts.map((relativeProducts, index) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.push("ProductDetails", {
+                        images: relativeProducts.images,
+                        brand: relativeProducts.brand,
+                        name: relativeProducts.name,
+                        price: relativeProducts.price,
+                        rating: relativeProducts.totalRating,
+                        details: relativeProducts.detailedDesc,
+                        shortDescription: relativeProducts.shortDesc,
+                        shippingInfo: relativeProducts.shippingInfo,
+                        supportInfo: relativeProducts.supportInfo,
+                        category: relativeProducts.category,
+                        colors: relativeProducts.colors,
+                        sizes: relativeProducts.sizes,
+                        numberOfReviews: relativeProducts.numberOfReviews,
+                      })
+                    }
+                    key={index}
+                  >
+                    <ProductItem
+                      imgURL={relativeProducts.images[0]}
+                      marginRight={20}
+                      badgeType="hot"
+                      badgeContent="SALE"
+                      brand={relativeProducts.brand}
+                      price={relativeProducts.price}
+                      name={relativeProducts.name}
+                    />
+                  </TouchableOpacity>
+                );
+              })}
+          </ScrollView>
         </View>
 
-        <View>
-          <Text style={{ fontWeight: "bold", fontSize: 26 }}>$19.99</Text>
-        </View>
-      </View>
-      <View style={{ padding: 20 }}>
-        <Text style={{ textAlign: "justify", fontSize: 16 }}>
-          Short dress in soft cotton jersey with decorative buttons down the
-          front and a wide, frill-trimmed square neckline with concealed.
-          Elasticated seam under the bust and short puff sleeves with a small
-          frill trim.
-        </Text>
-      </View>
-      <ProductContentItem
-        headerTitle={"Item details"}
-        mainContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nulla magna, faucibus sed risus sit amet, malesuada consequat leo. Donec sit amet tincidunt magna. Morbi varius purus at erat cursus, vitae iaculis risus mattis."
-      />
-      <ProductContentItem
-        headerTitle={"Shipping information"}
-        mainContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nulla magna, faucibus sed risus sit amet, malesuada consequat leo. Donec sit amet tincidunt magna. Morbi varius purus at erat cursus, vitae iaculis risus mattis."
-        containerStyle={{ marginTop: -1 }}
-      />
-      <ProductContentItem
-        headerTitle={"Support"}
-        mainContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nulla magna, faucibus sed risus sit amet, malesuada consequat leo. Donec sit amet tincidunt magna. Morbi varius purus at erat cursus, vitae iaculis risus mattis."
-        containerStyle={{ marginTop: -1 }}
-      />
-      {/* recommend products */}
-      <View
-        style={{
-          flexDirection: "row",
-          padding: 20,
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-          You can also like
-        </Text>
-        <Text style={{ color: "#9B9B9B" }}>12 items</Text>
-      </View>
-      <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="hot!"
-            badgeType="hot"
-          />
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="hot!"
-            badgeType="hot"
-          />
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="hot!"
-            badgeType="hot"
-          />
-          <ProductItem
-            img={productImg}
-            marginRight={20}
-            badgeContent="hot!"
-            badgeType="hot"
-          />
-        </ScrollView>
-      </View>
+        <GridBottomModal
+          visible={isSizeModalOpen}
+          header="Select size"
+          gridContent={sizes}
+          closeModalFunc={closeSizeModal}
+          setDataFunc={handleProductSize}
+        />
 
-      <GridBottomModal
-        visible={isSizeModalOpen}
-        header="Select size"
-        gridContent={["S", "XS", "M", "L", "XL", "XXL"]}
-        closeModalFunc={closeSizeModal}
-      />
+        <GridBottomModal
+          visible={isColorModalOpen}
+          header="Select color"
+          gridContent={colors}
+          closeModalFunc={closeColorModal}
+          setData={handleProductColor}
+        />
 
-      <GridBottomModal
-        visible={isColorModalOpen}
-        header="Select color"
-        gridContent={["Black", "Blue", "Yellow", "White"]}
-        closeModalFunc={closeColorModal}
-      />
-
-      <View style={{ paddingBottom: 70 }}></View>
-    </ScrollView>
+        <View style={{ paddingBottom: 70 }}></View>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -259,6 +324,7 @@ const styles = () =>
   StyleSheet.create({
     container: {
       flex: 1,
+      backgroundColor: "white",
     },
     dropFavContainer: {
       paddingTop: 20,
