@@ -101,7 +101,7 @@ const ProductItem = ({
 const styles = (marginRight) =>
   StyleSheet.create({
     container: {
-      width: 148,
+      width: 150,
       marginRight: marginRight,
     },
     img: {

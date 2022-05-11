@@ -4,7 +4,17 @@ import StarRating from "react-native-star-rating";
 import { IconButton } from "react-native-paper";
 import ProductBadge from "../Product Badge/ProductBadge";
 
-const HorizontalProduct = ({ img, badgeType = "", badgeContent = "", isSale = false }) => {
+const HorizontalProduct = ({
+    imgURL,
+    badgeType = "",
+    badgeContent = "",
+    isSale = false,
+    name = "",
+    brand = "",
+    price = -1,
+    numberOfReviews = 0,
+}) => {
+    
     const [starRate, setStarRate] = useState(4.5);
     const [favIcon, setFavIcon] = useState({
         isFavorite: false,
@@ -29,14 +39,14 @@ const HorizontalProduct = ({ img, badgeType = "", badgeContent = "", isSale = fa
     return (
         <>
             <View style={styles.containerTouch}>
-                <TouchableOpacity style={styles.viewProduct}>
+                <View style={styles.viewProduct}>
                     <View style={styles.viewImg}>
-                        <Image style={styles.styleImg} source={img} resizeMode="stretch" />
+                        <Image style={styles.styleImg} source={{uri: imgURL}} resizeMode="stretch" />
                     </View>
 
                     <View style={styles.viewInfomation}>
-                        <Text style={textStyles(22, "bold", "#222").textStyle}>Pullover</Text>
-                        <Text style={textStyles(14, "300", "#9B9B9B").textStyle}>Mango</Text>
+                        <Text style={textStyles(22, "bold", "#222").textStyle}>{ name }</Text>
+                        <Text style={textStyles(14, "300", "#9B9B9B").textStyle}>{ brand }</Text>
                         <View style={styles.viewStar}>
                             <StarRating
                                 containerStyle={{
@@ -51,9 +61,9 @@ const HorizontalProduct = ({ img, badgeType = "", badgeContent = "", isSale = fa
                                 fullStarColor="#FFBA49"
                                 halfStarColor="#FFBA49"
                                 emptyStarColor="#FFBA49" />
-                            <Text style={styles.textStarRate}>({starRate})</Text>
+                            <Text style={styles.textStarRate}>({numberOfReviews})</Text>
                         </View>
-                        <Text style={textStyles(16, "600").textStyle}>51$</Text>
+                        <Text style={textStyles(16, "600").textStyle}>${price}</Text>
                         <IconButton
                             icon={favIcon.name}
                             color={favIcon.color}
@@ -65,7 +75,7 @@ const HorizontalProduct = ({ img, badgeType = "", badgeContent = "", isSale = fa
                                 content={badgeContent} />
                         </View>
                     </View>
-                </TouchableOpacity>
+                </View>
             </View>
         </>
     )
@@ -104,12 +114,13 @@ const styles = StyleSheet.create({
     viewImg: {
         flex: 1,
         height: 110,
+        borderTopLeftRadius: 10,
+        borderBottomLeftRadius: 10,
+        overflow: "hidden",
     },
     styleImg: {
         height: "100%",
-        borderTopLeftRadius: 6,
-        borderBottomLeftRadius: 6,
-        left: -2,
+        
     },
 
     viewInfomation: {
@@ -136,6 +147,7 @@ const styles = StyleSheet.create({
         right: -15,
         bottom: -15,
         backgroundColor: "white",
+        elevation: 0.5,
     },
 })
 

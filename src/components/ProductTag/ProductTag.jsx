@@ -3,12 +3,13 @@ import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 
 const ProductTag = (props) => {
     return (
-        <View style={styles.divBackground}>
-            <TouchableOpacity
-                onPress={props.onPress}>
+        <TouchableOpacity
+            style={styles.divBackground}
+            onPress={props.onPress}>
+            <View>
                 <Text style={{color: "white"}}>{ props.name }</Text>
-            </TouchableOpacity>
-        </View>
+            </View>
+        </TouchableOpacity>
     );
 }
 
