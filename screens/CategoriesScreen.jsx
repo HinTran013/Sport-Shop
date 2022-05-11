@@ -1,46 +1,79 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from "react-native";
+import { SearchBar } from "react-native-elements";
 
 const CategoriesScreen = () => {
-    const dummyData = ["Tops", "Shirts and Blouses", "Cardigan & Sweaters", "Knitwear", "Blazers", "Outerwear", "Pants", "Jeans"]
+    const dummyData = ["Tracksuits", "T-shirts", "Polo shirts", "Sneakers", "Football boots", "Ice skates", "Helmets"]
+
+    const [search, setSearch] = useState("")
+    const updateSearch = (text) => {
+        setSearch(text)
+    }
 
     return (
         <View style={styles.viewScreen}>
-            <TouchableOpacity style={styles.viewButton}>
-                <View>
-                    <Text style={styles.textButton}>VIEW ALL PRODUCTS</Text>
+            <View>
+                <SearchBar
+                    value={search}
+                    onChangeText={updateSearch}
+                    placeholder="Search"
+                    round={true}
+                    showCancel={true}
+                    lightTheme
+                    containerStyle={searchStyle.container}
+                    inputContainerStyle={searchStyle.inputContainer} />
+            </View>
+
+            <View>
+                <View style={styles.viewChooseCategory}>
+                    <Text style={styles.textChooseCategory}>Some popular categories</Text>
                 </View>
+
+                <View style={styles.viewContainCategory}>
+                    <ScrollView>
+                        {dummyData.map((x) =>
+                            <TouchableOpacity style={styles.viewCategory} key={x}>
+                                <View>
+                                    <Text style={styles.textCategory}>{x}</Text>
+                                </View>
+                            </TouchableOpacity>
+                        )}
+                    </ScrollView>
+                </View>
+            </View>
+
+
+            <TouchableOpacity style={styles.viewButton}>
+                <Text style={styles.textButton}>VIEW ALL PRODUCTS</Text>
             </TouchableOpacity>
-
-            <View style={styles.viewChooseCategory}>
-                <Text style={styles.textChooseCategory}>Choose category</Text>
-            </View>
-
-            <View style={styles.viewContainCategory}>
-                <ScrollView>
-                    {dummyData.map((x) =>
-                        <TouchableOpacity style={styles.viewCategory} key={x}>
-                            <View>
-                                <Text style={styles.textCategory}>{x}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    )}
-                </ScrollView>
-            </View>
         </View>
     );
 }
 
+const searchStyle = StyleSheet.create({
+    container: {
+        backgroundColor: "transparent",
+    },
+    inputContainer: {
+        backgroundColor: "white",
+        borderRadius: 90,
+    },
+    input: {
+    }
+})
+
 const styles = StyleSheet.create({
     viewScreen: {
+        display: "flex",
+        flexDirection: "column",
         backgroundColor: "#f0f0f0",
         paddingBottom: 50,
     },
     viewButton: {
+        marginTop: 15,
         backgroundColor: "#DB3022",
         paddingVertical: 12,
         paddingHorizontal: 125,
-        marginTop: 15,
         borderRadius: 45,
         alignSelf: "center",
         //shadow - working on IOS
@@ -50,6 +83,8 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         //shadow - working on android
         elevation: 5,
+
+
     },
     textButton: {
         color: "white",
@@ -59,11 +94,11 @@ const styles = StyleSheet.create({
     },
 
     viewChooseCategory: {
-        marginTop: 10,
+        marginTop: 20,
         marginLeft: 15,
     },
     textChooseCategory: {
-        fontSize: 12,
+        fontSize: 13,
         color: "#9B9B9B",
     },
 

@@ -16,6 +16,19 @@ const getProductInfo = (productId, setData) => {
   return productData;
 };
 
+const getAllProducts = (setData) => {
+  let productsList = []
+  const productsRef = ref(database, "data/products");
+
+  onValue(productsRef, (snapShot) => {
+    snapShot.forEach((item) => {
+      productsList.push(item.val());
+    })
+
+    setData(productsList)
+  }) 
+}
+
 const getRecentProductNodes = (numberOfProducts, setDataFunc) => {
   let recentData = [];
 
@@ -86,6 +99,7 @@ const getRelativeProducts = (numberOfProducts, category, setDataFunc) => {
 };
 
 export {
+  getAllProducts,
   getProductInfo,
   getRecentProductNodes,
   getHotProducts,

@@ -1,24 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native";
 
 import ProductTag from "../src/components/ProductTag/ProductTag";
 import HorizontalProduct from "../src/components/Horizontal Product/HorizontalProduct";
 import ProductItem from "../src/components/Product Item/ProductItem";
 
-
 import FilterImg from "../assets/filter.png"
 import UpdownImg from "../assets/updown.png"
 import ListImg from "../assets/list.png"
 import GridImg from "../assets/grid.png"
+import SearchImg from "../assets/search.png"
 //import FiltersScreen from "./FiltersScreen";
 import BottomSortModal from "../src/components/BottomModals/BottomSortModal";
 
-const pulloverImg = require("../assets/pullover.png");
-const productImg = require("../assets/fashionWoman.png");
+//Get the getProduct APIs from the Utils
+import { getAllProducts } from "../src/utils/Product Utils/product";
 
-const dummyData = ["T-shirts", "Crop tops", "Sleeveless", "Shirts"];
+const dummyData = ["All", "Tracksuits", "T-shirts", "Polo shirts", "Sneakers", "Football boots", "Ice skates", "Helmets"];
 
 export default function ShopScreen({ navigation }) {
+  //create an array of products with useState
+  const [allProducts, setAllProducts] = useState([]);
+
+  useEffect(() => {
+    getAllProducts(handleSetAllProducts);
+  }, []);
+
+  const handleSetAllProducts = (data) => {
+    setAllProducts(data)
+  }
 
   const [flipView, setFlipView] = useState(false);
   const onPressFlipViewHandler = () => { setFlipView(!flipView) };
@@ -29,21 +39,54 @@ export default function ShopScreen({ navigation }) {
   const [isSortVisible, setIsSortVisible] = useState(false);
   const toggleSortModal = () => setIsSortVisible(!isSortVisible)
 
+  const [tags, setTags] = useState(0);
+  const handleTagSelect = (num) => {
+    setTags(num);
+  }
+
   return (
-    <View>
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <View style={styles.viewHeadLine}>
-        <Text style={styles.headLine}>Sport Shirt</Text>
+        <View style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "flex-end",
+          justifyContent: "space-between",
+          paddingHorizontal: 7,
+          paddingVertical: 5,
+        }}>
+          <Text style={styles.headLine}>Sport Shirt</Text>
+          <TouchableOpacity
+            style={styles.viewSearchIcon}
+            onPress={() => { navigation.navigate('Category') }}>
+            <Image
+              style={{ tintColor: "#000" }}
+              source={SearchImg} />
+          </TouchableOpacity>
+        </View>
         <View style={styles.viewTags}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {dummyData.map((x) => <ProductTag name={x} key={x} />)}
-            <ProductTag name={`...`} onPress={() => { navigation.navigate('Category') }} />
+            {/* <ProductTag
+              name={`All`}
+              selected={tags == 0 ? true : false}
+              onPress={() => {
+                handleTagSelect(0)
+              }} /> */}
+            {dummyData.map((x, index) =>
+              <ProductTag
+                name={x}
+                selected={tags == index ? true : false}
+                onPress={() => {
+                  handleTagSelect(index)
+                }}
+                key={x} />)}
           </ScrollView>
         </View>
 
         <View style={styles.viewSearch}>
           <TouchableOpacity
             style={styles.divFilter}
-            onPress={() => { navigation.navigate("Filters", { visible: isFilterVisible })}}>
+            onPress={() => { navigation.navigate("Filters", { visible: isFilterVisible }) }}>
             {/* <Button
               icon={FilterImg}
               color="black"
@@ -75,35 +118,61 @@ export default function ShopScreen({ navigation }) {
         </View>
       </View>
 
-      <ScrollView style={{height: 460,}}>
-        <View style={flipView ? styles.scrollViewStyle : {}}>
+      <ScrollView
+        style={flipView ? scrollStyle.view : {}}
+        contentContainerStyle={flipView ? scrollStyle.content : {}}>
 
-          {flipView ?
-            [
-              <ProductItem key={"0"} img={productImg} badgeContent="hot!" badgeType="hot" />,
-              <ProductItem key={"1"} img={productImg} badgeContent="hot!" badgeType="hot" />,
-              <ProductItem key={"2"} img={productImg} badgeContent="hot!" badgeType="hot" />,
-              <ProductItem key={"3"} img={productImg} badgeContent="hot!" badgeType="hot" />,
-              <ProductItem key={"4"} img={productImg} badgeContent="hot!" badgeType="hot" />,
-              <ProductItem key={"10"} img={productImg} badgeContent="hot!" badgeType="hot" />,
-              <ProductItem key={"11"} img={productImg} badgeContent="hot!" badgeType="hot" />
-            ]
-            :
-            [
-              <HorizontalProduct key={"5"} img={pulloverImg} badgeContent="hot!" badgeType="hot" />,
-              <HorizontalProduct key={"6"} img={pulloverImg} badgeContent="hot!" badgeType="hot" />,
-              <HorizontalProduct key={"7"} img={pulloverImg} />,
-              <HorizontalProduct key={"8"} img={pulloverImg} />,
-              <HorizontalProduct key={"9"} img={pulloverImg} badgeContent="hot!" badgeType="hot" />,
-              <HorizontalProduct key={"12"} img={pulloverImg} />,
-              <HorizontalProduct key={"13"} img={pulloverImg} />,
-            ]
-          }
-        </View>
+        {allProducts.map((product, index) => {
+          return (
+            <TouchableOpacity
+              key={index}
+              onPress={() => {
+                navigation.navigate("ProductDetails", {
+                  images: product.images,
+                  brand: product.brand,
+                  name: product.name,
+                  price: product.price,
+                  rating: product.totalRating,
+                  details: product.detailedDesc,
+                  shortDescription: product.shortDesc,
+                  shippingInfo: product.shippingInfo,
+                  supportInfo: product.supportInfo,
+                  category: product.category,
+                  colors: product.colors,
+                  sizes: product.sizes,
+                  numberOfReviews: product.numberOfReviews,
+                  id: product.id,
+                })
+              }}>
+              {flipView ?
+                <ProductItem
+                  imgURL={product.images[0]}
+                  marginRight={0}
+                  badgeType=""
+                  badgeContent=""
+                  brand={product.brand}
+                  price={product.price}
+                  name={product.name}
+                  numberOfReviews={product.numberOfReviews} />
+                :
+                <HorizontalProduct
+                  imgURL={product.images[0]}
+                  badgeType=""
+                  badgeContent=""
+                  brand={product.brand}
+                  price={product.price}
+                  name={product.name}
+                  numberOfReviews={product.numberOfReviews} />}
+            </TouchableOpacity>
+          )
+        })}
+
+        <View style={{ paddingTop: 70 }}></View>
       </ScrollView>
 
-      <BottomSortModal visible={isSortVisible} toggleModal={toggleSortModal}/>
-      {/* <FiltersScreen visible={isFilterVisible} toggleFunc={toggleFilterModal}/> */}
+      {/* This is a Sort Modal  */}
+      <BottomSortModal visible={isSortVisible} toggleModal={toggleSortModal} />
+
     </View>
   );
 }
@@ -116,9 +185,22 @@ export default function ShopScreen({ navigation }) {
 //   }
 // })
 
+const scrollStyle = StyleSheet.create({
+  view: {
+    paddingHorizontal: 0,
+  },
+  content: {
+    flexGrow: 1,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    
+    paddingBottom: 70,
+  }
+})
+
 const styles = StyleSheet.create({
   viewHeadLine: {
-    paddingBottom: 5,
     backgroundColor: "white",
     marginBottom: 15,
     //shadow - working on IOS
@@ -130,14 +212,19 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   headLine: {
-    paddingLeft: 7,
     color: "black",
     fontWeight: "bold",
     fontSize: 30,
-    marginTop: 5,
-    marginBottom: 5,
+  },
+  viewSearchIcon: {
+    backgroundColor: "#F9F9F9",
+    borderColor: "#CECECE",
+    borderWidth: 1,
+    borderRadius: 90,
+    padding: 6,
   },
   viewTags: {
+    paddingLeft: 4,
     marginTop: 5,
     marginBottom: 5,
   },
@@ -175,4 +262,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 20,
   }
-});
+})

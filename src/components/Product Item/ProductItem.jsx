@@ -101,7 +101,7 @@ const ProductItem = ({
 const styles = (marginRight) =>
   StyleSheet.create({
     container: {
-      width: 148,
+      width: 150,
       marginRight: marginRight,
     },
     img: {
@@ -120,7 +120,7 @@ const styles = (marginRight) =>
       shadowOpacity: 0.4,
       shadowRadius: 2,
       //shadow - working on android
-      elevation: 5,
+      elevation: 0,
       zIndex: 999,
     },
     badgeContainer: {

@@ -46,7 +46,7 @@ const sortItems = [
 const BottomSortModal = ({ visible, toggleModal }) => {
 
 
-    const [selected, setSelected] = useState(-1);
+    const [selected, setSelected] = useState(0);
     const handleSelected = (index) => {
         setSelected(index)
         toggleModal()
