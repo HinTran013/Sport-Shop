@@ -1,26 +1,33 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 
-const ProductTag = (props) => {
+const ProductTag = ({selected = false, name, onPress}) => {
+
     return (
         <TouchableOpacity
-            style={styles.divBackground}
-            onPress={props.onPress}>
+            style={styles(selected).divBackground}
+            onPress={onPress}>
             <View>
-                <Text style={{color: "white"}}>{ props.name }</Text>
+                <Text style={styles(selected).title}>{ name }</Text>
             </View>
         </TouchableOpacity>
     );
 }
 
-const styles = StyleSheet.create({
+const styles = (selected) => StyleSheet.create({
     divBackground: {
-        backgroundColor: "black",
-        borderRadius: 25,
+        backgroundColor: selected ? "white" : "black",
+        borderWidth: selected ? 1 : 0,
+        borderColor: selected ? "#919191" : "transparent",
+        borderRadius: 90,
         paddingVertical: 7,
         paddingHorizontal: 20,
         marginRight: 5
     },
+    title: {
+        color: selected ? "black" : "white",
+        fontWeight: selected ?  "bold" : "normal",
+    }
 });
 
 export default ProductTag;

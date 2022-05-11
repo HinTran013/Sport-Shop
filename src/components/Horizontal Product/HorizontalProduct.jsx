@@ -41,7 +41,10 @@ const HorizontalProduct = ({
             <View style={styles.containerTouch}>
                 <View style={styles.viewProduct}>
                     <View style={styles.viewImg}>
-                        <Image style={styles.styleImg} source={{uri: imgURL}} resizeMode="stretch" />
+                        <Image
+                            style={styles.styleImg}
+                            source={{ uri: imgURL }}
+                            resizeMode="cover" />
                     </View>
 
                     <View style={styles.viewInfomation}>
@@ -51,7 +54,7 @@ const HorizontalProduct = ({
                             <StarRating
                                 containerStyle={{
                                     justifyContent: "flex-start",
-                                    marginVertical: 5,
+                                    marginVertical: 3,
                                 }}
                                 buttonStyle={{ marginRight: 5 }}
                                 disabled={true}
@@ -86,6 +89,7 @@ const textStyles = (fontsize = 10, fontweight = "bold", fontcolor = "black") => 
         fontSize: fontsize,
         fontWeight: fontweight,
         color: fontcolor,
+        textTransform: "capitalize"
     }
 })
 
@@ -130,8 +134,6 @@ const styles = StyleSheet.create({
     viewStar: {
         flexDirection: "row",
         alignItems: "center",
-        marginVertical: 2,
-        marginLeft: 2,
     },
     textStarRate: {
         color: "#9B9B9B",
@@ -147,6 +149,12 @@ const styles = StyleSheet.create({
         right: -15,
         bottom: -15,
         backgroundColor: "white",
+        //shadow - working on IOS
+        shadowColor: "black",
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        //shadow - working on Android
         elevation: 0.5,
     },
 })

@@ -16,7 +16,7 @@ import BottomSortModal from "../src/components/BottomModals/BottomSortModal";
 //Get the getProduct APIs from the Utils
 import { getAllProducts } from "../src/utils/Product Utils/product";
 
-const dummyData = ["T-shirts", "Crop tops", "Sleeveless", "Shirts"];
+const dummyData = ["All", "Tracksuits", "T-shirts", "Polo shirts", "Sneakers", "Football boots", "Ice skates", "Helmets"];
 
 export default function ShopScreen({ navigation }) {
   //create an array of products with useState
@@ -38,6 +38,11 @@ export default function ShopScreen({ navigation }) {
 
   const [isSortVisible, setIsSortVisible] = useState(false);
   const toggleSortModal = () => setIsSortVisible(!isSortVisible)
+
+  const [tags, setTags] = useState(0);
+  const handleTagSelect = (num) => {
+    setTags(num);
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -61,9 +66,20 @@ export default function ShopScreen({ navigation }) {
         </View>
         <View style={styles.viewTags}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <ProductTag
-              name={`All`} />
-            {dummyData.map((x) => <ProductTag name={x} key={x} />)}
+            {/* <ProductTag
+              name={`All`}
+              selected={tags == 0 ? true : false}
+              onPress={() => {
+                handleTagSelect(0)
+              }} /> */}
+            {dummyData.map((x, index) =>
+              <ProductTag
+                name={x}
+                selected={tags == index ? true : false}
+                onPress={() => {
+                  handleTagSelect(index)
+                }}
+                key={x} />)}
           </ScrollView>
         </View>
 
@@ -153,8 +169,10 @@ export default function ShopScreen({ navigation }) {
 
         <View style={{ paddingTop: 70 }}></View>
       </ScrollView>
+
+      {/* This is a Sort Modal  */}
       <BottomSortModal visible={isSortVisible} toggleModal={toggleSortModal} />
-      {/* <FiltersScreen visible={isFilterVisible} toggleFunc={toggleFilterModal}/> */}
+
     </View>
   );
 }
@@ -169,14 +187,14 @@ export default function ShopScreen({ navigation }) {
 
 const scrollStyle = StyleSheet.create({
   view: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 0,
   },
   content: {
     flexGrow: 1,
     flexWrap: "wrap",
     flexDirection: "row",
-    justifyContent: "space-between",
-
+    justifyContent: "space-evenly",
+    
     paddingBottom: 70,
   }
 })
@@ -206,7 +224,7 @@ const styles = StyleSheet.create({
     padding: 6,
   },
   viewTags: {
-    paddingLeft: 3,
+    paddingLeft: 4,
     marginTop: 5,
     marginBottom: 5,
   },
