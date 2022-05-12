@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 
-export default function SettingScreen() {
+export default function SettingScreen({ navigation }) {
   const [isEnabledSales, setIsEnabledSales] = useState(false);
   const toggleSales = () =>
     setIsEnabledSales((previousState) => !previousState);
@@ -23,7 +23,7 @@ export default function SettingScreen() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.pop()}>
         <Image source={require("../assets/arrow-left.png")} />
       </TouchableOpacity>
       <Text style={styles.title}>Settings</Text>

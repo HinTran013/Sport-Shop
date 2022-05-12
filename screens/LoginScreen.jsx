@@ -12,6 +12,7 @@ import {
 import { firebaseConfig } from "../src/firebase-config";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import MainContainer from "../src/features/Navigation/MainContainer";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -30,6 +31,9 @@ export default function LoginScreen({ navigation }) {
         Alert.alert(error.message);
       });
   };
+  if (auth.currentUser != null) {
+    navigation.replace("Main");
+  }
 
   return (
     <View style={styles.container}>
