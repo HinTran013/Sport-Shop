@@ -7,6 +7,13 @@ import MainContainer from "./src/features/Navigation/MainContainer";
 import SignUpScreen from "./screens/SignUpScreen";
 import GlobalStyles from "./src/GlobalStyles";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
+import CheckoutScreen from "./screens/CheckoutScreen";
+import SuccessScreen from "./screens/SuccessScreen";
+import OrderDetailScreen from "./screens/OrderDetailScreen";
+import MyOrderScreen from "./screens/MyOrdersScreen";
+import SettingScreen from "./screens/SettingScreen";
+import PaymentCardScreen from "./screens/PaymentCardScreen";
+import AddressScreen from "./screens/AddressScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./src/firebase-config";
@@ -16,26 +23,24 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 
 function App() {
-  const [beginScreen, setBeginScreen] = useState("Login");
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  if (auth.currentUser != null) {
-    setBeginScreen("Main");
-    console.log(`User exist: ${auth.currentUser.uid} + ${beginScreen}`);
-  } else {
-    console.log("no");
-  }
   return (
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
-          initialRouteName={beginScreen}
+          initialRouteName="Login"
         >
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Main" component={MainContainer} />
           <Stack.Screen name="Signup" component={SignUpScreen} />
           <Stack.Screen name="Forgot" component={ForgotPasswordScreen} />
+          <Stack.Screen name="Checkout" component={CheckoutScreen} />
+          <Stack.Screen name="Success" component={SuccessScreen} />
+          <Stack.Screen name="OrderDetail" component={OrderDetailScreen} />
+          <Stack.Screen name="Order" component={MyOrderScreen} />
+          <Stack.Screen name="Setting" component={SettingScreen} />
+          <Stack.Screen name="Address" component={AddressScreen} />
+          <Stack.Screen name="PaymentCard" component={PaymentCardScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

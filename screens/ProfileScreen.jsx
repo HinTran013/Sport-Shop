@@ -43,12 +43,31 @@ export default function ProfileScreen({ navigation }) {
         image={person.image}
         email={person.email}
       />
-      <Item title="My orders" content="Already have 12 orders" />
-      <Item title="Shipping addresses" content="3 addresses" />
-      <Item title="Payment methods" content="Visa **54" />
-      <Item title="Promocodes" content="You have special promocodes" />
+      <Item
+        title="My orders"
+        content="Already have 12 orders"
+        screen="Order"
+        navigation={navigation}
+      />
+      <Item
+        title="Shipping addresses"
+        content="3 addresses"
+        screen="Address"
+        navigation={navigation}
+      />
+      <Item
+        title="Payment methods"
+        content="Visa **54"
+        screen="PaymentCard"
+        navigation={navigation}
+      />
       <Item title="My reviews" content="Review for 4 items" />
-      <Item title="Settings" content="Notifications, password" />
+      <Item
+        title="Settings"
+        content="Notifications, password"
+        screen="Setting"
+        navigation={navigation}
+      />
       <TouchableOpacity style={styles.button} onPress={handleSignOut}>
         <Text
           style={{
@@ -158,7 +177,7 @@ const PersonalInformation = (props) => {
 };
 const Item = (props) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => props.navigation.navigate(props.screen)}>
       <View
         style={{
           flexDirection: "row",
