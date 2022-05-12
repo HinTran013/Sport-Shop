@@ -1,15 +1,21 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
 
 import ProductTag from "../src/components/ProductTag/ProductTag";
 import HorizontalProduct from "../src/components/Horizontal Product/HorizontalProduct";
 import ProductItem from "../src/components/Product Item/ProductItem";
 
-
-import FilterImg from "../assets/filter.png"
-import UpdownImg from "../assets/updown.png"
-import ListImg from "../assets/list.png"
-import GridImg from "../assets/grid.png"
+import FilterImg from "../assets/filter.png";
+import UpdownImg from "../assets/updown.png";
+import ListImg from "../assets/list.png";
+import GridImg from "../assets/grid.png";
 //import FiltersScreen from "./FiltersScreen";
 import BottomSortModal from "../src/components/BottomModals/BottomSortModal";
 
@@ -19,15 +25,16 @@ const productImg = require("../assets/fashionWoman.png");
 const dummyData = ["T-shirts", "Crop tops", "Sleeveless", "Shirts"];
 
 export default function ShopScreen({ navigation }) {
-
   const [flipView, setFlipView] = useState(false);
-  const onPressFlipViewHandler = () => { setFlipView(!flipView) };
+  const onPressFlipViewHandler = () => {
+    setFlipView(!flipView);
+  };
 
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   //const toggleFilterModal = () => { setIsFilterVisible(!isFilterVisible) };
 
   const [isSortVisible, setIsSortVisible] = useState(false);
-  const toggleSortModal = () => setIsSortVisible(!isSortVisible)
+  const toggleSortModal = () => setIsSortVisible(!isSortVisible);
 
   return (
     <View>
@@ -35,38 +42,41 @@ export default function ShopScreen({ navigation }) {
         <Text style={styles.headLine}>Sport Shirt</Text>
         <View style={styles.viewTags}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {dummyData.map((x) => <ProductTag name={x} key={x} />)}
-            <ProductTag name={`...`} onPress={() => { navigation.navigate('Category') }} />
+            {dummyData.map((x) => (
+              <ProductTag name={x} key={x} />
+            ))}
+            <ProductTag
+              name={`...`}
+              onPress={() => {
+                navigation.navigate("Category");
+              }}
+            />
           </ScrollView>
         </View>
 
         <View style={styles.viewSearch}>
           <TouchableOpacity
             style={styles.divFilter}
-            onPress={() => { navigation.navigate("Filters", { visible: isFilterVisible })}}>
+            onPress={() => {
+              navigation.navigate("Filters", { visible: isFilterVisible });
+            }}
+          >
             {/* <Button
               icon={FilterImg}
               color="black"
               uppercase={false}
               labelStyle={labelStyle.label}> */}
-            <Image
-              source={FilterImg}
-              style={styles.imageSize}
-            />
+            <Image source={FilterImg} style={styles.imageSize} />
             <Text style={styles.viewSearchText}>Filters</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.divFilter}
-            onPress={toggleSortModal}>
-            <Image
-              source={UpdownImg}
-              style={styles.imageSize}
-            />
+          <TouchableOpacity style={styles.divFilter} onPress={toggleSortModal}>
+            <Image source={UpdownImg} style={styles.imageSize} />
             <Text style={styles.viewSearchText}>Price: Lowest to Highest</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.divFilter}
-            onPress={onPressFlipViewHandler}>
+            onPress={onPressFlipViewHandler}
+          >
             <Image
               source={flipView ? ListImg : GridImg}
               style={styles.imageSize}
@@ -75,34 +85,81 @@ export default function ShopScreen({ navigation }) {
         </View>
       </View>
 
-      <ScrollView style={{height: 460,}}>
+      <ScrollView style={{ height: 460 }}>
         <View style={flipView ? styles.scrollViewStyle : {}}>
-
-          {flipView ?
-            [
-              <ProductItem key={"0"} img={productImg} badgeContent="hot!" badgeType="hot" />,
-              <ProductItem key={"1"} img={productImg} badgeContent="hot!" badgeType="hot" />,
-              <ProductItem key={"2"} img={productImg} badgeContent="hot!" badgeType="hot" />,
-              <ProductItem key={"3"} img={productImg} badgeContent="hot!" badgeType="hot" />,
-              <ProductItem key={"4"} img={productImg} badgeContent="hot!" badgeType="hot" />,
-              <ProductItem key={"10"} img={productImg} badgeContent="hot!" badgeType="hot" />,
-              <ProductItem key={"11"} img={productImg} badgeContent="hot!" badgeType="hot" />
-            ]
-            :
-            [
-              <HorizontalProduct key={"5"} img={pulloverImg} badgeContent="hot!" badgeType="hot" />,
-              <HorizontalProduct key={"6"} img={pulloverImg} badgeContent="hot!" badgeType="hot" />,
-              <HorizontalProduct key={"7"} img={pulloverImg} />,
-              <HorizontalProduct key={"8"} img={pulloverImg} />,
-              <HorizontalProduct key={"9"} img={pulloverImg} badgeContent="hot!" badgeType="hot" />,
-              <HorizontalProduct key={"12"} img={pulloverImg} />,
-              <HorizontalProduct key={"13"} img={pulloverImg} />,
-            ]
-          }
+          {flipView
+            ? [
+                <ProductItem
+                  key={"0"}
+                  img={productImg}
+                  badgeContent="hot!"
+                  badgeType="hot"
+                />,
+                <ProductItem
+                  key={"1"}
+                  img={productImg}
+                  badgeContent="hot!"
+                  badgeType="hot"
+                />,
+                <ProductItem
+                  key={"2"}
+                  img={productImg}
+                  badgeContent="hot!"
+                  badgeType="hot"
+                />,
+                <ProductItem
+                  key={"3"}
+                  img={productImg}
+                  badgeContent="hot!"
+                  badgeType="hot"
+                />,
+                <ProductItem
+                  key={"4"}
+                  img={productImg}
+                  badgeContent="hot!"
+                  badgeType="hot"
+                />,
+                <ProductItem
+                  key={"10"}
+                  img={productImg}
+                  badgeContent="hot!"
+                  badgeType="hot"
+                />,
+                <ProductItem
+                  key={"11"}
+                  img={productImg}
+                  badgeContent="hot!"
+                  badgeType="hot"
+                />,
+              ]
+            : [
+                <HorizontalProduct
+                  key={"5"}
+                  img={pulloverImg}
+                  badgeContent="hot!"
+                  badgeType="hot"
+                />,
+                <HorizontalProduct
+                  key={"6"}
+                  img={pulloverImg}
+                  badgeContent="hot!"
+                  badgeType="hot"
+                />,
+                <HorizontalProduct key={"7"} img={pulloverImg} />,
+                <HorizontalProduct key={"8"} img={pulloverImg} />,
+                <HorizontalProduct
+                  key={"9"}
+                  img={pulloverImg}
+                  badgeContent="hot!"
+                  badgeType="hot"
+                />,
+                <HorizontalProduct key={"12"} img={pulloverImg} />,
+                <HorizontalProduct key={"13"} img={pulloverImg} />,
+              ]}
         </View>
       </ScrollView>
 
-      <BottomSortModal visible={isSortVisible} toggleModal={toggleSortModal}/>
+      <BottomSortModal visible={isSortVisible} toggleModal={toggleSortModal} />
       {/* <FiltersScreen visible={isFilterVisible} toggleFunc={toggleFilterModal}/> */}
     </View>
   );
@@ -174,5 +231,5 @@ const styles = StyleSheet.create({
 
     paddingHorizontal: 20,
     paddingBottom: 20,
-  }
+  },
 });

@@ -48,10 +48,6 @@ const CustomerRatingScreen = ({ route, navigation }) => {
           </View>
 
           <View>
-            {/* <ReviewCard containerStyle={{ marginTop: 25 }} />
-            <ReviewCard containerStyle={{ marginTop: 25 }} />
-            <ReviewCard containerStyle={{ marginTop: 25 }} />
-            <ReviewCard containerStyle={{ marginTop: 25 }} /> */}
             {productData &&
               productData.reviews.map((item, index) => {
                 return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -12,6 +12,17 @@ import { BottomSheet } from "react-native-elements";
 import { Button, Icon } from "react-native-elements";
 
 const RatingBottomSheet = ({ isVisible = false, closeSheet }) => {
+  const [ratingNumber, setRatingNumber] = useState(3);
+  const [comment, setComment] = useState("");
+
+  const handleRatingNumber = (rating) => {
+    setRatingNumber(rating);
+  };
+
+  const handleInputText = (text) => {
+    setComment(text);
+  };
+
   return (
     <BottomSheet isVisible={isVisible} containerStyle={styles.container}>
       <ScrollView style={styles.mainContentContainer}>
@@ -36,7 +47,9 @@ const RatingBottomSheet = ({ isVisible = false, closeSheet }) => {
             </Text>
           </View>
 
-          <AirbnbRating />
+          <AirbnbRating
+            onFinishRating={(rating) => handleRatingNumber(rating)}
+          />
           <View style={{ alignItems: "center" }}>
             <Text
               style={{
@@ -65,6 +78,7 @@ const RatingBottomSheet = ({ isVisible = false, closeSheet }) => {
             }}
             placeholder="Write your review"
             multiline={true}
+            onChangeText={(text) => handleInputText(text)}
           />
 
           <Button
