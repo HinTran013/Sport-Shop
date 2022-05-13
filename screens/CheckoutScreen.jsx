@@ -25,6 +25,7 @@ export default function CheckoutScreen({ navigation }) {
           name="Le Khai Hoan"
           addressOne="123 Pham Van Dong"
           addressTwo="Phuong Linh Trung, Tp. Thu Duc"
+          navigation={navigation}
         />
         <View
           style={{
@@ -82,7 +83,7 @@ const Address = (props) => {
     <View style={styles.addressContainer}>
       <View style={{ flexDirection: "row", marginBottom: 10 }}>
         <Text style={{ flex: 1, fontWeight: "bold" }}>{props.name}</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => props.navigation.navigate("Address")}>
           <Text style={{ color: "#DB3022" }}>Change</Text>
         </TouchableOpacity>
       </View>
