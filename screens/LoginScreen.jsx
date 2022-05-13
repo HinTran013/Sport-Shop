@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -20,20 +20,18 @@ export default function LoginScreen({ navigation }) {
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const user = auth.currentUser;
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        navigation.navigate("Main");
+        navigation.replace("Main");
       })
       .catch((error) => {
         Alert.alert(error.message);
       });
   };
-  if (auth.currentUser != null) {
-    navigation.replace("Main");
-  }
 
   return (
     <View style={styles.container}>

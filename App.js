@@ -15,6 +15,7 @@ import SettingScreen from "./screens/SettingScreen";
 import PaymentCardScreen from "./screens/PaymentCardScreen";
 import AddressScreen from "./screens/AddressScreen";
 import AddingAddressScreen from "./screens/AddingAddressScreen";
+import MyReviewsScreen from "./screens/MyReviewsScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./src/firebase-config";
@@ -24,12 +25,17 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 
 function App() {
+  
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const user = auth.currentUser;
+
   return (
     <SafeAreaView style={GlobalStyles.droidSafeArea}>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
-          initialRouteName="Login"
+          initialRouteName="Main"
         >
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Main" component={MainContainer} />
@@ -43,6 +49,7 @@ function App() {
           <Stack.Screen name="Address" component={AddressScreen} />
           <Stack.Screen name="PaymentCard" component={PaymentCardScreen} />
           <Stack.Screen name="AddAddress" component={AddingAddressScreen} />
+          <Stack.Screen name="MyReviews" component={MyReviewsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
