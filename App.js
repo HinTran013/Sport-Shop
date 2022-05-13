@@ -14,6 +14,7 @@ import MyOrderScreen from "./screens/MyOrdersScreen";
 import SettingScreen from "./screens/SettingScreen";
 import PaymentCardScreen from "./screens/PaymentCardScreen";
 import AddressScreen from "./screens/AddressScreen";
+import AddingAddressScreen from "./screens/AddingAddressScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./src/firebase-config";
@@ -41,6 +42,7 @@ function App() {
           <Stack.Screen name="Setting" component={SettingScreen} />
           <Stack.Screen name="Address" component={AddressScreen} />
           <Stack.Screen name="PaymentCard" component={PaymentCardScreen} />
+          <Stack.Screen name="AddAddress" component={AddingAddressScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
