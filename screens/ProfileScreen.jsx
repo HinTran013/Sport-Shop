@@ -61,7 +61,12 @@ export default function ProfileScreen({ navigation }) {
         screen="PaymentCard"
         navigation={navigation}
       />
-      <Item title="My reviews" content="Review for 4 items" />
+      <Item
+        title="My reviews"
+        content="Review for 4 items"
+        screen="MyReviews"
+        navigation={navigation}
+      />
       <Item
         title="Settings"
         content="Notifications, password"

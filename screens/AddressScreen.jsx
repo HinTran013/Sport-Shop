@@ -32,11 +32,13 @@ export default function AddressScreen({ navigation }) {
           name="Le Khai Hoan"
           addressOne="123 Pham Van Dong"
           addressTwo="Phuong Linh Trung, Tp. Thu Duc"
+          navigation={navigation}
         />
         <Address
           name="Trần Thanh Hiền"
           addressOne="Nhà tình thương"
           addressTwo="Quan 3, Tp. Ho Chi Minh"
+          navigation={navigation}
         />
       </ScrollView>
       <TouchableOpacity
@@ -54,7 +56,9 @@ const Address = (props) => {
     <View style={styles.addressContainer}>
       <View style={{ flexDirection: "row", marginBottom: 10 }}>
         <Text style={{ flex: 1, fontWeight: "bold" }}>{props.name}</Text>
-        <TouchableOpacity onPress={() => props.navigation.navigate("Address")}>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate("AddAddress")}
+        >
           <Text style={{ color: "#DB3022" }}>Edit</Text>
         </TouchableOpacity>
       </View>
