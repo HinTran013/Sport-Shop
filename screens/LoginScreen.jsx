@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import {
 import { firebaseConfig } from "../src/firebase-config";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import MainContainer from "../src/features/Navigation/MainContainer";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -19,12 +20,13 @@ export default function LoginScreen({ navigation }) {
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const user = auth.currentUser;
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        navigation.navigate("Main");
+        navigation.replace("Main");
       })
       .catch((error) => {
         Alert.alert(error.message);

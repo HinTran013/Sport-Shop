@@ -1,11 +1,11 @@
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 import React from "react";
 
-const OrderDetailScreen = () => {
+const OrderDetailScreen = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flexDirection: "row", alignItems: "center", padding: 14 }}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.pop()}>
           <Image source={require("../assets/arrow-left.png")} />
         </TouchableOpacity>
         <Text
@@ -33,7 +33,6 @@ const OrderDetailScreen = () => {
 };
 
 const Order = (props) => {
- 
   return (
     <View style={{ marginBottom: 5 }}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -76,47 +75,57 @@ const Order = (props) => {
         quantity={1}
         totalPrice={51}
       />
-      <Text style={{ marginVertical: 20, fontSize: 16 }}>Order Information</Text>
-      <View style={{ flexDirection: 'row', marginVertical: 5 }}>
-        <Text style={{ flex: 1, color: '#9b9b9b' }}>Shipping Address: </Text>
-        <Text style={{ flex: 2 }}>Khu phố 6, phường Linh Trung, Tp. Thủ Đức, Tp. Hồ Chí Minh</Text>
+      <Text style={{ marginVertical: 20, fontSize: 16 }}>
+        Order Information
+      </Text>
+      <View style={{ flexDirection: "row", marginVertical: 5 }}>
+        <Text style={{ flex: 1, color: "#9b9b9b" }}>Shipping Address: </Text>
+        <Text style={{ flex: 2 }}>
+          Khu phố 6, phường Linh Trung, Tp. Thủ Đức, Tp. Hồ Chí Minh
+        </Text>
       </View>
-      <View style={{ flexDirection: 'row', marginVertical: 5 }}>
-        <Text style={{ flex: 1, color: '#9b9b9b' }}>Payment Method: </Text>
+      <View style={{ flexDirection: "row", marginVertical: 5 }}>
+        <Text style={{ flex: 1, color: "#9b9b9b" }}>Payment Method: </Text>
         <Text style={{ flex: 2 }}>Thanh toán khi nhận hàng</Text>
       </View>
-      <View style={{ flexDirection: 'row', marginVertical: 5 }}>
-        <Text style={{ flex: 1, color: '#9b9b9b' }}>Delivery Method: </Text>
+      <View style={{ flexDirection: "row", marginVertical: 5 }}>
+        <Text style={{ flex: 1, color: "#9b9b9b" }}>Delivery Method: </Text>
         <Text style={{ flex: 2 }}>Giao hàng tiết kiệm</Text>
       </View>
-      <View style={{ flexDirection: 'row', marginVertical: 5 }}>
-        <Text style={{ flex: 1, color: '#9b9b9b' }}>Discount: </Text>
+      <View style={{ flexDirection: "row", marginVertical: 5 }}>
+        <Text style={{ flex: 1, color: "#9b9b9b" }}>Discount: </Text>
         <Text style={{ flex: 2 }}>0%</Text>
       </View>
-      <View style={{ flexDirection: 'row', marginVertical: 5 }}>
-        <Text style={{ flex: 1, color: '#9b9b9b'}}>Total Amount: </Text>
+      <View style={{ flexDirection: "row", marginVertical: 5 }}>
+        <Text style={{ flex: 1, color: "#9b9b9b" }}>Total Amount: </Text>
         <Text style={{ flex: 2 }}>123$</Text>
       </View>
-      <View style={{ flexDirection: 'row', marginVertical: 40 }}>
-        <TouchableOpacity style={{ 
-          paddingHorizontal: 30, 
-          borderRadius: 100, 
-          borderWidth: 1,
-          paddingVertical: 10,
-          flex: 1,
-          marginHorizontal: 10,
-        }}>
-          <Text style={{ textAlign: 'center' }}>Reorder</Text>
+      <View style={{ flexDirection: "row", marginVertical: 40 }}>
+        <TouchableOpacity
+          style={{
+            paddingHorizontal: 30,
+            borderRadius: 100,
+            borderWidth: 1,
+            paddingVertical: 10,
+            flex: 1,
+            marginHorizontal: 10,
+          }}
+        >
+          <Text style={{ textAlign: "center" }}>Reorder</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{
-          paddingHorizontal: 30, 
-          borderRadius: 100,
-          paddingVertical: 10,
-          backgroundColor: '#DB3022',
-          flex: 1,
-          marginHorizontal: 10,
-        }}>
-          <Text style={{ color: 'white', textAlign: 'center' }}>Leave feedback</Text>
+        <TouchableOpacity
+          style={{
+            paddingHorizontal: 30,
+            borderRadius: 100,
+            paddingVertical: 10,
+            backgroundColor: "#DB3022",
+            flex: 1,
+            marginHorizontal: 10,
+          }}
+        >
+          <Text style={{ color: "white", textAlign: "center" }}>
+            Leave feedback
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
