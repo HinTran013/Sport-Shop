@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -10,10 +10,16 @@ import {
 import { AirbnbRating } from "react-native-ratings";
 import { BottomSheet } from "react-native-elements";
 import { Button, Icon } from "react-native-elements";
+import { writeReview } from "../../utils/Product Utils/commentAndRating";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-const RatingBottomSheet = ({ isVisible = false, closeSheet }) => {
+const RatingBottomSheet = ({ isVisible = false, closeSheet, productId }) => {
+  const [currentDate, setCurrentDate] = useState("");
   const [ratingNumber, setRatingNumber] = useState(3);
   const [comment, setComment] = useState("");
+  const [userId, setUserId] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const auth = getAuth();
 
   const handleRatingNumber = (rating) => {
     setRatingNumber(rating);
@@ -22,6 +28,37 @@ const RatingBottomSheet = ({ isVisible = false, closeSheet }) => {
   const handleInputText = (text) => {
     setComment(text);
   };
+
+  const handleSendReview = async () => {
+    await writeReview(
+      comment,
+      currentDate,
+      ratingNumber,
+      userEmail,
+      userId,
+      productId
+    );
+    await closeSheet();
+  };
+
+  useEffect(() => {
+    // get current date
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = dd + "/" + mm + "/" + yyyy;
+    setCurrentDate(today);
+
+    // get userId and userEmail
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserId(user.uid);
+        setUserEmail(user.email);
+      }
+    });
+  }, []);
 
   return (
     <BottomSheet isVisible={isVisible} containerStyle={styles.container}>
@@ -82,6 +119,7 @@ const RatingBottomSheet = ({ isVisible = false, closeSheet }) => {
           />
 
           <Button
+            onPress={handleSendReview}
             title={"SEND REVIEW"}
             containerStyle={{ marginTop: 25 }}
             buttonStyle={{

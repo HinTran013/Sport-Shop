@@ -7,12 +7,18 @@ import { Button } from "react-native-elements";
 import { Icon } from "react-native-elements";
 import RatingBottomSheet from "../src/components/Product Rating/RatingBottomSheet";
 import { getProductInfo } from "../src/utils/Product Utils/product";
+import {
+  getAllProductReviews,
+  getProductNumberOfRatings,
+  getProductTotalRating,
+} from "../src/utils/Product Utils/commentAndRating";
 
 const CustomerRatingScreen = ({ route, navigation }) => {
   const { id } = route.params;
-
   // product data use state
-  const [productData, setProductData] = useState(null);
+  const [productReviews, setProductReviews] = useState(null);
+  const [totalRating, setTotalRating] = useState(0);
+  const [numberOfReviews, setNumberOfReviews] = useState(0);
 
   // is show review sheet
   const [showReviewSheet, setShowReviewSheet] = useState(false);
@@ -22,15 +28,25 @@ const CustomerRatingScreen = ({ route, navigation }) => {
     setShowReviewSheet(false);
   };
 
-  const handleGetProductData = (data) => {
-    setProductData(data);
+  const handleGetProductReviews = (data) => {
+    setProductReviews(data);
+  };
+
+  const handleGetTotalRating = (data) => {
+    setTotalRating(data);
+  };
+
+  const handleGetNumberOfReviews = (data) => {
+    setNumberOfReviews(data);
   };
 
   useEffect(() => {
-    getProductInfo(id, handleGetProductData);
+    getAllProductReviews(id, handleGetProductReviews);
+    getProductNumberOfRatings(id, handleGetNumberOfReviews);
+    getProductTotalRating(id, handleGetTotalRating);
   }, []);
 
-  console.log("data: ", productData);
+  console.log("test rerender");
 
   return (
     <View style={{ position: "relative", flex: 1 }}>
@@ -42,14 +58,14 @@ const CustomerRatingScreen = ({ route, navigation }) => {
         <View style={styles.mainContentContainer}>
           <View style={{ alignItems: "center", marginTop: 15 }}>
             <ProductRating
-              numberOfReviews={productData && productData.numberOfReviews}
-              totalRating={productData && productData.totalRating}
+              numberOfReviews={numberOfReviews}
+              totalRating={totalRating}
             />
           </View>
 
           <View>
-            {productData &&
-              productData.reviews.map((item, index) => {
+            {productReviews &&
+              productReviews.map((item, index) => {
                 return (
                   <ReviewCard
                     containerStyle={{ marginTop: 25 }}
@@ -98,6 +114,7 @@ const CustomerRatingScreen = ({ route, navigation }) => {
       <RatingBottomSheet
         isVisible={showReviewSheet}
         closeSheet={closeReviewBottom}
+        productId={id}
       />
     </View>
   );
