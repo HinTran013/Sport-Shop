@@ -45,7 +45,7 @@ export default function SignUpScreen({ navigation }) {
     <View>
       <View style={styles.container}>
         <View>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <TouchableOpacity onPress={() => navigation.pop()}>
             <Image source={require("../assets/arrow-left.png")} />
           </TouchableOpacity>
           <Text style={styles.title}>Sign Up</Text>

@@ -1,39 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { firebaseConfig } from "../src/firebase-config";
 import { initializeApp } from "firebase/app";
 import { getAuth, signOut } from "firebase/auth";
-import { getDatabase, ref, child, get } from "firebase/database";
+import { useSelector } from "react-redux";
 
 export default function ProfileScreen({ navigation }) {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const [person, setPerson] = useState({});
-
-  const dbRef = ref(getDatabase());
-  if (auth.currentUser != null) {
-    get(child(dbRef, `users/${auth.currentUser.uid}`))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          setPerson(snapshot.val());
-        } else {
-          console.log("No data available");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
+  const person = useSelector((state) => state.user);
 
   function handleSignOut() {
     signOut(auth)
       .then(() => {
-        navigation.navigate("Login");
+        navigation.replace("Login");
       })
       .catch((error) => {
         // An error happened.
       });
   }
+
+  useEffect(() => {
+    console.log(person);
+  }, [person]);
 
   return auth.currentUser ? (
     <View style={styles.container}>
@@ -95,7 +84,7 @@ export default function ProfileScreen({ navigation }) {
       <Text style={{ fontSize: 20 }}>You haven't signed in!</Text>
       <TouchableOpacity
         style={styles.button2}
-        onPress={() => navigation.navigate("Login")}
+        onPress={() => navigation.replace("Login")}
       >
         <Text
           style={{

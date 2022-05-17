@@ -12,7 +12,9 @@ import {
 import { firebaseConfig } from "../src/firebase-config";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import MainContainer from "../src/features/Navigation/MainContainer";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../src/redux/userSlice";
+import { getDatabase, ref, onValue } from "firebase/database";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -20,12 +22,17 @@ export default function LoginScreen({ navigation }) {
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const user = auth.currentUser;
+  const dispatch = useDispatch();
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        const user = userCredential.user;
+        const db = getDatabase();
+        const starCountRef = ref(db, "users/" + userCredential.user.uid);
+        onValue(starCountRef, (snapshot) => {
+          const data = snapshot.val();
+          dispatch(setUserData(data));
+        });
         navigation.replace("Main");
       })
       .catch((error) => {
