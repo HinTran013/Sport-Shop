@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { firebaseConfig } from "../../firebase-config";
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getDatabase, ref, onValue } from "firebase/database";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../../redux/userSlice";
 
 //screens
 import HomeScreen from "../../../screens/HomeScreen";
@@ -80,6 +86,22 @@ const HomeStackScreen = () => {
 const Tab = createBottomTabNavigator();
 
 export default function MainContainer() {
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const currentUser = auth.currentUser;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (currentUser != null) {
+      const db = getDatabase();
+      const starCountRef = ref(db, "users/" + currentUser.uid);
+      onValue(starCountRef, (snapshot) => {
+        const data = snapshot.val();
+        dispatch(setUserData(data));
+      });
+    }
+  }, [currentUser]);
+
   return (
     <Tab.Navigator
       initialRouteName={homeName}

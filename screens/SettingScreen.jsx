@@ -76,6 +76,18 @@ export default function SettingScreen({ navigation }) {
           value={isEnabledStatus}
         />
       </View>
+      <TouchableOpacity style={styles.button}>
+        <Text
+          style={{
+            color: "white",
+            alignSelf: "flex-start",
+            fontSize: 18,
+            marginHorizontal: 10,
+          }}
+        >
+          Save
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -103,5 +115,18 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "#e5e5e5",
+  },
+  button: {
+    marginTop: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    backgroundColor: "#DB3022",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 5,
+    alignSelf: "center",
   },
 });
