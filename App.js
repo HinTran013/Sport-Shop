@@ -12,7 +12,6 @@ import SuccessScreen from "./screens/SuccessScreen";
 import OrderDetailScreen from "./screens/OrderDetailScreen";
 import MyOrderScreen from "./screens/MyOrdersScreen";
 import SettingScreen from "./screens/SettingScreen";
-import PaymentCardScreen from "./screens/PaymentCardScreen";
 import AddressScreen from "./screens/AddressScreen";
 import AddingAddressScreen from "./screens/AddingAddressScreen";
 import MyReviewsScreen from "./screens/MyReviewsScreen";
@@ -49,7 +48,6 @@ function App() {
             <Stack.Screen name="Order" component={MyOrderScreen} />
             <Stack.Screen name="Setting" component={SettingScreen} />
             <Stack.Screen name="Address" component={AddressScreen} />
-            <Stack.Screen name="PaymentCard" component={PaymentCardScreen} />
             <Stack.Screen name="AddAddress" component={AddingAddressScreen} />
             <Stack.Screen name="MyReviews" component={MyReviewsScreen} />
           </Stack.Navigator>
