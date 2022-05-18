@@ -17,7 +17,7 @@ export default function ForgotPasswordScreen({ navigation }) {
     sendPasswordResetEmail(auth, email)
       .then(() => {
         // Password reset email sent!
-        Alert.alert("Link reset password đã được gửi vào email!")
+        Alert.alert("Link reset password đã được gửi vào email!");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -27,7 +27,7 @@ export default function ForgotPasswordScreen({ navigation }) {
   };
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+      <TouchableOpacity onPress={() => navigation.pop()}>
         <Image source={require("../assets/arrow-left.png")} />
       </TouchableOpacity>
       <Text style={styles.title}>Forgot Password</Text>
