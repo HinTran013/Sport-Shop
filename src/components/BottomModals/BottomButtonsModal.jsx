@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { Button } from "react-native-elements";
 
 // This is a normal View of buttons 
-const BottomButtonsModal = ({ closeModalFunc }) => {
+const BottomButtonsModal = ({ closeModalFunc,  applyFilter}) => {
 
     return (
         <View style={styles.container}>
@@ -23,7 +23,9 @@ const BottomButtonsModal = ({ closeModalFunc }) => {
                     type="solid"
                     titleStyle={applyStyles.title}
                     buttonStyle={applyStyles.button}
-                    containerStyle={applyStyles.container} />
+                    containerStyle={applyStyles.container}
+                
+                    onPress={applyFilter} />
             </View>
         </View>
     )

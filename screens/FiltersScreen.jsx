@@ -71,6 +71,10 @@ const FiltersScreen = ({ visible, navigation }) => {
         navigation.goBack();
     }
 
+    const applyFilterFunc = () => {
+        navigation.goBack()
+    }
+
     return (
         <Modal
             animationType="slide"
@@ -157,7 +161,10 @@ const FiltersScreen = ({ visible, navigation }) => {
 
             </ScrollView>
 
-            <BottomButtonsModal closeModalFunc={goBackFunc}/>
+            <BottomButtonsModal
+                closeModalFunc={goBackFunc}
+                applyFilter={applyFilterFunc}
+            />
         </Modal>
     )
 }

@@ -4,7 +4,7 @@ export const filterSlice = createSlice({
     name: "filter",
     initialState: {
         price: [0, 500],
-        color: "white",
+        color: "",
         sizes: "All",
         category: "All",
     },

@@ -18,7 +18,7 @@ import ListImg from "../assets/list.png";
 import GridImg from "../assets/grid.png";
 import SearchImg from "../assets/search.png";
 //import FiltersScreen from "./FiltersScreen";
-import BottomSortModal from "../src/components/BottomModals/BottomSortModal";
+import BottomSortModal, { sortItems } from "../src/components/BottomModals/BottomSortModal";
 
 //Get the getProduct APIs from the Utils
 import { getAllProducts } from "../src/utils/Product Utils/product";
@@ -54,8 +54,10 @@ export default function ShopScreen({ navigation }) {
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   //const toggleFilterModal = () => { setIsFilterVisible(!isFilterVisible) };
 
+  //this is for the SORT modal
   const [isSortVisible, setIsSortVisible] = useState(false);
   const toggleSortModal = () => setIsSortVisible(!isSortVisible);
+  const [selectedSort, setSelectedSort] = useState(0)
 
   const [tags, setTags] = useState(0);
   const handleTagSelect = (num) => {
@@ -87,12 +89,6 @@ export default function ShopScreen({ navigation }) {
         </View>
         <View style={styles.viewTags}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {/* <ProductTag
-              name={`All`}
-              selected={tags == 0 ? true : false}
-              onPress={() => {
-                handleTagSelect(0)
-              }} /> */}
             {dummyData.map((x, index) => (
               <ProductTag
                 name={x}
@@ -123,7 +119,7 @@ export default function ShopScreen({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity style={styles.divFilter} onPress={toggleSortModal}>
             <Image source={UpdownImg} style={styles.imageSize} />
-            <Text style={styles.viewSearchText}>Price: Lowest to Highest</Text>
+            <Text style={styles.viewSearchText}>{ sortItems[selectedSort].title }</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.divFilter}
@@ -194,7 +190,12 @@ export default function ShopScreen({ navigation }) {
       </ScrollView>
 
       {/* This is a Sort Modal  */}
-      <BottomSortModal visible={isSortVisible} toggleModal={toggleSortModal} />
+      <BottomSortModal
+        selectedSort={selectedSort}
+        setSelectedSort={setSelectedSort}
+        visible={isSortVisible}
+        toggleModal={toggleSortModal}
+      />
     </View>
   );
 }

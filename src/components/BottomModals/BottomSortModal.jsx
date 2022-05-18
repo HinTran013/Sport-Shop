@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { BottomSheet } from "react-native-elements";
 
-const sortItems = [
+export const sortItems = [
     {
         id: 0,
         title: "Popular",
@@ -20,12 +20,12 @@ const sortItems = [
     },
     {
         id: 3,
-        title: "Price: lowest to high",
+        title: "Price: Lowest to Highest",
         
     },
     {
         id: 4,
-        title: "Price: highest to low",
+        title: "Price: Highest to Lowest",
        
     },
 ]
@@ -43,12 +43,12 @@ const sortItems = [
 //     )
 // }
 
-const BottomSortModal = ({ visible, toggleModal }) => {
+const BottomSortModal = ({ visible, toggleModal, selectedSort, setSelectedSort }) => {
 
 
-    const [selected, setSelected] = useState(0);
+    let selected = selectedSort;
     const handleSelected = (index) => {
-        setSelected(index)
+        setSelectedSort(index)
         toggleModal()
     }
     
