@@ -1,5 +1,13 @@
 import { database } from "../../firebase-config";
-import { ref, onValue, query, limitToLast, equalTo } from "firebase/database";
+import {
+  ref,
+  onValue,
+  query,
+  limitToLast,
+  equalTo,
+  update,
+} from "firebase/database";
+import { set } from "react-native-reanimated";
 
 // const productRef = ref(database, "data/products");
 
@@ -17,27 +25,27 @@ const getProductInfo = (productId, setData) => {
 };
 
 const getAllProducts = (setData) => {
-  let productsList = []
+  let productsList = [];
   const productsRef = ref(database, "data/products");
 
   onValue(productsRef, (snapShot) => {
     snapShot.forEach((item) => {
       productsList.push(item.val());
-    })
+    });
 
-    setData(productsList)
-  }) 
-}
+    setData(productsList);
+  });
+};
 
 const getRecentProductNodes = (numberOfProducts, setDataFunc) => {
-  let recentData = [];
-
   const recentProductsQuery = query(
     ref(database, "/data/products"),
     limitToLast(numberOfProducts)
   );
 
   onValue(recentProductsQuery, (snapShot) => {
+    let recentData = [];
+
     const recentNodes = snapShot.val();
     for (let childNodeKey in recentNodes) {
       recentData.push(recentNodes[childNodeKey]);
@@ -48,11 +56,11 @@ const getRecentProductNodes = (numberOfProducts, setDataFunc) => {
 };
 
 const getHotProducts = (numberOfProducts, setDataFunc) => {
-  let hotProducts = [];
-
   const productRef = ref(database, "data/products");
 
   onValue(productRef, (snapShot) => {
+    let hotProducts = [];
+
     snapShot.forEach((childSnapShot) => {
       if (childSnapShot.child("hot").val() === true) {
         hotProducts.push(childSnapShot.val());
@@ -65,11 +73,11 @@ const getHotProducts = (numberOfProducts, setDataFunc) => {
 };
 
 const getSaleProducts = (numberOfProducts, setDataFunc) => {
-  let saleProducts = [];
-
   const productRef = ref(database, "data/products");
 
   onValue(productRef, (snapShot) => {
+    let saleProducts = [];
+
     snapShot.forEach((childSnapShot) => {
       if (childSnapShot.child("sale").val() === true) {
         saleProducts.push(childSnapShot.val());
@@ -98,6 +106,14 @@ const getRelativeProducts = (numberOfProducts, category, setDataFunc) => {
   });
 };
 
+const updateFavoriteProduct = (productId, isFavorite) => {
+  const productRef = ref(database, `data/products/${productId}`);
+
+  update(productRef, {
+    isFavorite,
+  });
+};
+
 export {
   getAllProducts,
   getProductInfo,
@@ -105,4 +121,5 @@ export {
   getHotProducts,
   getSaleProducts,
   getRelativeProducts,
+  updateFavoriteProduct,
 };

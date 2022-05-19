@@ -81,6 +81,7 @@ export default function HomeScreen({ navigation, route }) {
                       sizes: newProduct.sizes,
                       numberOfReviews: newProduct.numberOfReviews,
                       id: newProduct.id,
+                      isFavorite: newProduct.isFavorite,
                     })
                   }
                   key={index}
@@ -131,6 +132,7 @@ export default function HomeScreen({ navigation, route }) {
                       sizes: hotProducts.sizes,
                       numberOfReviews: hotProducts.numberOfReviews,
                       id: hotProducts.id,
+                      isFavorite: hotProducts.isFavorite,
                     })
                   }
                   key={index}
@@ -181,6 +183,7 @@ export default function HomeScreen({ navigation, route }) {
                       sizes: saleProducts.sizes,
                       numberOfReviews: saleProducts.numberOfReviews,
                       id: saleProducts.id,
+                      isFavorite: saleProducts.isFavorite,
                     })
                   }
                   key={index}
