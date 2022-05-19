@@ -1,5 +1,6 @@
 import { database } from "../../firebase-config";
 import { ref, onValue, query, limitToLast, equalTo } from "firebase/database";
+import { set } from "react-native-reanimated";
 
 // const productRef = ref(database, "data/products");
 
@@ -17,17 +18,17 @@ const getProductInfo = (productId, setData) => {
 };
 
 const getAllProducts = (setData) => {
-  let productsList = []
+  let productsList = [];
   const productsRef = ref(database, "data/products");
 
   onValue(productsRef, (snapShot) => {
     snapShot.forEach((item) => {
       productsList.push(item.val());
-    })
+    });
 
-    setData(productsList)
-  }) 
-}
+    setData(productsList);
+  });
+};
 
 const getRecentProductNodes = (numberOfProducts, setDataFunc) => {
   let recentData = [];
@@ -98,6 +99,12 @@ const getRelativeProducts = (numberOfProducts, category, setDataFunc) => {
   });
 };
 
+const updateFavoriteProduct = (productId, isFavorite) => {
+  const favoriteRef = ref(database, `data/products/${productId}/isFavorite`);
+
+  set(favoriteRef, isFavorite);
+};
+
 export {
   getAllProducts,
   getProductInfo,
@@ -105,4 +112,5 @@ export {
   getHotProducts,
   getSaleProducts,
   getRelativeProducts,
+  updateFavoriteProduct,
 };
