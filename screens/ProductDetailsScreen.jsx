@@ -14,10 +14,8 @@ import StarRating from "react-native-star-rating";
 import ProductContentItem from "../src/components/Product Detail Content Item/ProductContentItem";
 import ProductItem from "../src/components/Product Item/ProductItem";
 import GridBottomModal from "../src/components/Simple Grid Bottom Modal/GridBottomModal";
-
 import { getRelativeProducts } from "../src/utils/Product Utils/product";
-
-const productImg = require("../assets/fashionWoman.png");
+import { updateFavoriteProduct } from "../src/utils/Product Utils/product";
 
 const ProductDetailsScreen = ({ route, navigation }) => {
   // product params passed
@@ -36,14 +34,11 @@ const ProductDetailsScreen = ({ route, navigation }) => {
     sizes,
     numberOfReviews,
     id,
+    isFavorite,
   } = route.params;
 
-  // favIcon useState
-  const [favIcon, setFavIcon] = useState({
-    isFavorite: false,
-    name: "heart-outline",
-    color: "#9B9B9B",
-  });
+  // favorite useState
+  const [favor, setFavor] = useState(isFavorite);
 
   //modal useState
   const [isSizeModalOpen, setIsSizeModalOpen] = useState(false);
@@ -78,17 +73,13 @@ const ProductDetailsScreen = ({ route, navigation }) => {
 
   // handle favorite
   function handleOnPressFavIcon() {
-    return favIcon.isFavorite
-      ? setFavIcon({
-          isFavorite: false,
-          name: "heart-outline",
-          color: "#9B9B9B",
-        })
-      : setFavIcon({
-          isFavorite: true,
-          name: "heart",
-          color: "#DB3022",
-        });
+    if (favor) {
+      updateFavoriteProduct(id, false);
+    } else {
+      updateFavoriteProduct(id, true);
+    }
+
+    setFavor(!favor);
   }
 
   //close modal
@@ -171,8 +162,8 @@ const ProductDetailsScreen = ({ route, navigation }) => {
           />
 
           <IconButton
-            icon={favIcon.name}
-            color={favIcon.color}
+            icon={favor ? "heart" : "heart-outline"}
+            color={favor ? "#DB3022" : "#9B9B9B"}
             style={styles().favIcon}
             onPress={handleOnPressFavIcon}
           />
