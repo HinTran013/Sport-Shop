@@ -15,7 +15,7 @@ export const sortItems = [
     },
     {
         id: 2,
-        title: "Customer review",
+        title: "Star rating",
         
     },
     {

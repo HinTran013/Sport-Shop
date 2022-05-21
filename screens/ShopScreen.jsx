@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Button,
 } from "react-native";
 
 import ProductTag from "../src/components/ProductTag/ProductTag";
@@ -22,6 +23,7 @@ import BottomSortModal, { sortItems } from "../src/components/BottomModals/Botto
 
 //Get the getProduct APIs from the Utils
 import { getAllProducts } from "../src/utils/Product Utils/product";
+import { orderByPrice } from "../src/utils/Product Utils/FilterQueries";
 
 const dummyData = [
   "All",
@@ -35,16 +37,22 @@ const dummyData = [
 ];
 
 export default function ShopScreen({ navigation }) {
+
   //create an array of products with useState
   const [allProducts, setAllProducts] = useState([]);
+  const handleSetAllProducts = (data) => {
+    setAllProducts(data);
+  };
 
+  //get all the products once after the first mounting
   useEffect(() => {
     getAllProducts(handleSetAllProducts);
   }, []);
 
-  const handleSetAllProducts = (data) => {
-    setAllProducts(data);
-  };
+  //orderByPrice(handleSetAllProducts)
+
+  // const testQuery = query(ref(db, "data/products"), orderByChild("price"))
+  // console.log(testQuery)
 
   const [flipView, setFlipView] = useState(false);
   const onPressFlipViewHandler = () => {
