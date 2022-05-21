@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
+import md5 from 'md5';
 
 export default function SignUpScreen({ navigation }) {
   const [name, setName] = useState("");
@@ -26,7 +27,7 @@ export default function SignUpScreen({ navigation }) {
           set(ref(db, "users/" + user.uid), {
             name: name,
             email: email,
-            password: password,
+            password: md5(password),
           });
           Alert.alert("Bạn đã đăng ký thành công!");
           navigation.navigate("Login");

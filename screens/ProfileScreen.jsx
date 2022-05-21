@@ -20,10 +20,6 @@ export default function ProfileScreen({ navigation }) {
       });
   }
 
-  useEffect(() => {
-    console.log(person);
-  }, [person]);
-
   return auth.currentUser ? (
     <View style={styles.container}>
       <Text style={styles.title}>My Profile</Text>
@@ -42,12 +38,6 @@ export default function ProfileScreen({ navigation }) {
         title="Shipping addresses"
         content="3 addresses"
         screen="Address"
-        navigation={navigation}
-      />
-      <Item
-        title="Payment methods"
-        content="Visa **54"
-        screen="PaymentCard"
         navigation={navigation}
       />
       <Item
