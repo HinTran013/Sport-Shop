@@ -80,6 +80,7 @@ export default function HomeScreen({ navigation, route }) {
                       colors: newProduct.colors,
                       sizes: newProduct.sizes,
                       numberOfReviews: newProduct.numberOfReviews,
+                      totalRating: newProducts.totalRating,
                       id: newProduct.id,
                       isFavorite: newProduct.isFavorite,
                     })
@@ -95,6 +96,7 @@ export default function HomeScreen({ navigation, route }) {
                     price={newProduct.price}
                     name={newProduct.name}
                     numberOfReviews={newProduct.numberOfReviews}
+                    totalRating={newProduct.totalRating}
                   />
                 </TouchableOpacity>
               );
@@ -131,6 +133,7 @@ export default function HomeScreen({ navigation, route }) {
                       colors: hotProducts.colors,
                       sizes: hotProducts.sizes,
                       numberOfReviews: hotProducts.numberOfReviews,
+                      totalRating: hotProducts.totalRating,
                       id: hotProducts.id,
                       isFavorite: hotProducts.isFavorite,
                     })
@@ -146,6 +149,7 @@ export default function HomeScreen({ navigation, route }) {
                     price={hotProducts.price}
                     name={hotProducts.name}
                     numberOfReviews={hotProducts.numberOfReviews}
+                    totalRating={hotProducts.totalRating}
                   />
                 </TouchableOpacity>
               );
@@ -182,6 +186,7 @@ export default function HomeScreen({ navigation, route }) {
                       colors: saleProducts.colors,
                       sizes: saleProducts.sizes,
                       numberOfReviews: saleProducts.numberOfReviews,
+                      totalRating: saleProducts.totalRating,
                       id: saleProducts.id,
                       isFavorite: saleProducts.isFavorite,
                     })
@@ -197,6 +202,7 @@ export default function HomeScreen({ navigation, route }) {
                     price={saleProducts.price}
                     name={saleProducts.name}
                     numberOfReviews={saleProducts.numberOfReviews}
+                    totalRating={saleProducts.totalRating}
                   />
                 </TouchableOpacity>
               );

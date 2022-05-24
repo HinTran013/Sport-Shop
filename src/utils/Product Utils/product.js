@@ -25,15 +25,13 @@ const getProductInfo = (productId, setData) => {
 };
 
 const getAllProducts = (setData) => {
-  let productsList = [];
   const productsRef = ref(database, "data/products");
 
   onValue(productsRef, (snapShot) => {
-    snapShot.forEach((item) => {
-      productsList.push(item.val());
-    });
-
-    setData(productsList);
+    let data = snapShot.val()
+    data.shift()
+    
+    setData(data);
   });
 };
 

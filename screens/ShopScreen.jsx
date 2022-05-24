@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  Button,
 } from "react-native";
 
 import ProductTag from "../src/components/ProductTag/ProductTag";
@@ -23,7 +22,9 @@ import BottomSortModal, { sortItems } from "../src/components/BottomModals/Botto
 
 //Get the getProduct APIs from the Utils
 import { getAllProducts } from "../src/utils/Product Utils/product";
-import { orderByPrice } from "../src/utils/Product Utils/FilterQueries";
+import { filterByAll, orderByPrice, orderByRating } from "../src/utils/Product Utils/FilterQueries";
+
+import { useSelector } from "react-redux";
 
 const dummyData = [
   "All",
@@ -36,7 +37,9 @@ const dummyData = [
   "Helmets",
 ];
 
-export default function ShopScreen({ navigation }) {
+export default function ShopScreen({ navigation, route }) {
+
+  const filters = useSelector((state) => state.filter)
 
   //create an array of products with useState
   const [allProducts, setAllProducts] = useState([]);
@@ -44,15 +47,11 @@ export default function ShopScreen({ navigation }) {
     setAllProducts(data);
   };
 
-  //get all the products once after the first mounting
   useEffect(() => {
-    getAllProducts(handleSetAllProducts);
-  }, []);
-
-  //orderByPrice(handleSetAllProducts)
-
-  // const testQuery = query(ref(db, "data/products"), orderByChild("price"))
-  // console.log(testQuery)
+    if (filters) {
+      filterByAll(handleSetAllProducts, filters)
+    }
+  }, [filters])
 
   const [flipView, setFlipView] = useState(false);
   const onPressFlipViewHandler = () => {
@@ -71,6 +70,32 @@ export default function ShopScreen({ navigation }) {
   const handleTagSelect = (num) => {
     setTags(num);
   };
+
+  //get all the products once after the first mounting
+  useEffect(() => {
+    getAllProducts(handleSetAllProducts);
+  }, []);
+
+  useEffect(() => {
+    switch (selectedSort) {
+      case 0:
+        getAllProducts(handleSetAllProducts)
+        break
+      case 1:
+        orderByRating(handleSetAllProducts, "increase")
+        break
+      case 2:
+        orderByRating(handleSetAllProducts, "decrease")
+        break
+      case 3:
+        orderByPrice(handleSetAllProducts, "increase")
+        break
+      case 4:
+        orderByPrice(handleSetAllProducts, "decrease")
+        break
+    }
+  }, [selectedSort])
+
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -127,7 +152,7 @@ export default function ShopScreen({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity style={styles.divFilter} onPress={toggleSortModal}>
             <Image source={UpdownImg} style={styles.imageSize} />
-            <Text style={styles.viewSearchText}>{ sortItems[selectedSort].title }</Text>
+            <Text style={styles.viewSearchText}>{sortItems[selectedSort].title}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.divFilter}
@@ -164,6 +189,7 @@ export default function ShopScreen({ navigation }) {
                   colors: product.colors,
                   sizes: product.sizes,
                   numberOfReviews: product.numberOfReviews,
+                  totalRating: product.totalRating,
                   id: product.id,
                 });
               }}
@@ -178,6 +204,8 @@ export default function ShopScreen({ navigation }) {
                   price={product.price}
                   name={product.name}
                   numberOfReviews={product.numberOfReviews}
+                  totalRating={product.totalRating}
+                  marginBottom ={20}
                 />
               ) : (
                 <HorizontalProduct
@@ -188,6 +216,7 @@ export default function ShopScreen({ navigation }) {
                   price={product.price}
                   name={product.name}
                   numberOfReviews={product.numberOfReviews}
+                  totalRating={product.totalRating}
                 />
               )}
             </TouchableOpacity>
@@ -207,14 +236,6 @@ export default function ShopScreen({ navigation }) {
     </View>
   );
 }
-
-// const labelStyle = StyleSheet.create({
-//   label: {
-//     fontSize: 15,
-//     fontWeight: "normal",
-//     letterSpacing: 0.5,
-//   }
-// })
 
 const scrollStyle = StyleSheet.create({
   view: {

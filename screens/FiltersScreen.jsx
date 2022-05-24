@@ -7,12 +7,19 @@ import BottomButtonsModal from "../src/components/BottomModals/BottomButtonsModa
 import { useSelector, useDispatch } from "react-redux";
 
 import ArrowBackImg from "../assets/arrow.png"
-import { resetAllFilter, setCategoryFilter, setColorFilter, setPriceFilter, setSizesFilter } from "../src/redux/filterSlice";
+import {
+    resetAllFilter,
+    setAllFilter,
+    setCategoryFilter,
+    setColorFilter,
+    setPriceFilter,
+    setSizesFilter
+} from "../src/redux/filterSlice";
 
 
 const arrColors = ["white", "black", "red", "gray", "yellow", "blue"]
 const arrSizes = ["All", "S", "XS", "M", "L", "XL", "XXL"];
-const arrCategories = ["All", "Women", "Men", " Boys", "Girls"]
+const arrCategories = ["All", "women", "men", " boys", "girls"]
 
 
 const ColorFilterItem = ({ backgroundColor, filter, setFilter }) => {
@@ -31,7 +38,7 @@ const ColorFilterItem = ({ backgroundColor, filter, setFilter }) => {
 
 const SizeFilterItem = ({ size, filter, setFilter }) => {
     let isSizeSelected = size === filter ? true : false
-    const handlerSizeSelected = () => { setFilter(setSizesFilter(size)) }
+    const handlerSizeSelected = () => setFilter(setSizesFilter(size)) 
 
     return (
         <TouchableOpacity
@@ -50,7 +57,7 @@ const CategoryFilterItem = ({ category, filter, setFilter }) => {
         <TouchableOpacity
             style={rectStyle(isCategorySelected).rect}
             onPress={handlerCategorySelected}>
-            <Text style={{ color: isCategorySelected ? "white" : "black" }}>{category}</Text>
+            <Text style={{ color: isCategorySelected ? "white" : "black", textTransform: "capitalize" }}>{category}</Text>
         </TouchableOpacity>
     )
 }
@@ -61,8 +68,6 @@ const FiltersScreen = ({ visible, navigation }) => {
     const filters = useSelector((state) => state.filter)
     const dispatch = useDispatch()
 
-    //console.log(filters)
-    
     //const [isModalVisible, setIsModalVisible] = useState(visible)
     //const toggleFilterModal = () => setIsModalVisible(!isModalVisible)
 
@@ -72,6 +77,7 @@ const FiltersScreen = ({ visible, navigation }) => {
     }
 
     const applyFilterFunc = () => {
+        // navigation.navigate("Shop Stack", { ...filters })
         navigation.goBack()
     }
 

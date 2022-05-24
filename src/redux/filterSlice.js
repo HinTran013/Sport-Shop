@@ -29,7 +29,7 @@ export const filterSlice = createSlice({
         },
         resetAllFilter: (state) => {
             state.price = [0, 500]
-            state.color = "white"
+            state.color = ""
             state.sizes = "All"
             state.category = "All"
         }

@@ -13,9 +13,10 @@ const HorizontalProduct = ({
     brand = "",
     price = -1,
     numberOfReviews = 0,
+    totalRating = 0,
 }) => {
     
-    const [starRate, setStarRate] = useState(4.5);
+    //const [starRate, setStarRate] = useState(totalRating);
     const [favIcon, setFavIcon] = useState({
         isFavorite: false,
         name: "heart-outline",
@@ -59,12 +60,12 @@ const HorizontalProduct = ({
                                 buttonStyle={{ marginRight: 5 }}
                                 disabled={true}
                                 maxStars={5}
-                                rating={starRate}
+                                rating={totalRating}
                                 starSize={15}
                                 fullStarColor="#FFBA49"
                                 halfStarColor="#FFBA49"
                                 emptyStarColor="#FFBA49" />
-                            <Text style={styles.textStarRate}>({numberOfReviews})</Text>
+                            <Text style={styles.textStarRate}>({numberOfReviews}) Reviews</Text>
                         </View>
                         <Text style={textStyles(16, "600").textStyle}>${price}</Text>
                         <IconButton

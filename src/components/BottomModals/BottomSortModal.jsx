@@ -10,12 +10,12 @@ export const sortItems = [
     },
     {
         id: 1,
-        title: "Newest",
+        title: "Star Rating: Lowest to Highest",
        
     },
     {
         id: 2,
-        title: "Star rating",
+        title: "Star Rating: Highest to Lowest",
         
     },
     {
@@ -29,19 +29,6 @@ export const sortItems = [
        
     },
 ]
-
-// const SortItem = ({ title, selected, pressed }) => {
-    
-//     const [isSelected, setIsSelected] = useState(selected)
-
-//     return (
-//         <TouchableOpacity
-//             style={itemStyle(isSelected).item}
-//             onPress={pressed}>   
-//             <Text style={titleStyle(isSelected).title}>{title}</Text>
-//         </TouchableOpacity>
-//     )
-// }
 
 const BottomSortModal = ({ visible, toggleModal, selectedSort, setSelectedSort }) => {
 
