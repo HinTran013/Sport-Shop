@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const filterSlice = createSlice({
     name: "filter",
     initialState: {
+        keyword: "",
         price: [0, 500],
         color: "",
         sizes: "All",
@@ -10,10 +11,14 @@ export const filterSlice = createSlice({
     },
     reducers: {
         setAllFilter: (state, action) => {
+            state.keyword = action.payload.keyword
             state.price = action.payload.price
             state.color = action.payload.color
             state.sizes = action.payload.sizes
             state.category = action.payload.category
+        },
+        setKeywordFilter: (state, action) => {
+            state.keyword = action.payload
         },
         setPriceFilter: (state, action) => {
             state.price = action.payload
@@ -28,21 +33,27 @@ export const filterSlice = createSlice({
             state.category = action.payload
         },
         resetAllFilter: (state) => {
+            //state.keyword = ""
             state.price = [0, 500]
             state.color = ""
             state.sizes = "All"
             state.category = "All"
+        },
+        resetKeywordFilter: (state) => {
+            state.keyword = ""
         }
     }
 })
 
 export const {
     setAllFilter,
+    setKeywordFilter,
     setPriceFilter,
     setColorFilter,
     setSizesFilter,
     setCategoryFilter,
-    resetAllFilter
+    resetAllFilter,
+    resetKeywordFilter,
 } = filterSlice.actions
 
 export default filterSlice.reducer

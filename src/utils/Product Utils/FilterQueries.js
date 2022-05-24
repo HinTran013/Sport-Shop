@@ -24,6 +24,14 @@ const filterByAll = (setData, filter ) => {
         //to pop the first object which is undefined
         data.shift()
 
+        if (filter.keyword != "All" && filter.keyword != "") {
+            data = data.filter((item) => {
+                let a = item.name.toLowerCase()
+                let b = filter.keyword.toLowerCase()
+                return a.includes(b)
+            })
+        }
+
         data = data.filter((item) =>
             item.price >= filter.price[0] && item.price <= filter.price[1])
         

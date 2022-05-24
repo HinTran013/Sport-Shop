@@ -24,22 +24,27 @@ import BottomSortModal, { sortItems } from "../src/components/BottomModals/Botto
 import { getAllProducts } from "../src/utils/Product Utils/product";
 import { filterByAll, orderByPrice, orderByRating } from "../src/utils/Product Utils/FilterQueries";
 
-import { useSelector } from "react-redux";
+import { setKeywordFilter } from "../src/redux/filterSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { tags } from "./CategoriesScreen";
+import { Button } from "react-native-paper";
+//import { resetKeywordFilter, setAllFilter } from "../src/redux/filterSlice";
 
-const dummyData = [
+const tagsData = [
   "All",
-  "Tracksuits",
-  "T-shirts",
-  "Polo shirts",
-  "Sneakers",
-  "Football boots",
-  "Ice skates",
-  "Helmets",
+  ...tags
 ];
 
 export default function ShopScreen({ navigation, route }) {
 
   const filters = useSelector((state) => state.filter)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (route.params) {
+      filterByAll(handleSetAllProducts, filters)
+    }
+  }, [route.params, filters])
 
   //create an array of products with useState
   const [allProducts, setAllProducts] = useState([]);
@@ -47,11 +52,16 @@ export default function ShopScreen({ navigation, route }) {
     setAllProducts(data);
   };
 
+  //get all the products once after the first mounting
   useEffect(() => {
-    if (filters) {
-      filterByAll(handleSetAllProducts, filters)
-    }
-  }, [filters])
+    getAllProducts(handleSetAllProducts);
+  }, []);
+
+  // useEffect(() => {
+  //   if (filters) {
+  //     filterByAll(handleSetAllProducts, filters)
+  //   }
+  // }, [filters])
 
   const [flipView, setFlipView] = useState(false);
   const onPressFlipViewHandler = () => {
@@ -65,16 +75,6 @@ export default function ShopScreen({ navigation, route }) {
   const [isSortVisible, setIsSortVisible] = useState(false);
   const toggleSortModal = () => setIsSortVisible(!isSortVisible);
   const [selectedSort, setSelectedSort] = useState(0)
-
-  const [tags, setTags] = useState(0);
-  const handleTagSelect = (num) => {
-    setTags(num);
-  };
-
-  //get all the products once after the first mounting
-  useEffect(() => {
-    getAllProducts(handleSetAllProducts);
-  }, []);
 
   useEffect(() => {
     switch (selectedSort) {
@@ -97,8 +97,24 @@ export default function ShopScreen({ navigation, route }) {
   }, [selectedSort])
 
 
+
+  const [tags, setTags] = useState(0);
+  const handleTagSelect = (num) => {
+    setTags(num)
+    let word = tagsData[num] == "All" ? "" : tagsData[num]
+    dispatch(setKeywordFilter(word))
+  };
+
+  useEffect(() => {
+    filterByAll(handleSetAllProducts, filters)
+  }, [tags])
+
+
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      {/* <Button onPress={() => { console.log(filters) }}
+        title={"test"}>
+      </Button> */}
       <View style={styles.viewHeadLine}>
         <View
           style={{
@@ -122,7 +138,7 @@ export default function ShopScreen({ navigation, route }) {
         </View>
         <View style={styles.viewTags}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {dummyData.map((x, index) => (
+            {tagsData.map((x, index) => (
               <ProductTag
                 name={x}
                 selected={tags == index ? true : false}

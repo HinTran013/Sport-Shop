@@ -77,8 +77,8 @@ const FiltersScreen = ({ visible, navigation }) => {
     }
 
     const applyFilterFunc = () => {
-        // navigation.navigate("Shop Stack", { ...filters })
-        navigation.goBack()
+        navigation.navigate("Shop Stack", { ...filters })
+        //navigation.goBack()
     }
 
     return (

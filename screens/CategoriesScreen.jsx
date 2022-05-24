@@ -1,19 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from "react-native";
 import { SearchBar } from "react-native-elements";
+import { useSelector, useDispatch } from "react-redux";
 
-const CategoriesScreen = () => {
-    const dummyData = ["Tracksuits", "T-shirts", "Polo shirts", "Sneakers", "Football boots", "Ice skates", "Helmets"]
+import { setKeywordFilter } from "../src/redux/filterSlice";
 
-    const [search, setSearch] = useState("")
+export const tags = [
+    "Sneakers",
+    "Nike",
+    "T-shirts",
+    "Polo shirts",
+    "Football boots",
+    "Ice skates",
+    "Helmets"
+]
+
+
+const CategoriesScreen = ({navigation}) => {
+
+    const filters = useSelector((state) => state.filter)
+    const dispatch = useDispatch()
+
+    const [search, setSearch] = useState(filters.keyword)
     const updateSearch = (text) => {
         setSearch(text)
+    }
+
+    useEffect(() => {
+        dispatch(setKeywordFilter(search))
+    }, [search])
+
+    const handleSearch = () => {
+        if (search != "") {
+            navigation.navigate("Shop Stack", {...filters} )
+        }
+        else 
+            return
+    }
+
+    const handleViewAllBtn = () => {
+        navigation.navigate("Shop Stack", {...filters} )
     }
 
     return (
         <View style={styles.viewScreen}>
             <View>
                 <SearchBar
+                    blurOnSubmit={true}
+                    onSubmitEditing={handleSearch}
                     value={search}
                     onChangeText={updateSearch}
                     placeholder="Search"
@@ -26,12 +60,12 @@ const CategoriesScreen = () => {
 
             <View>
                 <View style={styles.viewChooseCategory}>
-                    <Text style={styles.textChooseCategory}>Some popular categories</Text>
+                    <Text style={styles.textChooseCategory}>Some popular tags</Text>
                 </View>
 
                 <View style={styles.viewContainCategory}>
                     <ScrollView>
-                        {dummyData.map((x) =>
+                        {tags.map((x) =>
                             <TouchableOpacity style={styles.viewCategory} key={x}>
                                 <View>
                                     <Text style={styles.textCategory}>{x}</Text>
@@ -43,7 +77,11 @@ const CategoriesScreen = () => {
             </View>
 
 
-            <TouchableOpacity style={styles.viewButton}>
+            <TouchableOpacity
+                style={styles.viewButton}
+                onPressIn={() => updateSearch("")}
+                onPress={() => handleViewAllBtn()}
+                >
                 <Text style={styles.textButton}>VIEW ALL PRODUCTS</Text>
             </TouchableOpacity>
         </View>
