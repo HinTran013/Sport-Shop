@@ -109,7 +109,7 @@ const getRelativeProducts = (numberOfProducts, category, setDataFunc) => {
 const updateFavoriteProduct = (productId, isFavorite) => {
   const productRef = ref(database, `data/products/${productId}`);
 
-  update(productRef, {
+  return update(productRef, {
     isFavorite,
   });
 };
