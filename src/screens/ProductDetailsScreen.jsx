@@ -7,18 +7,20 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import SimpleScreenHeader from "../src/components/Simple Screen Header/SimpleScreenHeader";
+import SimpleScreenHeader from "../components/Simple Screen Header/SimpleScreenHeader";
 import { SliderBox } from "react-native-image-slider-box";
 import { IconButton } from "react-native-paper";
 import { Button } from "react-native-elements";
 import StarRating from "react-native-star-rating";
-import ProductContentItem from "../src/components/Product Detail Content Item/ProductContentItem";
-import ProductItem from "../src/components/Product Item/ProductItem";
-import GridBottomModal from "../src/components/Simple Grid Bottom Modal/GridBottomModal";
-import { getRelativeProducts } from "../src/utils/Product Utils/product";
-import { updateFavoriteProduct } from "../src/utils/Product Utils/product";
+import ProductContentItem from "../components/Product Detail Content Item/ProductContentItem";
+import ProductItem from "../components/Product Item/ProductItem";
+import GridBottomModal from "../components/Simple Grid Bottom Modal/GridBottomModal";
+import { getRelativeProducts } from "../utils/Product Utils/product";
+import { updateFavoriteProduct } from "../utils/Product Utils/product";
 import { useDispatch } from "react-redux";
-import { addAProductToCart } from "../src/redux/cartSlice";
+import { addAProductToCart } from "../redux/cartSlice";
+
+const productImg = require("../assets/fashionWoman.png");
 
 const ProductDetailsScreen = ({ route, navigation }) => {
   // dispatch

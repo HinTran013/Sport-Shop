@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import React from "react";
-import ReviewCard from "../src/components/Product Rating/ReviewCard";
+import ReviewCard from "../components/Product Rating/ReviewCard";
 
 export default function MyReviewsScreen({ navigation }) {
   return (

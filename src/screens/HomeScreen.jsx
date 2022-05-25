@@ -7,15 +7,15 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import BigBanner from "../src/components/Big Banner/BigBanner";
-import ProductSectionHeader from "../src/components/Product Section Header/ProductSectionHeader";
-import ProductItem from "../src/components/Product Item/ProductItem";
+import BigBanner from "../components/Big Banner/BigBanner";
+import ProductSectionHeader from "../components/Product Section Header/ProductSectionHeader";
+import ProductItem from "../components/Product Item/ProductItem";
 
 import {
   getRecentProductNodes,
   getHotProducts,
   getSaleProducts,
-} from "../src/utils/Product Utils/product";
+} from "../utils/Product Utils/product";
 
 const backgroundImg =
   "https://firebasestorage.googleapis.com/v0/b/sport-shop-60073.appspot.com/o/products%2Fsneakers%2Ferik-mclean-e_qqXYMDyfM-unsplash.jpg?alt=media&token=4b323763-4d28-4b73-9f21-c896de8e318e";

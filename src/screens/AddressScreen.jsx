@@ -8,8 +8,10 @@ import {
 } from "react-native";
 import { CheckBox } from "react-native-elements";
 import React from "react";
+import getProvinceList from "../utils/province";
 
 export default function AddressScreen({ navigation }) {
+  getProvinceList();
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -32,12 +34,14 @@ export default function AddressScreen({ navigation }) {
           name="Le Khai Hoan"
           addressOne="123 Pham Van Dong"
           addressTwo="Phuong Linh Trung, Tp. Thu Duc"
+          addressThree="Tp. Ho Chi Minh"
           navigation={navigation}
         />
         <Address
           name="Trần Thanh Hiền"
-          addressOne="Nhà tình thương"
-          addressTwo="Quan 3, Tp. Ho Chi Minh"
+          addressOne="Tô Hiến Thành"
+          addressTwo="Phuong 15, Quan 10"
+          addressThree="Tp. Ho Chi Minh"
           navigation={navigation}
         />
       </ScrollView>
@@ -64,6 +68,7 @@ const Address = (props) => {
       </View>
       <Text>{props.addressOne}</Text>
       <Text>{props.addressTwo}</Text>
+      <Text>{props.addressThree}</Text>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <CheckBox />
         <Text>Use as default shipping address</Text>

@@ -6,17 +6,39 @@ import {
   Image,
   TextInput,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
+import { useSelector, useDispatch } from "react-redux";
+import provinceSlice from "../redux/provinceSlice";
 
 export default function AddingAddressScreen({ navigation }) {
   const [openProvince, setOpenProvince] = useState(false);
   const [openDistrict, setOpenDistrict] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    { label: "Apple", value: "apple" },
-    { label: "Banana", value: "banana" },
-  ]);
+  const [openWard, setOpenWard] = useState(false);
+  const [valueProvince, setValueProvince] = useState(null);
+  const [itemsProvince, setItemsProvince] = useState([]);
+  const [valueDistrict, setValueDistrict] = useState(null);
+  const [itemsDistrict, setItemsDistrict] = useState([]);
+  const [valueWard, setValueWard] = useState(null);
+  const [itemsWard, setItemsWard] = useState([]);
+
+  //Set location
+  const dispatch = useDispatch();
+  const provinceList = useSelector((state) => state.province.provinceList);
+
+  const districtList = useSelector((state) => state.province.districtList);
+
+  useEffect(() => {
+    for (let i = 0; i < provinceList.length; i++) {
+      setItemsProvince((itemsProvince) => [
+        ...itemsProvince,
+        { label: provinceList[i], value: provinceList[i] },
+      ]);
+    }
+  }, []);
+  const handleSave = () => {
+    console.log(valueProvince);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -31,7 +53,7 @@ export default function AddingAddressScreen({ navigation }) {
             fontWeight: "bold",
           }}
         >
-          Shipping Addresses
+          New Address
         </Text>
       </View>
       <View style={{ marginTop: 50, flex: 1 }}>
@@ -47,23 +69,38 @@ export default function AddingAddressScreen({ navigation }) {
         <DropDownPicker
           style={[styles.picker, { zIndex: 2 }]}
           open={openProvince}
-          value={value}
-          items={items}
+          placeholder="Select your province"
+          placeholderStyle={{ color: "#bababa" }}
+          value={valueProvince}
+          items={itemsProvince}
           setOpen={setOpenProvince}
-          setValue={setValue}
-          setItems={setItems}
+          setValue={setValueProvince}
+          setItems={setItemsProvince}
         />
         <DropDownPicker
           style={styles.picker}
           open={openDistrict}
-          value={value}
-          items={items}
+          placeholder="Select your district"
+          placeholderStyle={{ color: "#bababa" }}
+          value={valueDistrict}
+          items={itemsDistrict}
           setOpen={setOpenDistrict}
-          setValue={setValue}
-          setItems={setItems}
+          setValue={setValueDistrict}
+          setItems={setItemsDistrict}
+        />
+        <DropDownPicker
+          style={styles.picker}
+          open={openWard}
+          placeholder="Select your ward"
+          placeholderStyle={{ color: "#bababa" }}
+          value={valueWard}
+          items={itemsWard}
+          setOpen={setOpenWard}
+          setValue={setValueWard}
+          setItems={setItemsWard}
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.pop()}>
+      <TouchableOpacity style={styles.button} onPress={() => handleSave()}>
         <Text
           style={{
             alignSelf: "center",
@@ -71,7 +108,7 @@ export default function AddingAddressScreen({ navigation }) {
             fontSize: 14,
           }}
         >
-          SAVE
+          Save
         </Text>
       </TouchableOpacity>
     </View>
@@ -110,6 +147,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 5,
     zIndex: 1,
+    borderColor: "#bababa",
   },
   button: {
     padding: 10,
