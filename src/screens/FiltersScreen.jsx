@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from "rea
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import { IconButton } from "react-native-paper";
 
-import BottomButtonsModal from "../src/components/BottomModals/BottomButtonsModal"
+import BottomButtonsModal from "../components/BottomModals/BottomButtonsModal"
 
 import ArrowBackImg from "../assets/arrow.png"
 

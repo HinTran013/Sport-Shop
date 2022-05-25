@@ -8,9 +8,9 @@ import {
   ScrollView,
 } from "react-native";
 
-import ProductTag from "../src/components/ProductTag/ProductTag";
-import HorizontalProduct from "../src/components/Horizontal Product/HorizontalProduct";
-import ProductItem from "../src/components/Product Item/ProductItem";
+import ProductTag from "../components/ProductTag/ProductTag";
+import HorizontalProduct from "../components/Horizontal Product/HorizontalProduct";
+import ProductItem from "../components/Product Item/ProductItem";
 
 import FilterImg from "../assets/filter.png";
 import UpdownImg from "../assets/updown.png";
@@ -18,10 +18,10 @@ import ListImg from "../assets/list.png";
 import GridImg from "../assets/grid.png";
 import SearchImg from "../assets/search.png";
 //import FiltersScreen from "./FiltersScreen";
-import BottomSortModal from "../src/components/BottomModals/BottomSortModal";
+import BottomSortModal from "../components/BottomModals/BottomSortModal";
 
 //Get the getProduct APIs from the Utils
-import { getAllProducts } from "../src/utils/Product Utils/product";
+import { getAllProducts } from "../utils/Product Utils/product";
 
 const dummyData = [
   "All",

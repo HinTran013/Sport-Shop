@@ -6,9 +6,10 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export default function MyOrdersScreen({ navigation }) {
+  const [status, setStatus] = useState("Delivery");
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.pop()}>
@@ -22,48 +23,94 @@ export default function MyOrdersScreen({ navigation }) {
           marginBottom: 10,
         }}
       >
-        <CustomButton checked={true} name="Delivery" />
-        <CustomButton checked={false} name="Processing" />
-        <CustomButton checked={false} name="Cancelled" />
+        <CustomButton name="Delivery" setStatus={setStatus} status={status} />
+        <CustomButton name="Processing" setStatus={setStatus} status={status} />
+        <CustomButton name="Cancelled" setStatus={setStatus} status={status} />
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Order
-          idNumber="123456"
-          date="10-03-2022"
-          trackingNumber="IW1231151615"
-          quantity={3}
-          price="123$"
-          status="Delivered"
-          color="green"
-        />
-        <Order
-          idNumber="123456"
-          date="10-03-2022"
-          trackingNumber="IW1231151615"
-          quantity={3}
-          price="123$"
-          status="Cancelled"
-          color="red"
-        />
-        <Order
-          idNumber="123456"
-          date="10-03-2022"
-          trackingNumber="IW1231151615"
-          quantity={3}
-          price="123$"
-          status="Delivered"
-          color="green"
-        />
-        <Order
-          idNumber="123456"
-          date="10-03-2022"
-          trackingNumber="IW1231151615"
-          quantity={3}
-          price="123$"
-          status="Delivered"
-          color="green"
-        />
-      </ScrollView>
+      {status == "Delivery" ? (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Order
+            idNumber="123456"
+            date="10-03-2022"
+            trackingNumber="IW1231151615"
+            quantity={3}
+            price="123$"
+            status="Delivered"
+            color="green"
+          />
+          <Order
+            idNumber="123456"
+            date="10-03-2022"
+            trackingNumber="IW1231151615"
+            quantity={3}
+            price="123$"
+            status="Delivered"
+            color="green"
+          />
+          <Order
+            idNumber="123456"
+            date="10-03-2022"
+            trackingNumber="IW1231151615"
+            quantity={3}
+            price="123$"
+            status="Delivered"
+            color="green"
+          />
+        </ScrollView>
+      ) : null}
+      {status == "Processing" ? (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Order
+            idNumber="123456"
+            date="10-03-2022"
+            trackingNumber="IW1231151615"
+            quantity={3}
+            price="123$"
+            status="Processing"
+            color="orange"
+          />
+          <Order
+            idNumber="123456"
+            date="10-03-2022"
+            trackingNumber="IW1231151615"
+            quantity={3}
+            price="123$"
+            status="Processing"
+            color="orange"
+          />
+          <Order
+            idNumber="123456"
+            date="10-03-2022"
+            trackingNumber="IW1231151615"
+            quantity={3}
+            price="123$"
+            status="Processing"
+            color="orange"
+          />
+        </ScrollView>
+      ) : null}
+      {status == "Cancelled" ? (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Order
+            idNumber="123456"
+            date="10-03-2022"
+            trackingNumber="IW1231151615"
+            quantity={3}
+            price="123$"
+            status="Cancelled"
+            color="red"
+          />
+          <Order
+            idNumber="123456"
+            date="10-03-2022"
+            trackingNumber="IW1231151615"
+            quantity={3}
+            price="123$"
+            status="Cancelled"
+            color="red"
+          />
+        </ScrollView>
+      ) : null}
     </View>
   );
 }
@@ -82,18 +129,23 @@ const styles = StyleSheet.create({
   },
 });
 
-const CustomButton = (props) => {
+const CustomButton = ({ name, setStatus, status }) => {
+  const [checked, setChecked] = useState(false);
+  useEffect(() => {
+    setChecked(name == status ? true : false);
+  }, [status]);
   return (
     <TouchableOpacity
       style={{
-        backgroundColor: props.checked ? "black" : "white",
+        backgroundColor: checked ? "black" : "white",
         paddingHorizontal: 25,
         paddingVertical: 6,
         borderRadius: 50,
       }}
+      onPress={() => setStatus(name)}
     >
-      <Text style={{ color: props.checked ? "white" : "black", fontSize: 14 }}>
-        {props.name}
+      <Text style={{ color: checked ? "white" : "black", fontSize: 14 }}>
+        {name}
       </Text>
     </TouchableOpacity>
   );
