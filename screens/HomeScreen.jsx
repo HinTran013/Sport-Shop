@@ -65,54 +65,6 @@ export default function HomeScreen({ navigation, route }) {
           marginTop={10}
         />
 
-<<<<<<< HEAD
-        <ScrollView
-          style={styles.productsContainer}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        >
-          {newProducts.length !== 0 &&
-            newProducts.map((newProduct, index) => {
-              return (
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate("ProductDetails", {
-                      images: newProduct.images,
-                      brand: newProduct.brand,
-                      name: newProduct.name,
-                      price: newProduct.price,
-                      rating: newProduct.totalRating,
-                      details: newProduct.detailedDesc,
-                      shortDescription: newProduct.shortDesc,
-                      shippingInfo: newProduct.shippingInfo,
-                      supportInfo: newProduct.supportInfo,
-                      category: newProduct.category,
-                      colors: newProduct.colors,
-                      sizes: newProduct.sizes,
-                      numberOfReviews: newProduct.numberOfReviews,
-                      totalRating: newProducts.totalRating,
-                      id: newProduct.id,
-                      isFavorite: newProduct.isFavorite,
-                    })
-                  }
-                  key={index}
-                >
-                  <ProductItem
-                    imgURL={newProduct.images[0]}
-                    marginRight={20}
-                    badgeType="sale"
-                    badgeContent="NEW"
-                    brand={newProduct.brand}
-                    price={newProduct.price}
-                    name={newProduct.name}
-                    numberOfReviews={newProduct.numberOfReviews}
-                    totalRating={newProduct.totalRating}
-                  />
-                </TouchableOpacity>
-              );
-            })}
-        </ScrollView>
-=======
         {newProducts ? (
           <ScrollView
             style={styles.productsContainer}
@@ -162,7 +114,6 @@ export default function HomeScreen({ navigation, route }) {
         ) : (
           <ProductLoader />
         )}
->>>>>>> main
 
         <ProductSectionHeader
           header="Best Seller"
@@ -170,54 +121,6 @@ export default function HomeScreen({ navigation, route }) {
           marginTop={40}
         />
 
-<<<<<<< HEAD
-        <ScrollView
-          style={styles.productsContainer}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        >
-          {hotProducts.length !== 0 &&
-            hotProducts.map((hotProducts, index) => {
-              return (
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate("ProductDetails", {
-                      images: hotProducts.images,
-                      brand: hotProducts.brand,
-                      name: hotProducts.name,
-                      price: hotProducts.price,
-                      rating: hotProducts.totalRating,
-                      details: hotProducts.detailedDesc,
-                      shortDescription: hotProducts.shortDesc,
-                      shippingInfo: hotProducts.shippingInfo,
-                      supportInfo: hotProducts.supportInfo,
-                      category: hotProducts.category,
-                      colors: hotProducts.colors,
-                      sizes: hotProducts.sizes,
-                      numberOfReviews: hotProducts.numberOfReviews,
-                      totalRating: hotProducts.totalRating,
-                      id: hotProducts.id,
-                      isFavorite: hotProducts.isFavorite,
-                    })
-                  }
-                  key={index}
-                >
-                  <ProductItem
-                    imgURL={hotProducts.images[0]}
-                    marginRight={20}
-                    badgeType="hot"
-                    badgeContent="HOT"
-                    brand={hotProducts.brand}
-                    price={hotProducts.price}
-                    name={hotProducts.name}
-                    numberOfReviews={hotProducts.numberOfReviews}
-                    totalRating={hotProducts.totalRating}
-                  />
-                </TouchableOpacity>
-              );
-            })}
-        </ScrollView>
-=======
         {hotProducts ? (
           <ScrollView
             style={styles.productsContainer}
@@ -267,7 +170,6 @@ export default function HomeScreen({ navigation, route }) {
         ) : (
           <ProductLoader />
         )}
->>>>>>> main
 
         <ProductSectionHeader
           header="Sale"
@@ -275,54 +177,6 @@ export default function HomeScreen({ navigation, route }) {
           marginTop={40}
         />
 
-<<<<<<< HEAD
-        <ScrollView
-          style={styles.productsContainer}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        >
-          {saleProducts.length !== 0 &&
-            saleProducts.map((saleProducts, index) => {
-              return (
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate("ProductDetails", {
-                      images: saleProducts.images,
-                      brand: saleProducts.brand,
-                      name: saleProducts.name,
-                      price: saleProducts.price,
-                      rating: saleProducts.totalRating,
-                      details: saleProducts.detailedDesc,
-                      shortDescription: saleProducts.shortDesc,
-                      shippingInfo: saleProducts.shippingInfo,
-                      supportInfo: saleProducts.supportInfo,
-                      category: saleProducts.category,
-                      colors: saleProducts.colors,
-                      sizes: saleProducts.sizes,
-                      numberOfReviews: saleProducts.numberOfReviews,
-                      totalRating: saleProducts.totalRating,
-                      id: saleProducts.id,
-                      isFavorite: saleProducts.isFavorite,
-                    })
-                  }
-                  key={index}
-                >
-                  <ProductItem
-                    imgURL={saleProducts.images[0]}
-                    marginRight={20}
-                    badgeType="hot"
-                    badgeContent="SALE"
-                    brand={saleProducts.brand}
-                    price={saleProducts.price}
-                    name={saleProducts.name}
-                    numberOfReviews={saleProducts.numberOfReviews}
-                    totalRating={saleProducts.totalRating}
-                  />
-                </TouchableOpacity>
-              );
-            })}
-        </ScrollView>
-=======
         {saleProducts ? (
           <ScrollView
             style={styles.productsContainer}
@@ -372,7 +226,6 @@ export default function HomeScreen({ navigation, route }) {
         ) : (
           <ProductLoader />
         )}
->>>>>>> main
       </View>
       <View style={{ paddingBottom: 75 }}></View>
     </ScrollView>
