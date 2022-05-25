@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { BottomSheet } from "react-native-elements";
 
-const sortItems = [
+export const sortItems = [
     {
         id: 0,
         title: "Popular",
@@ -10,45 +10,32 @@ const sortItems = [
     },
     {
         id: 1,
-        title: "Newest",
+        title: "Star Rating: Lowest to Highest",
        
     },
     {
         id: 2,
-        title: "Customer review",
+        title: "Star Rating: Highest to Lowest",
         
     },
     {
         id: 3,
-        title: "Price: lowest to high",
+        title: "Price: Lowest to Highest",
         
     },
     {
         id: 4,
-        title: "Price: highest to low",
+        title: "Price: Highest to Lowest",
        
     },
 ]
 
-// const SortItem = ({ title, selected, pressed }) => {
-    
-//     const [isSelected, setIsSelected] = useState(selected)
-
-//     return (
-//         <TouchableOpacity
-//             style={itemStyle(isSelected).item}
-//             onPress={pressed}>   
-//             <Text style={titleStyle(isSelected).title}>{title}</Text>
-//         </TouchableOpacity>
-//     )
-// }
-
-const BottomSortModal = ({ visible, toggleModal }) => {
+const BottomSortModal = ({ visible, toggleModal, selectedSort, setSelectedSort }) => {
 
 
-    const [selected, setSelected] = useState(0);
+    let selected = selectedSort;
     const handleSelected = (index) => {
-        setSelected(index)
+        setSelectedSort(index)
         toggleModal()
     }
     
