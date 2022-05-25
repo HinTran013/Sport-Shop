@@ -17,8 +17,8 @@ const ProductTag = ({selected = false, name, onPress}) => {
 const styles = (selected) => StyleSheet.create({
     divBackground: {
         backgroundColor: selected ? "white" : "black",
-        borderWidth: selected ? 1 : 0,
-        borderColor: selected ? "#919191" : "transparent",
+        borderWidth: 1,
+        borderColor: selected ? "#919191" : "white",
         borderRadius: 90,
         paddingVertical: 7,
         paddingHorizontal: 20,

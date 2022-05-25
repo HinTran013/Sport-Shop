@@ -4,11 +4,13 @@ import { persistStore, persistReducer } from "redux-persist";
 import userSlice from "./userSlice";
 import cartSlice from "./cartSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import filterSlice from "./filterSlice";
 
 //root reducer
 const rootReducer = combineReducers({
   user: userSlice,
   cart: cartSlice,
+  filter: filterSlice
 });
 
 const persistConfig = {

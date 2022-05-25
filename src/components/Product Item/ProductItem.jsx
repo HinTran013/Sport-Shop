@@ -19,6 +19,8 @@ const ProductItem = ({
   brand = "",
   price = -1,
   numberOfReviews = 0,
+  totalRating = 0,
+  marginBottom = 0
 }) => {
   // variables of favorite icon
   const [favIcon, setFavIcon] = useState({
@@ -42,7 +44,7 @@ const ProductItem = ({
   };
 
   return (
-    <View style={styles(marginRight).container}>
+    <View style={styles(marginRight, marginBottom).container}>
       {/* Image section: also contains fav icon and product badge */}
       <View>
         <Image
@@ -70,7 +72,7 @@ const ProductItem = ({
               marginRight: 5,
             }}
             maxStars={5}
-            rating={4.5}
+            rating={totalRating}
             starSize={15}
             fullStarColor="#FFBA49"
             halfStarColor="#FFBA49"
@@ -98,11 +100,12 @@ const ProductItem = ({
   );
 };
 
-const styles = (marginRight) =>
+const styles = (marginRight, marginBottom = 0) =>
   StyleSheet.create({
     container: {
       width: 150,
       marginRight: marginRight,
+      marginBottom: marginBottom
     },
     img: {
       width: "100%",
@@ -141,10 +144,12 @@ const styles = (marginRight) =>
     productBrand: {
       color: "#9B9B9B",
       fontSize: 12,
+      textTransform: "capitalize"
     },
     productName: {
       fontSize: 16,
       fontWeight: "bold",
+      textTransform: "capitalize"
     },
     productPrice: {
       fontSize: 16,

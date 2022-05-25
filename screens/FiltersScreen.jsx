@@ -1,20 +1,30 @@
-import React, {useState} from "react";
+import React, { useState} from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from "react-native";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import { IconButton } from "react-native-paper";
-
 import BottomButtonsModal from "../src/components/BottomModals/BottomButtonsModal"
 
+import { useSelector, useDispatch } from "react-redux";
+
 import ArrowBackImg from "../assets/arrow.png"
+import {
+    resetAllFilter,
+    setAllFilter,
+    setCategoryFilter,
+    setColorFilter,
+    setPriceFilter,
+    setSizesFilter
+} from "../src/redux/filterSlice";
 
-const arrColors = ["#020202", "#f0f0f0", "#B82222", "#BEA9A9", "#E2BB8D", "#151867"]
-const arrSizes = ["S", "XS", "M", "L", "XL", "XXL"];
-const arrCategories = ["All", "Women", "Men", " Boys", "Girls"]
+
+const arrColors = ["white", "black", "red", "gray", "yellow", "blue"]
+const arrSizes = ["All", "S", "XS", "M", "L", "XL", "XXL"];
+const arrCategories = ["All", "women", "men", " boys", "girls"]
 
 
-const ColorFilterItem = ({ backgroundColor }) => {
-    const [isColorSelected, setIsColorSelected] = useState(false);
-    const handlerColorSelected = () => setIsColorSelected(!isColorSelected)
+const ColorFilterItem = ({ backgroundColor, filter, setFilter }) => {
+    let isColorSelected = backgroundColor === filter ? true : false;
+    const handlerColorSelected = () => setFilter(setColorFilter(backgroundColor))
 
     return (
         <TouchableOpacity
@@ -26,9 +36,9 @@ const ColorFilterItem = ({ backgroundColor }) => {
     )
 }
 
-const SizeFilterItem = ({ size }) => {
-    const [isSizeSelected, setIsSizeSelected] = useState(false)
-    const handlerSizeSelected = () => setIsSizeSelected(!isSizeSelected)
+const SizeFilterItem = ({ size, filter, setFilter }) => {
+    let isSizeSelected = size === filter ? true : false
+    const handlerSizeSelected = () => setFilter(setSizesFilter(size)) 
 
     return (
         <TouchableOpacity
@@ -39,15 +49,15 @@ const SizeFilterItem = ({ size }) => {
     )
 }
 
-const CategoryFilterItem = ({ category }) => {
-    const [isCategorySelected, setIsCategorySelected] = useState(false)
-    const handlerCategorySelected = () => setIsCategorySelected(!isCategorySelected)
+const CategoryFilterItem = ({ category, filter, setFilter }) => {
+    let isCategorySelected = category === filter ? true : false
+    const handlerCategorySelected = () => setFilter(setCategoryFilter(category))
 
     return (
         <TouchableOpacity
             style={rectStyle(isCategorySelected).rect}
             onPress={handlerCategorySelected}>
-            <Text style={{ color: isCategorySelected ? "white" : "black" }}>{category}</Text>
+            <Text style={{ color: isCategorySelected ? "white" : "black", textTransform: "capitalize" }}>{category}</Text>
         </TouchableOpacity>
     )
 }
@@ -55,11 +65,21 @@ const CategoryFilterItem = ({ category }) => {
 
 // This is actually a filter modal
 const FiltersScreen = ({ visible, navigation }) => {
+    const filters = useSelector((state) => state.filter)
+    const dispatch = useDispatch()
 
     //const [isModalVisible, setIsModalVisible] = useState(visible)
     //const toggleFilterModal = () => setIsModalVisible(!isModalVisible)
 
-    const goBackFunc = () => navigation.goBack();
+    const goBackFunc = () => {
+        dispatch(resetAllFilter())
+        navigation.goBack();
+    }
+
+    const applyFilterFunc = () => {
+        navigation.navigate("Shop Stack", { ...filters })
+        //navigation.goBack()
+    }
 
     return (
         <Modal
@@ -85,13 +105,14 @@ const FiltersScreen = ({ visible, navigation }) => {
                         <Text style={styles.categoryText}>Price range</Text>
                         <View style={styles.whiteBox}>
                             <View style={styles.labelView}>
-                                <Text>$0</Text>
-                                <Text>$5000</Text>
+                                <Text>${filters.price[0]}</Text>
+                                <Text>${filters.price[1]}</Text>
                             </View>
                             <MultiSlider
-                                values={[0, 5000]}
+                                values={filters.price}
+                                onValuesChangeFinish={(values) => dispatch(setPriceFilter(values))}
                                 min={0}
-                                max={5000}
+                                max={500}
                                 sliderLength={350}
                                 containerStyle={sliderStyle.container}
                                 trackStyle={sliderStyle.track}
@@ -108,6 +129,8 @@ const FiltersScreen = ({ visible, navigation }) => {
                             style={[styles.whiteBox, styles.whiteBoxFlexStart]}>
                             {arrColors.map((item, index) =>
                                 <ColorFilterItem
+                                    filter={filters.color}
+                                    setFilter={dispatch}
                                     backgroundColor={item}
                                     key={index}
                                 />)
@@ -118,21 +141,36 @@ const FiltersScreen = ({ visible, navigation }) => {
                     <View style={styles.categoryView}>
                         <Text style={styles.categoryText}>Sizes</Text>
                         <View style={[styles.whiteBox, styles.whiteBoxFlexStart]}>
-                            {arrSizes.map((item, index) => <SizeFilterItem size={item} key={index} />)}
+                            {arrSizes.map((item, index) =>
+                                <SizeFilterItem
+                                    filter={filters.sizes}
+                                    setFilter={dispatch}
+                                    size={item}
+                                    key={index}
+                                />)}
                         </View>
                     </View>
 
                     <View style={styles.categoryView}>
                         <Text style={styles.categoryText}>Category</Text>
                         <View style={[styles.whiteBox, styles.whiteBoxFlexStart]}>
-                            {arrCategories.map((item, index) => <CategoryFilterItem category={item} key={index} />)}
+                            {arrCategories.map((item, index) =>
+                                <CategoryFilterItem
+                                    filter={filters.category}
+                                    setFilter={dispatch}
+                                    category={item}
+                                    key={index}
+                                />)}
                         </View>
                     </View>
                 </View>
 
             </ScrollView>
 
-            <BottomButtonsModal closeModalFunc={goBackFunc}/>
+            <BottomButtonsModal
+                closeModalFunc={goBackFunc}
+                applyFilter={applyFilterFunc}
+            />
         </Modal>
     )
 }
