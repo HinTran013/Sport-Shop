@@ -27,7 +27,7 @@ import { filterByAll, orderByPrice, orderByRating } from "../src/utils/Product U
 import { setKeywordFilter } from "../src/redux/filterSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { tags } from "./CategoriesScreen";
-import { Button } from "react-native-paper";
+
 //import { resetKeywordFilter, setAllFilter } from "../src/redux/filterSlice";
 
 const tagsData = [
