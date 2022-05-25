@@ -52,12 +52,12 @@ const ProductItem = ({
           source={{ uri: imgURL }}
           resizeMode="cover"
         />
-        <IconButton
+        {/* <IconButton
           icon={favIcon.name}
           color={favIcon.color}
           style={styles().favIcon}
           onPress={handleOnPressFavIcon}
-        />
+        /> */}
         <View style={styles().badgeContainer}>
           <ProductBadge type={badgeType} content={badgeContent} />
         </View>
