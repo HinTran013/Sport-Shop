@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from "rea
 import { SearchBar } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
 
-import { setKeywordFilter } from "../src/redux/filterSlice";
+import { setKeywordFilter } from "../redux/filterSlice";
 
 export const tags = [
     "Sneakers",

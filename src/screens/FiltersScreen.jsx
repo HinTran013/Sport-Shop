@@ -22,7 +22,7 @@ import {
   setColorFilter,
   setPriceFilter,
   setSizesFilter,
-} from "../src/redux/filterSlice";
+} from "../redux/filterSlice";
 
 const arrColors = ["white", "black", "red", "gray", "yellow", "blue"];
 const arrSizes = ["All", "S", "XS", "M", "L", "XL", "XXL"];
