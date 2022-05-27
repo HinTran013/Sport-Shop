@@ -30,7 +30,7 @@ import {
   orderByRating,
 } from "../utils/Product Utils/FilterQueries";
 
-import { setKeywordFilter } from "../src/redux/filterSlice";
+import { setKeywordFilter } from "../redux/filterSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { tags } from "./CategoriesScreen";
 
