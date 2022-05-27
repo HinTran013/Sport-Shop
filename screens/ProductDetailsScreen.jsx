@@ -108,6 +108,8 @@ const ProductDetailsScreen = ({ route, navigation }) => {
     dispatch(addAProductToCart({ id: id }));
   }
 
+  console.log("id: ", id);
+
   return (
     <View style={styles().container}>
       <SimpleScreenHeader
@@ -349,7 +351,7 @@ const ProductDetailsScreen = ({ route, navigation }) => {
             header="Select color"
             gridContent={colors}
             closeModalFunc={closeColorModal}
-            setData={handleProductColor}
+            setDataFunc={handleProductColor}
           />
 
           <View style={{ paddingBottom: 70 }}></View>
