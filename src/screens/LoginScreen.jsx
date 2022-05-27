@@ -9,11 +9,11 @@ import {
   Alert,
 } from "react-native";
 
-import { firebaseConfig } from "../src/firebase-config";
+import { firebaseConfig } from "../firebase-config";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
-import { setUserData } from "../src/redux/userSlice";
+import { setUserData } from "../redux/userSlice";
 import { getDatabase, ref, onValue } from "firebase/database";
 
 export default function LoginScreen({ navigation }) {
@@ -25,19 +25,35 @@ export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const db = getDatabase();
-        const starCountRef = ref(db, "users/" + userCredential.user.uid);
-        onValue(starCountRef, (snapshot) => {
-          const data = snapshot.val();
-          dispatch(setUserData(data));
+    if (isValidForm()) {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const db = getDatabase();
+          const starCountRef = ref(db, "users/" + userCredential.user.uid);
+          onValue(starCountRef, (snapshot) => {
+            const data = snapshot.val();
+            dispatch(setUserData(data));
+          });
+          navigation.replace("Main");
+        })
+        .catch((error) => {
+          if (error.code === "auth/user-not-found") {
+            Alert.alert("Tài khoản này không tồn tại!");
+          } else if (error.code === "auth/wrong-password") {
+            Alert.alert("Mật khẩu chưa chính xác!");
+          } else Alert.alert(error.message);
         });
-        navigation.replace("Main");
-      })
-      .catch((error) => {
-        Alert.alert(error.message);
-      });
+    }
+  };
+  const isValidForm = () => {
+    if (email == "") {
+      Alert.alert("Vui lòng nhập email!");
+      return false;
+    } else if (password == "") {
+      Alert.alert("Vui lòng nhập mật khẩu!");
+      return false;
+    }
+    return true;
   };
 
   return (

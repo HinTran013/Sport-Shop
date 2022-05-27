@@ -8,9 +8,9 @@ import {
   ScrollView,
 } from "react-native";
 
-import ProductTag from "../src/components/ProductTag/ProductTag";
-import HorizontalProduct from "../src/components/Horizontal Product/HorizontalProduct";
-import ProductItem from "../src/components/Product Item/ProductItem";
+import ProductTag from "../components/ProductTag/ProductTag";
+import HorizontalProduct from "../components/Horizontal Product/HorizontalProduct";
+import ProductItem from "../components/Product Item/ProductItem";
 
 import FilterImg from "../assets/filter.png";
 import UpdownImg from "../assets/updown.png";
@@ -18,33 +18,35 @@ import ListImg from "../assets/list.png";
 import GridImg from "../assets/grid.png";
 import SearchImg from "../assets/search.png";
 //import FiltersScreen from "./FiltersScreen";
-import BottomSortModal, { sortItems } from "../src/components/BottomModals/BottomSortModal";
+import BottomSortModal, {
+  sortItems,
+} from "../components/BottomModals/BottomSortModal";
 
 //Get the getProduct APIs from the Utils
-import { getAllProducts } from "../src/utils/Product Utils/product";
-import { filterByAll, orderByPrice, orderByRating } from "../src/utils/Product Utils/FilterQueries";
+import { getAllProducts } from "../utils/Product Utils/product";
+import {
+  filterByAll,
+  orderByPrice,
+  orderByRating,
+} from "../utils/Product Utils/FilterQueries";
 
-import { setKeywordFilter } from "../src/redux/filterSlice";
+import { setKeywordFilter } from "../redux/filterSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { tags } from "./CategoriesScreen";
 
 //import { resetKeywordFilter, setAllFilter } from "../src/redux/filterSlice";
 
-const tagsData = [
-  "All",
-  ...tags
-];
+const tagsData = ["All", ...tags];
 
 export default function ShopScreen({ navigation, route }) {
-
-  const filters = useSelector((state) => state.filter)
-  const dispatch = useDispatch()
+  const filters = useSelector((state) => state.filter);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (route.params) {
-      filterByAll(handleSetAllProducts, filters)
+      filterByAll(handleSetAllProducts, filters);
     }
-  }, [route.params, filters])
+  }, [route.params, filters]);
 
   //create an array of products with useState
   const [allProducts, setAllProducts] = useState([]);
@@ -74,41 +76,38 @@ export default function ShopScreen({ navigation, route }) {
   //this is for the SORT modal
   const [isSortVisible, setIsSortVisible] = useState(false);
   const toggleSortModal = () => setIsSortVisible(!isSortVisible);
-  const [selectedSort, setSelectedSort] = useState(0)
+  const [selectedSort, setSelectedSort] = useState(0);
 
   useEffect(() => {
     switch (selectedSort) {
       case 0:
-        getAllProducts(handleSetAllProducts)
-        break
+        getAllProducts(handleSetAllProducts);
+        break;
       case 1:
-        orderByRating(handleSetAllProducts, "increase")
-        break
+        orderByRating(handleSetAllProducts, "increase");
+        break;
       case 2:
-        orderByRating(handleSetAllProducts, "decrease")
-        break
+        orderByRating(handleSetAllProducts, "decrease");
+        break;
       case 3:
-        orderByPrice(handleSetAllProducts, "increase")
-        break
+        orderByPrice(handleSetAllProducts, "increase");
+        break;
       case 4:
-        orderByPrice(handleSetAllProducts, "decrease")
-        break
+        orderByPrice(handleSetAllProducts, "decrease");
+        break;
     }
-  }, [selectedSort])
-
-
+  }, [selectedSort]);
 
   const [tags, setTags] = useState(0);
   const handleTagSelect = (num) => {
-    setTags(num)
-    let word = tagsData[num] == "All" ? "" : tagsData[num]
-    dispatch(setKeywordFilter(word))
+    setTags(num);
+    let word = tagsData[num] == "All" ? "" : tagsData[num];
+    dispatch(setKeywordFilter(word));
   };
 
   useEffect(() => {
-    filterByAll(handleSetAllProducts, filters)
-  }, [tags])
-
+    filterByAll(handleSetAllProducts, filters);
+  }, [tags]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -168,7 +167,9 @@ export default function ShopScreen({ navigation, route }) {
           </TouchableOpacity>
           <TouchableOpacity style={styles.divFilter} onPress={toggleSortModal}>
             <Image source={UpdownImg} style={styles.imageSize} />
-            <Text style={styles.viewSearchText}>{sortItems[selectedSort].title}</Text>
+            <Text style={styles.viewSearchText}>
+              {sortItems[selectedSort].title}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.divFilter}
@@ -221,7 +222,7 @@ export default function ShopScreen({ navigation, route }) {
                   name={product.name}
                   numberOfReviews={product.numberOfReviews}
                   totalRating={product.totalRating}
-                  marginBottom ={20}
+                  marginBottom={20}
                 />
               ) : (
                 <HorizontalProduct

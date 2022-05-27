@@ -12,15 +12,16 @@ import { useDispatch } from "react-redux";
 import { setUserData } from "../../redux/userSlice";
 
 //screens
-import HomeScreen from "../../../screens/HomeScreen";
-import ShopScreen from "../../../screens/ShopScreen";
-import CartScreen from "../../../screens/CartScreen";
-import FavoritesScreen from "../../../screens/FavoritesScreen";
-import ProfileScreen from "../../../screens/ProfileScreen";
-import CategoriesScreen from "../../../screens/CategoriesScreen";
-import FiltersScreen from "../../../screens/FiltersScreen";
-import ProductDetailsScreen from "../../../screens/ProductDetailsScreen";
-import CustomerRatingScreen from "../../../screens/CustomerRatingScreen";
+import HomeScreen from "../../screens/HomeScreen";
+import ShopScreen from "../../screens/ShopScreen";
+import CartScreen from "../../screens/CartScreen";
+import FavoritesScreen from "../../screens/FavoritesScreen";
+import ProfileScreen from "../../screens/ProfileScreen";
+import CategoriesScreen from "../../screens/CategoriesScreen";
+import FiltersScreen from "../../screens/FiltersScreen";
+import ProductDetailsScreen from "../../screens/ProductDetailsScreen";
+import CustomerRatingScreen from "../../screens/CustomerRatingScreen";
+import loadAddresses from "../../utils/loadAddresses";
 //screen names
 const homeName = "Home";
 const shopName = "Shop";
@@ -90,6 +91,7 @@ export default function MainContainer() {
   const auth = getAuth(app);
   const currentUser = auth.currentUser;
   const dispatch = useDispatch();
+  if (currentUser != null) loadAddresses();
 
   useEffect(() => {
     if (currentUser != null) {

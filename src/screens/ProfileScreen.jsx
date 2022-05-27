@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { firebaseConfig } from "../src/firebase-config";
+import { firebaseConfig } from "../firebase-config";
 import { initializeApp } from "firebase/app";
 import { getAuth, signOut } from "firebase/auth";
 import { useSelector } from "react-redux";
+import loadAddresses from "../utils/loadAddresses";
 
 export default function ProfileScreen({ navigation }) {
   const app = initializeApp(firebaseConfig);
@@ -159,6 +160,7 @@ const PersonalInformation = (props) => {
     </View>
   );
 };
+
 const Item = (props) => {
   return (
     <TouchableOpacity onPress={() => props.navigation.navigate(props.screen)}>

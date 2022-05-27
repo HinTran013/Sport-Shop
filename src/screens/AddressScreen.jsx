@@ -7,9 +7,12 @@ import {
   ScrollView,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export default function AddressScreen({ navigation }) {
+  const list = useSelector((state) => state.address.listAddresses);
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -27,23 +30,31 @@ export default function AddressScreen({ navigation }) {
           Shipping Addresses
         </Text>
       </View>
-      <ScrollView style={{ marginTop: 50, flex: 1 }}>
-        <Address
-          name="Le Khai Hoan"
-          addressOne="123 Pham Van Dong"
-          addressTwo="Phuong Linh Trung, Tp. Thu Duc"
-          navigation={navigation}
-        />
-        <Address
-          name="Trần Thanh Hiền"
-          addressOne="Nhà tình thương"
-          addressTwo="Quan 3, Tp. Ho Chi Minh"
-          navigation={navigation}
-        />
-      </ScrollView>
+      {list.length != 0 ? (
+        <ScrollView style={{ marginTop: 50, flex: 1 }}>
+          {list.map((element) => {
+            return (
+              <Address
+                name={element.name}
+                addressOne={element.address}
+                addressTwo={`${element.ward}, ${element.district}`}
+                addressThree={element.province}
+                navigation={navigation}
+              />
+            );
+          })}
+          
+        </ScrollView>
+      ) : (
+        <View
+          style={{ alignItems: "center", justifyContent: "center", flex: 1 }}
+        >
+          <Text>You don't have any addresses. Please add new one!</Text>
+        </View>
+      )}
       <TouchableOpacity
         style={styles.buttonAdd}
-        onPress={() => navigation.navigate("AddAddress")}
+        onPress={() => navigation.replace("AddAddress")}
       >
         <Text style={{ fontSize: 32, color: "white" }}>+</Text>
       </TouchableOpacity>
@@ -56,14 +67,13 @@ const Address = (props) => {
     <View style={styles.addressContainer}>
       <View style={{ flexDirection: "row", marginBottom: 10 }}>
         <Text style={{ flex: 1, fontWeight: "bold" }}>{props.name}</Text>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate("AddAddress")}
-        >
+        <TouchableOpacity onPress={() => props.navigation.navigate("AddAddress")}>
           <Text style={{ color: "#DB3022" }}>Edit</Text>
         </TouchableOpacity>
       </View>
       <Text>{props.addressOne}</Text>
       <Text>{props.addressTwo}</Text>
+      <Text>{props.addressThree}</Text>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <CheckBox />
         <Text>Use as default shipping address</Text>

@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import SimpleScreenHeader from "../src/components/Simple Screen Header/SimpleScreenHeader";
-import ProductRating from "../src/components/Product Rating/ProductRating";
-import ReviewCard from "../src/components/Product Rating/ReviewCard";
+import SimpleScreenHeader from "../components/Simple Screen Header/SimpleScreenHeader";
+import ProductRating from "../components/Product Rating/ProductRating";
+import ReviewCard from "../components/Product Rating/ReviewCard";
 import { Button } from "react-native-elements";
 import { Icon } from "react-native-elements";
-import RatingBottomSheet from "../src/components/Product Rating/RatingBottomSheet";
-import { getProductInfo } from "../src/utils/Product Utils/product";
+import RatingBottomSheet from "../components/Product Rating/RatingBottomSheet";
+import { getProductInfo } from "../utils/Product Utils/product";
 import {
   getAllProductReviews,
   getProductNumberOfRatings,
   getProductTotalRating,
-} from "../src/utils/Product Utils/commentAndRating";
+} from "../utils/Product Utils/commentAndRating";
 
 const CustomerRatingScreen = ({ route, navigation }) => {
   const { id } = route.params;
