@@ -26,11 +26,12 @@ import BottomSortModal, {
 import { getAllProducts } from "../utils/Product Utils/product";
 import {
   filterByAll,
+  orderByPopular,
   orderByPrice,
   orderByRating,
 } from "../utils/Product Utils/FilterQueries";
 
-import { setKeywordFilter } from "../redux/filterSlice";
+import { setAllFilter, setKeywordFilter } from "../redux/filterSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { tags } from "./CategoriesScreen";
 
@@ -44,6 +45,7 @@ export default function ShopScreen({ navigation, route }) {
 
   useEffect(() => {
     if (route.params) {
+      //setTags(tagsData.findIndex((word) => route.params.keyword == word))
       filterByAll(handleSetAllProducts, filters);
     }
   }, [route.params, filters]);
@@ -81,19 +83,19 @@ export default function ShopScreen({ navigation, route }) {
   useEffect(() => {
     switch (selectedSort) {
       case 0:
-        getAllProducts(handleSetAllProducts);
+        orderByPopular(handleSetAllProducts, allProducts)
         break;
       case 1:
-        orderByRating(handleSetAllProducts, "increase");
+        orderByRating(handleSetAllProducts, "increase", allProducts);
         break;
       case 2:
-        orderByRating(handleSetAllProducts, "decrease");
+        orderByRating(handleSetAllProducts, "decrease", allProducts);
         break;
       case 3:
-        orderByPrice(handleSetAllProducts, "increase");
+        orderByPrice(handleSetAllProducts, "increase", allProducts);
         break;
       case 4:
-        orderByPrice(handleSetAllProducts, "decrease");
+        orderByPrice(handleSetAllProducts, "decrease", allProducts);
         break;
     }
   }, [selectedSort]);
@@ -101,13 +103,18 @@ export default function ShopScreen({ navigation, route }) {
   const [tags, setTags] = useState(0);
   const handleTagSelect = (num) => {
     setTags(num);
-    let word = tagsData[num] == "All" ? "" : tagsData[num];
+    let word = tagsData[num] === "All" ? "" : tagsData[num];
     dispatch(setKeywordFilter(word));
   };
 
   useEffect(() => {
+    setTags(tagsData.findIndex((word) => {
+      if (filters.keyword == "")
+        return true
+      return filters.keyword == word
+    }))
     filterByAll(handleSetAllProducts, filters);
-  }, [tags]);
+  }, [tags, filters]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -187,7 +194,7 @@ export default function ShopScreen({ navigation, route }) {
         style={flipView ? scrollStyle.view : {}}
         contentContainerStyle={flipView ? scrollStyle.content : {}}
       >
-        {allProducts.map((product, index) => {
+        {allProducts.length != 0 ? allProducts.map((product, index) => {
           return (
             <TouchableOpacity
               key={index}
@@ -238,7 +245,14 @@ export default function ShopScreen({ navigation, route }) {
               )}
             </TouchableOpacity>
           );
-        })}
+        })
+          :
+        <View style={nullStyle.view}>
+            <Text style={nullStyle.text}>There isn't product that matchs your requirement.</Text>
+            <Text>Please try again!</Text>  
+        </View>
+        
+        }
 
         <View style={{ paddingTop: 70 }}></View>
       </ScrollView>
@@ -253,6 +267,16 @@ export default function ShopScreen({ navigation, route }) {
     </View>
   );
 }
+
+const nullStyle = StyleSheet.create({
+  view: {
+    textAlign: "center",
+    textAlignVertical: "center"
+  }, 
+  text: {
+    fontWeight: "600"
+  }
+})
 
 const scrollStyle = StyleSheet.create({
   view: {
