@@ -106,6 +106,7 @@ export default function HomeScreen({ navigation, route }) {
                       name={newProduct.name}
                       numberOfReviews={newProduct.numberOfReviews}
                       id={newProduct.id}
+                      marginBottom={20}
                     />
                   </TouchableOpacity>
                 );
