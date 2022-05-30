@@ -5,7 +5,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Image,
 } from "react-native";
 import { SearchBar } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
@@ -70,7 +69,11 @@ const CategoriesScreen = ({ navigation }) => {
         <View style={styles.viewContainCategory}>
           <ScrollView>
             {tags.map((x) => (
-              <TouchableOpacity style={styles.viewCategory} key={x}>
+              <TouchableOpacity
+                style={styles.viewCategory}
+                key={x}
+                onPressIn={() => updateSearch(x)}
+                onPress={() => { navigation.navigate("Shop Stack")}}>
                 <View>
                   <Text style={styles.textCategory}>{x}</Text>
                 </View>

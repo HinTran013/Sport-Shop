@@ -48,55 +48,56 @@ const filterByAll = (setData, filter ) => {
     })
 }
 
-const orderByPrice = (setData, byOrder = "increase") => {
-    //weird bug on the orderByChild, so I just sort this array by myself
-    const queryOrder = query(ref(db, "data/products"))
-    onValue(queryOrder, (snapshot) => {
-        let data = snapshot.val()
-        
-        if(byOrder == "increase")
-            data.sort((a, b) => a.price - b.price)
-        else if (byOrder = "decrease")
-            data.sort((a, b) => b.price - a.price)
-        
-        //pop out a weird object in data
-        data.pop()
+const orderByPopular = (setData, data) => {
+    let listData = Object.values(data)
 
-        //callback to the setDataFuncion
-        setData(data)
-    })
-
-    // let listData = data;
-
-    // if(byOrder == "increase")
-    //     listData.sort((a, b) => a.price - b.price)
-    // else if (byOrder = "decrease")
-    //     listData.sort((a, b) => b.price - a.price)
-        
-    // return listData
+    listData.sort((a, b) => a.id - b.id)
+    
+    setData(listData)
 }
 
-const orderByRating = (setData, byOrder = "increase") => {
+const orderByPrice = (setData, byOrder = "increase", data) => {
     //weird bug on the orderByChild, so I just sort this array by myself
-    const queryOrder = query(ref(db, "data/products"))
-    onValue(queryOrder, (snapshot) => {
-        let data = snapshot.val()
+    // const queryOrder = query(ref(db, "data/products"))
+    // onValue(queryOrder, (snapshot) => {
+    //     let data = snapshot.val()
         
-        if(byOrder == "increase")
-            data.sort((a, b) => a.totalRating - b.totalRating)
-        else if (byOrder = "decrease")
-            data.sort((a, b) => b.totalRating - a.totalRating)
+    //     if(byOrder == "increase")
+    //         data.sort((a, b) => a.price - b.price)
+    //     else if (byOrder = "decrease")
+    //         data.sort((a, b) => b.price - a.price)
         
-        //pop out a weird object in data
-        data.pop()
+    //     //pop out a weird object in data
+    //     data.pop()
 
-        //callback to the setDataFuncion
-        setData(data)
-    })
+    //     //callback to the setDataFuncion
+    //     setData(data)
+    // })
+
+    let listData = Object.values(data)
+
+    if(byOrder == "increase")
+        listData.sort((a, b) => a.price - b.price)
+    else if (byOrder = "decrease")
+        listData.sort((a, b) => b.price - a.price)
+        
+    setData(listData)
+}
+
+const orderByRating = (setData, byOrder = "increase", data) => {
+    let listData = Object.values(data)
+
+    if(byOrder == "increase")
+        listData.sort((a, b) => a.totalRating - b.totalRating)
+    else if (byOrder = "decrease")
+        listData.sort((a, b) => b.totalRating - a.totalRating)
+        
+    setData(listData)
 }
 
 export {
     filterByAll,
+    orderByPopular,
     orderByPrice,
     orderByRating
 };
