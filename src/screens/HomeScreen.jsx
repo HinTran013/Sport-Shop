@@ -90,8 +90,8 @@ export default function HomeScreen({ navigation, route }) {
                         colors: newProduct.colors,
                         sizes: newProduct.sizes,
                         numberOfReviews: newProduct.numberOfReviews,
+                        totalRating: newProduct.totalRating,
                         id: newProduct.id,
-                        isFavorite: newProduct.isFavorite,
                       })
                     }
                     key={index}
@@ -107,6 +107,7 @@ export default function HomeScreen({ navigation, route }) {
                       numberOfReviews={newProduct.numberOfReviews}
                       id={newProduct.id}
                       marginBottom={20}
+                      totalRating={newProduct.totalRating}
                     />
                   </TouchableOpacity>
                 );
@@ -147,8 +148,8 @@ export default function HomeScreen({ navigation, route }) {
                         colors: hotProducts.colors,
                         sizes: hotProducts.sizes,
                         numberOfReviews: hotProducts.numberOfReviews,
+                        totalRating: hotProducts.totalRating,
                         id: hotProducts.id,
-                        isFavorite: hotProducts.isFavorite,
                       })
                     }
                     key={index}
@@ -163,6 +164,7 @@ export default function HomeScreen({ navigation, route }) {
                       name={hotProducts.name}
                       numberOfReviews={hotProducts.numberOfReviews}
                       id={hotProducts.id}
+                      totalRating={hotProducts.totalRating}
                     />
                   </TouchableOpacity>
                 );
@@ -203,8 +205,8 @@ export default function HomeScreen({ navigation, route }) {
                         colors: saleProducts.colors,
                         sizes: saleProducts.sizes,
                         numberOfReviews: saleProducts.numberOfReviews,
+                        totalRating: saleProducts.totalRating,
                         id: saleProducts.id,
-                        isFavorite: saleProducts.isFavorite,
                       })
                     }
                     key={index}
@@ -219,6 +221,7 @@ export default function HomeScreen({ navigation, route }) {
                       name={saleProducts.name}
                       numberOfReviews={saleProducts.numberOfReviews}
                       id={saleProducts.id}
+                      totalRating={saleProducts.totalRating}
                     />
                   </TouchableOpacity>
                 );
