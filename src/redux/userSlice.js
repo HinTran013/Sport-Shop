@@ -8,6 +8,9 @@ export const userSlice = createSlice({
     email: "",
     dob: "",
     password: "",
+    notiSales: false,
+    notiNew: false,
+    notiStatus: false,
   },
   reducers: {
     setUserData: (state, action) => {
@@ -16,6 +19,9 @@ export const userSlice = createSlice({
       state.email = action.payload.email;
       state.password = action.payload.password;
       state.dob = action.payload.dob;
+      state.notiNew = action.payload.notiNew;
+      state.notiSales = action.payload.notiSales;
+      state.notiStatus = action.payload.notiStatus;
     },
   },
 });

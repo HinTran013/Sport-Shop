@@ -8,13 +8,14 @@ import {
   Switch,
   Modal,
   Alert,
-  KeyboardAvoidingView,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { getAuth, updatePassword } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
 import { useSelector, useDispatch } from "react-redux";
 import md5 from "md5";
+import DateField from "react-native-datefield";
+import moment from "moment";
 
 export default function SettingScreen({ navigation }) {
   //Set initial variables
@@ -24,16 +25,36 @@ export default function SettingScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   //Set status radio buttons
-  const [isEnabledSales, setIsEnabledSales] = useState(false);
+  const [isEnabledSales, setIsEnabledSales] = useState(currentUser.notiSales);
   const toggleSales = () =>
     setIsEnabledSales((previousState) => !previousState);
 
-  const [isEnabledNew, setIsEnabledNew] = useState(false);
+  const [isEnabledNew, setIsEnabledNew] = useState(currentUser.notiNew);
   const toggleNew = () => setIsEnabledNew((previousState) => !previousState);
 
-  const [isEnabledStatus, setIsEnabledStatus] = useState(false);
+  const [isEnabledStatus, setIsEnabledStatus] = useState(
+    currentUser.notiStatus
+  );
   const toggleStatus = () =>
     setIsEnabledStatus((previousState) => !previousState);
+  const handleSaving = () => {
+    const db = getDatabase();
+    const auth = getAuth();
+    set(ref(db, "users/" + auth.currentUser.uid + "/name"), name);
+    set(ref(db, "users/" + auth.currentUser.uid + "/dob"), dob);
+    set(
+      ref(db, "users/" + auth.currentUser.uid + "/notiSales"),
+      isEnabledSales == false ? false : true
+    );
+    set(
+      ref(db, "users/" + auth.currentUser.uid + "/notiNew"),
+      isEnabledNew == false ? false : true
+    );
+    set(
+      ref(db, "users/" + auth.currentUser.uid + "/notiStatus"),
+      isEnabledStatus == false ? false : true
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -42,7 +63,6 @@ export default function SettingScreen({ navigation }) {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >
@@ -61,9 +81,23 @@ export default function SettingScreen({ navigation }) {
         <Image source={require("../assets/arrow-left.png")} />
       </TouchableOpacity>
       <Text style={styles.title}>Settings</Text>
-      <Text style={styles.title2}>Personal Information</Text>
-      <TextInput style={styles.input} placeholder="Full Name" value={name} />
-      <TextInput style={styles.input} placeholder="Day of Birth" />
+      <Text style={styles.title2}>Full Name</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Full Name"
+        value={name}
+        onChangeText={(text) => setName(text)}
+      />
+      <Text style={styles.title2}>Day of Birth</Text>
+      <DateField
+        styleInput={styles.input}
+        containerStyle={{ justifyContent: "space-around" }}
+        labelDate="Input date"
+        labelMonth="Input month"
+        labelYear="Input year"
+        defaultValue={new Date()}
+        onSubmit={(value) => setDOB(moment(value).format("DD/MM/YYYY"))}
+      />
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Text style={[styles.title2, { flex: 1 }]}>Password</Text>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -110,7 +144,7 @@ export default function SettingScreen({ navigation }) {
           value={isEnabledStatus}
         />
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => handleSaving()}>
         <Text
           style={{
             color: "white",
@@ -235,7 +269,7 @@ const styles = StyleSheet.create({
   title2: {
     fontSize: 16,
     fontWeight: "bold",
-    marginVertical: 20,
+    marginVertical: 5,
   },
   input: {
     marginTop: 10,

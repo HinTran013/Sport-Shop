@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import SimpleScreenHeader from "../components/Simple Screen Header/SimpleScreenHeader";
 import { SliderBox } from "react-native-image-slider-box";
@@ -15,12 +16,16 @@ import StarRating from "react-native-star-rating";
 import ProductContentItem from "../components/Product Detail Content Item/ProductContentItem";
 import ProductItem from "../components/Product Item/ProductItem";
 import GridBottomModal from "../components/Simple Grid Bottom Modal/GridBottomModal";
-import { getRelativeProducts } from "../utils/Product Utils/product";
+import {
+  addAFavoriteProduct,
+  deleteAFavoriteProduct,
+  getRelativeProducts,
+  isFavoriteProduct,
+} from "../utils/Product Utils/product";
 import { updateFavoriteProduct } from "../utils/Product Utils/product";
 import { useDispatch } from "react-redux";
 import { addAProductToCart } from "../redux/cartSlice";
-
-const productImg = require("../assets/fashionWoman.png");
+import { auth } from "../firebase-config";
 
 const ProductDetailsScreen = ({ route, navigation }) => {
   // dispatch
@@ -41,12 +46,12 @@ const ProductDetailsScreen = ({ route, navigation }) => {
     colors,
     sizes,
     numberOfReviews,
+    totalRating,
     id,
-    isFavorite,
   } = route.params;
 
   // favorite useState
-  const [favor, setFavor] = useState(isFavorite);
+  const [favor, setFavor] = useState(false);
   const [favorLoading, setFavorLoading] = useState(false);
 
   //modal useState
@@ -63,12 +68,20 @@ const ProductDetailsScreen = ({ route, navigation }) => {
   // relative products use state
   const [relativeProducts, setRelativeProducts] = useState(null);
 
+  // userId
+  const userId = auth.currentUser?.uid;
+
   useEffect(() => {
     // set product images
     setProductImages(images);
 
     // set relative products
     getRelativeProducts(5, category, setRelativeProducts);
+
+    // handle favorite
+    isFavoriteProduct(id, userId).then((favoriteResult) => {
+      setFavor(favoriteResult);
+    });
   }, []);
 
   // handle size and color
@@ -81,18 +94,38 @@ const ProductDetailsScreen = ({ route, navigation }) => {
   }
 
   // handle favorite
-  function handleOnPressFavIcon() {
-    setFavorLoading(true);
-    if (favor) {
-      updateFavoriteProduct(id, false).then(() => {
-        setFavorLoading(false);
-        setFavor(false);
-      });
+  async function handleOnPressFavIcon() {
+    if (!userId) {
+      Alert.alert("Notification", "You need to log in to use this feature");
+      return;
+    }
+
+    if (favor === false) {
+      await setFavorLoading(true);
+      await addAFavoriteProduct(
+        userId,
+        brand,
+        category,
+        colors,
+        details,
+        id,
+        images,
+        name,
+        numberOfReviews,
+        price,
+        shippingInfo,
+        shortDescription,
+        sizes,
+        supportInfo,
+        totalRating
+      );
+      await setFavorLoading(false);
+      await setFavor(true);
     } else {
-      updateFavoriteProduct(id, true).then(() => {
-        setFavorLoading(false);
-        setFavor(true);
-      });
+      await setFavorLoading(true);
+      await deleteAFavoriteProduct(id, userId);
+      await setFavor(false);
+      await setFavorLoading(false);
     }
   }
 
@@ -351,7 +384,7 @@ const ProductDetailsScreen = ({ route, navigation }) => {
             header="Select color"
             gridContent={colors}
             closeModalFunc={closeColorModal}
-            setData={handleProductColor}
+            setDataFunc={handleProductColor}
           />
 
           <View style={{ paddingBottom: 70 }}></View>

@@ -6,6 +6,9 @@ import {
   limitToLast,
   equalTo,
   update,
+  push,
+  get,
+  remove,
 } from "firebase/database";
 import { set } from "react-native-reanimated";
 
@@ -28,9 +31,9 @@ const getAllProducts = (setData) => {
   const productsRef = ref(database, "data/products");
 
   onValue(productsRef, (snapShot) => {
-    let data = snapShot.val()
-    data.shift()
-    
+    let data = snapShot.val();
+    data.shift();
+
     setData(data);
   });
 };
@@ -104,12 +107,85 @@ const getRelativeProducts = (numberOfProducts, category, setDataFunc) => {
   });
 };
 
-const updateFavoriteProduct = (productId, isFavorite) => {
-  const productRef = ref(database, `data/products/${productId}`);
-
-  return update(productRef, {
-    isFavorite,
+const addAFavoriteProduct = (
+  userId,
+  brand,
+  category,
+  colors,
+  detailedDesc,
+  id,
+  images,
+  name,
+  numberOfReviews,
+  price,
+  shippingInfo,
+  shortDesc,
+  sizes,
+  supportInfo,
+  totalRating
+) => {
+  const favorRef = ref(database, `users/${userId}/favoriteProducts`);
+  push(favorRef, {
+    brand,
+    category,
+    colors,
+    detailedDesc,
+    id,
+    images,
+    name,
+    numberOfReviews,
+    price,
+    shippingInfo,
+    shortDesc,
+    sizes,
+    supportInfo,
+    totalRating,
   });
+};
+
+const getFavoriteProducts = (userId, setData) => {
+  const favorRef = ref(database, `users/${userId}/favoriteProducts`);
+
+  onValue(favorRef, (snapShot) => {
+    const data = [];
+    snapShot.forEach((child) => {
+      data.push(child.val());
+    });
+    setData(data);
+  });
+};
+
+const isFavoriteProduct = (productId, userId) => {
+  const favorRef = ref(database, `users/${userId}/favoriteProducts`);
+
+  return get(favorRef).then((res) => {
+    let result = false;
+
+    res.forEach((child) => {
+      if (child.val().id == productId) {
+        result = true;
+      }
+    });
+    return result;
+  });
+};
+
+const deleteAFavoriteProduct = (productId, userId) => {
+  const favorRef = ref(database, `users/${userId}/favoriteProducts`);
+
+  get(favorRef)
+    .then((res) => {
+      let idToDelete;
+      res.forEach((child) => {
+        if (productId == child.val().id) {
+          idToDelete = child.key;
+        }
+      });
+      return idToDelete;
+    })
+    .then((idToDelete) => {
+      remove(ref(database, `users/${userId}/favoriteProducts/${idToDelete}`));
+    });
 };
 
 export {
@@ -119,5 +195,8 @@ export {
   getHotProducts,
   getSaleProducts,
   getRelativeProducts,
-  updateFavoriteProduct,
+  getFavoriteProducts,
+  addAFavoriteProduct,
+  isFavoriteProduct,
+  deleteAFavoriteProduct,
 };
