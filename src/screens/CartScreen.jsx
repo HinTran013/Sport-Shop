@@ -11,7 +11,7 @@ import {
 export default function CartScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>My Card</Text>
+      <Text style={styles.title}>My Cart</Text>
       <ScrollView>
         <Item
           image="https://cdn.webshopapp.com/shops/259039/files/343584140/terry-cloth-aqua.jpg"
