@@ -125,7 +125,7 @@ export default function ShopScreen({ navigation, route }) {
             paddingVertical: 5,
           }}
         >
-          <Text style={styles.headLine}>Sport Shirt</Text>
+          <Text style={styles.headLine}>Sport Shop</Text>
           <TouchableOpacity
             style={styles.viewSearchIcon}
             onPress={() => {
