@@ -11,7 +11,7 @@ import {
 import SimpleScreenHeader from "../components/Simple Screen Header/SimpleScreenHeader";
 import { SliderBox } from "react-native-image-slider-box";
 import { IconButton } from "react-native-paper";
-import { Button } from "react-native-elements";
+import { Button, Icon } from "react-native-elements";
 import StarRating from "react-native-star-rating";
 import ProductContentItem from "../components/Product Detail Content Item/ProductContentItem";
 import ProductItem from "../components/Product Item/ProductItem";
@@ -64,6 +64,9 @@ const ProductDetailsScreen = ({ route, navigation }) => {
   // size and color use state
   const [productSize, setProductSize] = useState("Size");
   const [productColor, setProductColor] = useState("Color");
+
+  // product quantity
+  const [quantity, setQuantity] = useState(0);
 
   // relative products use state
   const [relativeProducts, setRelativeProducts] = useState(null);
@@ -140,7 +143,19 @@ const ProductDetailsScreen = ({ route, navigation }) => {
 
   // add to cart method
   function addToCart() {
-    dispatch(addAProductToCart({ id: id }));
+    // dispatch(addAProductToCart({ id: id }));
+  }
+
+  function handleMinusQuantity() {
+    if (quantity === 0) {
+      return;
+    } else {
+      setQuantity(quantity - 1);
+    }
+  }
+
+  function handleAddQuantity() {
+    setQuantity(quantity + 1);
   }
 
   return (
@@ -287,7 +302,12 @@ const ProductDetailsScreen = ({ route, navigation }) => {
 
           {/* add to cart btn */}
           <View
-            style={{ paddingLeft: 20, paddingRight: 20, paddingBottom: 20 }}
+            style={{
+              paddingLeft: 20,
+              paddingRight: 20,
+              paddingBottom: 20,
+              flexDirection: "row",
+            }}
           >
             <Button
               buttonStyle={{
@@ -295,9 +315,40 @@ const ProductDetailsScreen = ({ route, navigation }) => {
                 paddingTop: 12,
                 paddingBottom: 12,
               }}
+              containerStyle={{ flex: 1 }}
               title={"Add to cart"}
               onPress={addToCart}
             />
+
+            {/* choose quantity */}
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginLeft: 15,
+              }}
+            >
+              <TouchableOpacity>
+                <Icon
+                  type="material"
+                  name="remove"
+                  containerStyle={styles().quantityContainerIcon}
+                  iconStyle={styles().quantityIcon}
+                  onPress={handleMinusQuantity}
+                />
+              </TouchableOpacity>
+
+              <Text style={styles().quantityText}>{quantity}</Text>
+              <TouchableOpacity>
+                <Icon
+                  type="material"
+                  name="add"
+                  containerStyle={styles().quantityContainerIcon}
+                  iconStyle={styles().quantityIcon}
+                  onPress={handleAddQuantity}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
 
           <ProductContentItem
@@ -352,6 +403,8 @@ const ProductDetailsScreen = ({ route, navigation }) => {
                           colors: relativeProducts.colors,
                           sizes: relativeProducts.sizes,
                           numberOfReviews: relativeProducts.numberOfReviews,
+                          totalRating: relativeProducts.totalRating,
+                          id: relativeProducts.id,
                         })
                       }
                       key={index}
@@ -359,33 +412,21 @@ const ProductDetailsScreen = ({ route, navigation }) => {
                       <ProductItem
                         imgURL={relativeProducts.images[0]}
                         marginRight={20}
-                        badgeType="hot"
-                        badgeContent="SALE"
+                        badgeType=""
+                        badgeContent=""
                         brand={relativeProducts.brand}
                         price={relativeProducts.price}
                         name={relativeProducts.name}
+                        numberOfReviews={relativeProducts.numberOfReviews}
+                        id={relativeProducts.id}
+                        marginBottom={20}
+                        totalRating={relativeProducts.totalRating}
                       />
                     </TouchableOpacity>
                   );
                 })}
             </ScrollView>
           </View>
-
-          <GridBottomModal
-            visible={isSizeModalOpen}
-            header="Select size"
-            gridContent={sizes}
-            closeModalFunc={closeSizeModal}
-            setDataFunc={handleProductSize}
-          />
-
-          <GridBottomModal
-            visible={isColorModalOpen}
-            header="Select color"
-            gridContent={colors}
-            closeModalFunc={closeColorModal}
-            setDataFunc={handleProductColor}
-          />
 
           <View style={{ paddingBottom: 70 }}></View>
         </ScrollView>
@@ -394,6 +435,22 @@ const ProductDetailsScreen = ({ route, navigation }) => {
           <ActivityIndicator size="large" color="#DB3022" />
         </View>
       )}
+
+      <GridBottomModal
+        visible={isSizeModalOpen}
+        header="Select size"
+        gridContent={sizes}
+        closeModalFunc={closeSizeModal}
+        setDataFunc={handleProductSize}
+      />
+
+      <GridBottomModal
+        visible={isColorModalOpen}
+        header="Select color"
+        gridContent={colors}
+        closeModalFunc={closeColorModal}
+        setDataFunc={handleProductColor}
+      />
     </View>
   );
 };
@@ -439,6 +496,16 @@ const styles = () =>
       alignItems: "center",
       flex: 1,
     },
+    quantityContainerIcon: {
+      borderRadius: 50,
+      elevation: 5,
+      backgroundColor: "#DB3022",
+      padding: 5,
+    },
+    quantityIcon: {
+      color: "white",
+    },
+    quantityText: { marginLeft: 15, marginRight: 15, fontSize: 18 },
   });
 
 export default ProductDetailsScreen;
