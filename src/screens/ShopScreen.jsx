@@ -31,7 +31,7 @@ import {
   orderByRating,
 } from "../utils/Product Utils/FilterQueries";
 
-import { setAllFilter, setKeywordFilter } from "../redux/filterSlice";
+import { setTagFilter } from "../redux/filterSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { tags } from "./CategoriesScreen";
 
@@ -103,15 +103,15 @@ export default function ShopScreen({ navigation, route }) {
   const [tags, setTags] = useState(0);
   const handleTagSelect = (num) => {
     setTags(num);
-    let word = tagsData[num] === "All" ? "" : tagsData[num];
-    dispatch(setKeywordFilter(word));
+    let word = tagsData[num]
+    dispatch(setTagFilter(word));
   };
 
   useEffect(() => {
     setTags(tagsData.findIndex((word) => {
-      if (filters.keyword == "")
+      if (filters.tag == "All" || filters.tag == "")
         return true
-      return filters.keyword == word
+      return filters.tag == word
     }))
     filterByAll(handleSetAllProducts, filters);
   }, [tags, filters]);

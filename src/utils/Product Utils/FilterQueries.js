@@ -32,11 +32,21 @@ const filterByAll = (setData, filter ) => {
             })
         }
 
+        if (filter.tag != "All" && filter.tag != "") {
+            data = data.filter((item) => {
+                let a = item.tag.toLowerCase()
+                let b = filter.tag.toLowerCase()
+                return a == b
+            })
+        }
+
         data = data.filter((item) =>
             item.price >= filter.price[0] && item.price <= filter.price[1])
         
-        if(filter.sizes != "All")
-            data = data.filter((item) => item.sizes.includes(filter.sizes))
+        if (filter.sizes != "All") {
+            data = data.filter((item) => item.sizes.includes(filter.sizes.toLowerCase()))
+        }
+            
         
         if(filter.color != "")
             data = data.filter((item) => item.colors.includes(filter.color))

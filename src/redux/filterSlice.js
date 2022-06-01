@@ -4,6 +4,7 @@ export const filterSlice = createSlice({
     name: "filter",
     initialState: {
         keyword: "",
+        tag: "All",
         price: [0, 500],
         color: "",
         sizes: "All",
@@ -12,10 +13,14 @@ export const filterSlice = createSlice({
     reducers: {
         setAllFilter: (state, action) => {
             state.keyword = action.payload.keyword
+            state.tag = action.payload.tag
             state.price = action.payload.price
             state.color = action.payload.color
             state.sizes = action.payload.sizes
             state.category = action.payload.category
+        },
+        setTagFilter: (state, action) => {
+            state.tag = action.payload
         },
         setKeywordFilter: (state, action) => {
             state.keyword = action.payload
@@ -41,6 +46,9 @@ export const filterSlice = createSlice({
         },
         resetKeywordFilter: (state) => {
             state.keyword = ""
+        },
+        resetTagFilter: (state) => {
+            state.tag = "All"
         }
     }
 })
@@ -48,12 +56,14 @@ export const filterSlice = createSlice({
 export const {
     setAllFilter,
     setKeywordFilter,
+    setTagFilter,
     setPriceFilter,
     setColorFilter,
     setSizesFilter,
     setCategoryFilter,
     resetAllFilter,
     resetKeywordFilter,
+    resetTagFilter,
 } = filterSlice.actions
 
 export default filterSlice.reducer
