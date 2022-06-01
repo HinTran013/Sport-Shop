@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
 import SimpleScreenHeader from "../components/Simple Screen Header/SimpleScreenHeader";
 import ProductRating from "../components/Product Rating/ProductRating";
 import ReviewCard from "../components/Product Rating/ReviewCard";
@@ -12,9 +12,14 @@ import {
   getProductNumberOfRatings,
   getProductTotalRating,
 } from "../utils/Product Utils/commentAndRating";
+import { auth } from "../firebase-config";
 
 const CustomerRatingScreen = ({ route, navigation }) => {
   const { id } = route.params;
+
+  // user id
+  const userId = auth.currentUser?.uid;
+
   // product data use state
   const [productReviews, setProductReviews] = useState(null);
   const [totalRating, setTotalRating] = useState(0);
@@ -83,7 +88,17 @@ const CustomerRatingScreen = ({ route, navigation }) => {
         <View style={{ paddingBottom: 80 }}></View>
       </ScrollView>
       <Button
-        onPress={() => setShowReviewSheet(!showReviewSheet)}
+        onPress={() => {
+          if (!userId) {
+            Alert.alert(
+              "Notification",
+              "You need to log in to use this feature"
+            );
+            return;
+          }
+
+          setShowReviewSheet(!showReviewSheet);
+        }}
         iconPosition="left"
         icon={
           <Icon

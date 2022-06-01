@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import { IconButton } from "react-native-paper";
 import StarRating from "react-native-star-rating";
 import ProductBadge from "../Product Badge/ProductBadge";
+import { Icon } from "react-native-elements";
 
 // Please pass the "badgeType" prop ("sale" or whatever)
 // "sale" prop: displays red badge
@@ -20,7 +21,9 @@ const ProductItem = ({
   price = -1,
   numberOfReviews = 0,
   totalRating = 0,
-  marginBottom = 0
+  marginBottom = 0,
+  isFavoriteItem = false,
+  removeFromFavorite = () => {},
 }) => {
   // variables of favorite icon
   const [favIcon, setFavIcon] = useState({
@@ -96,6 +99,29 @@ const ProductItem = ({
         <Text style={styles().productName}>{name}</Text>
         <Text style={styles().productPrice}>${price}</Text>
       </View>
+
+      {isFavoriteItem && (
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            right: 10,
+            top: 10,
+          }}
+          onPress={() => removeFromFavorite()}
+        >
+          <Icon
+            type="material"
+            name="close"
+            iconStyle={{
+              color: "#ccc",
+              backgroundColor: "black",
+              borderRadius: 100,
+              padding: 2,
+            }}
+            size={18}
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -105,7 +131,8 @@ const styles = (marginRight, marginBottom = 0) =>
     container: {
       width: 150,
       marginRight: marginRight,
-      marginBottom: marginBottom
+      marginBottom: marginBottom,
+      position: "relative",
     },
     img: {
       width: "100%",
@@ -144,12 +171,12 @@ const styles = (marginRight, marginBottom = 0) =>
     productBrand: {
       color: "#9B9B9B",
       fontSize: 12,
-      textTransform: "capitalize"
+      textTransform: "capitalize",
     },
     productName: {
       fontSize: 16,
       fontWeight: "bold",
-      textTransform: "capitalize"
+      textTransform: "capitalize",
     },
     productPrice: {
       fontSize: 16,

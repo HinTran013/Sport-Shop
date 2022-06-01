@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import StarRating from "react-native-star-rating";
 import { IconButton } from "react-native-paper";
 import ProductBadge from "../Product Badge/ProductBadge";
+import { Icon } from "react-native-elements";
 
 const HorizontalProduct = ({
   imgURL,
@@ -14,6 +15,8 @@ const HorizontalProduct = ({
   price = -1,
   numberOfReviews = 0,
   totalRating = 0,
+  isFavoriteItem = false,
+  removeFromFavorite = () => {},
 }) => {
   //const [starRate, setStarRate] = useState(totalRating);
   const [favIcon, setFavIcon] = useState({
@@ -83,6 +86,29 @@ const HorizontalProduct = ({
             </View>
           </View>
         </View>
+
+        {isFavoriteItem && (
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              right: 10,
+              top: 10,
+            }}
+            onPress={() => removeFromFavorite()}
+          >
+            <Icon
+              type="material"
+              name="close"
+              iconStyle={{
+                color: "#ccc",
+                backgroundColor: "rgba(0, 0, 0, 0.8)",
+                borderRadius: 150,
+                padding: 1,
+              }}
+              size={18}
+            />
+          </TouchableOpacity>
+        )}
       </View>
     </>
   );

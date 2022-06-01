@@ -18,6 +18,7 @@ import ProductItem from "../components/Product Item/ProductItem";
 import GridBottomModal from "../components/Simple Grid Bottom Modal/GridBottomModal";
 import {
   addAFavoriteProduct,
+  addAProductToDatabaseCart,
   deleteAFavoriteProduct,
   getRelativeProducts,
   isFavoriteProduct,
@@ -66,7 +67,7 @@ const ProductDetailsScreen = ({ route, navigation }) => {
   const [productColor, setProductColor] = useState("Color");
 
   // product quantity
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   // relative products use state
   const [relativeProducts, setRelativeProducts] = useState(null);
@@ -97,15 +98,16 @@ const ProductDetailsScreen = ({ route, navigation }) => {
   }
 
   // handle favorite
-  async function handleOnPressFavIcon() {
+  function handleOnPressFavIcon() {
     if (!userId) {
       Alert.alert("Notification", "You need to log in to use this feature");
       return;
     }
 
     if (favor === false) {
-      await setFavorLoading(true);
-      await addAFavoriteProduct(
+      setFavorLoading(true);
+
+      addAFavoriteProduct(
         userId,
         brand,
         category,
@@ -121,14 +123,22 @@ const ProductDetailsScreen = ({ route, navigation }) => {
         sizes,
         supportInfo,
         totalRating
-      );
-      await setFavorLoading(false);
-      await setFavor(true);
+      ).then(() => {
+        setFavorLoading(false);
+        setFavor(true);
+        Alert.alert("Notification", "The product has been added to favorites");
+      });
     } else {
-      await setFavorLoading(true);
-      await deleteAFavoriteProduct(id, userId);
-      await setFavor(false);
-      await setFavorLoading(false);
+      setFavorLoading(true);
+
+      deleteAFavoriteProduct(id, userId).then(() => {
+        setFavorLoading(false);
+        setFavor(false);
+        Alert.alert(
+          "Notification",
+          "The product has been removed from favorites"
+        );
+      });
     }
   }
 
@@ -143,11 +153,55 @@ const ProductDetailsScreen = ({ route, navigation }) => {
 
   // add to cart method
   function addToCart() {
-    // dispatch(addAProductToCart({ id: id }));
+    if (!userId) {
+      Alert.alert("Notification", "You need to log in to use this feature");
+      return;
+    }
+
+    Alert.alert("Notification", "Are you sure to add this product to cart?", [
+      {
+        text: "cancel",
+        style: "cancel",
+      },
+      {
+        text: "ok",
+        onPress: () => handleAddToCart(),
+      },
+    ]);
+  }
+
+  async function handleAddToCart() {
+    if (productSize !== "Size" && productColor !== "Color") {
+      try {
+        await addAProductToDatabaseCart(
+          userId,
+          brand,
+          category,
+          productColor,
+          details,
+          id,
+          images[0],
+          name,
+          numberOfReviews,
+          price,
+          shippingInfo,
+          shortDescription,
+          productSize,
+          supportInfo,
+          totalRating,
+          quantity
+        );
+        await Alert.alert("Notification", "Add to cart successfully");
+      } catch (err) {
+        Alert.alert("Notification", "Something went wrong!");
+      }
+    } else {
+      Alert.alert("Notification", "Please choose both product size and color");
+    }
   }
 
   function handleMinusQuantity() {
-    if (quantity === 0) {
+    if (quantity === 1) {
       return;
     } else {
       setQuantity(quantity - 1);
@@ -157,6 +211,8 @@ const ProductDetailsScreen = ({ route, navigation }) => {
   function handleAddQuantity() {
     setQuantity(quantity + 1);
   }
+
+  console.log(productSize, productColor);
 
   return (
     <View style={styles().container}>
@@ -339,6 +395,7 @@ const ProductDetailsScreen = ({ route, navigation }) => {
               </TouchableOpacity>
 
               <Text style={styles().quantityText}>{quantity}</Text>
+
               <TouchableOpacity>
                 <Icon
                   type="material"
@@ -505,7 +562,11 @@ const styles = () =>
     quantityIcon: {
       color: "white",
     },
-    quantityText: { marginLeft: 15, marginRight: 15, fontSize: 18 },
+    quantityText: {
+      marginLeft: 15,
+      marginRight: 15,
+      fontSize: 18,
+    },
   });
 
 export default ProductDetailsScreen;
