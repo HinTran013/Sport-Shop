@@ -125,7 +125,7 @@ const addAFavoriteProduct = (
   totalRating
 ) => {
   const favorRef = ref(database, `users/${userId}/favoriteProducts`);
-  push(favorRef, {
+  return push(favorRef, {
     brand,
     category,
     colors,
@@ -140,6 +140,45 @@ const addAFavoriteProduct = (
     sizes,
     supportInfo,
     totalRating,
+  });
+};
+
+const addAProductToDatabaseCart = (
+  userId,
+  brand,
+  category,
+  currentColor,
+  detailedDesc,
+  id,
+  productImage,
+  name,
+  numberOfReviews,
+  price,
+  shippingInfo,
+  shortDesc,
+  currentSize,
+  supportInfo,
+  totalRating,
+  quantity
+) => {
+  const cartRef = ref(database, `users/${userId}/cart`);
+
+  push(cartRef, {
+    brand,
+    category,
+    currentColor,
+    detailedDesc,
+    id,
+    productImage,
+    name,
+    numberOfReviews,
+    price,
+    shippingInfo,
+    shortDesc,
+    currentSize,
+    supportInfo,
+    totalRating,
+    quantity,
   });
 };
 
@@ -173,7 +212,7 @@ const isFavoriteProduct = (productId, userId) => {
 const deleteAFavoriteProduct = (productId, userId) => {
   const favorRef = ref(database, `users/${userId}/favoriteProducts`);
 
-  get(favorRef)
+  return get(favorRef)
     .then((res) => {
       let idToDelete;
       res.forEach((child) => {
@@ -197,6 +236,7 @@ export {
   getRelativeProducts,
   getFavoriteProducts,
   addAFavoriteProduct,
+  addAProductToDatabaseCart,
   isFavoriteProduct,
   deleteAFavoriteProduct,
 };

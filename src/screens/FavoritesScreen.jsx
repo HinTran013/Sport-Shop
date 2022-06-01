@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import ListImg from "../assets/list.png";
 import GridImg from "../assets/grid.png";
@@ -16,8 +17,9 @@ import {
 import ProductItem from "../components/Product Item/ProductItem";
 import HorizontalProduct from "../components/Horizontal Product/HorizontalProduct";
 import { auth } from "../firebase-config";
+import { deleteAFavoriteProduct } from "../utils/Product Utils/product";
 
-export default function FavoritesScreen() {
+export default function FavoritesScreen({ navigation }) {
   const [flipView, setFlipView] = useState(false);
   const [products, setProducts] = useState(null);
   const userId = auth.currentUser?.uid;
@@ -29,6 +31,28 @@ export default function FavoritesScreen() {
 
   const changeProductView = () => {
     setFlipView(!flipView);
+  };
+
+  // remove a product from favorites
+  const removeAFavoriteProduct = (productId) => {
+    Alert.alert(
+      "Notification",
+      "Are you sure to remove this product from favorites?",
+      [
+        {
+          text: "cancel",
+          style: "cancel",
+        },
+        {
+          text: "ok",
+          onPress: () => {
+            deleteAFavoriteProduct(productId, userId).then(() => {
+              Alert.alert("Notification", "Remove successfully!");
+            });
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -57,7 +81,28 @@ export default function FavoritesScreen() {
           products &&
           products.map((product, index) => {
             return (
-              <TouchableOpacity key={index}>
+              <TouchableOpacity
+                key={index}
+                onPress={() =>
+                  navigation.navigate("ProductDetails", {
+                    images: product.images,
+                    brand: product.brand,
+                    name: product.name,
+                    price: product.price,
+                    rating: product.totalRating,
+                    details: product.detailedDesc,
+                    shortDescription: product.shortDesc,
+                    shippingInfo: product.shippingInfo,
+                    supportInfo: product.supportInfo,
+                    category: product.category,
+                    colors: product.colors,
+                    sizes: product.sizes,
+                    numberOfReviews: product.numberOfReviews,
+                    totalRating: product.totalRating,
+                    id: product.id,
+                  })
+                }
+              >
                 <ProductItem
                   imgURL={product.images[0]}
                   marginRight={0}
@@ -69,6 +114,8 @@ export default function FavoritesScreen() {
                   numberOfReviews={product.numberOfReviews}
                   totalRating={product.totalRating}
                   marginBottom={20}
+                  isFavoriteItem={true}
+                  removeFromFavorite={() => removeAFavoriteProduct(product.id)}
                 />
               </TouchableOpacity>
             );
@@ -78,7 +125,28 @@ export default function FavoritesScreen() {
           products &&
           products.map((product, index) => {
             return (
-              <TouchableOpacity key={index}>
+              <TouchableOpacity
+                key={index}
+                onPress={() =>
+                  navigation.navigate("ProductDetails", {
+                    images: product.images,
+                    brand: product.brand,
+                    name: product.name,
+                    price: product.price,
+                    rating: product.totalRating,
+                    details: product.detailedDesc,
+                    shortDescription: product.shortDesc,
+                    shippingInfo: product.shippingInfo,
+                    supportInfo: product.supportInfo,
+                    category: product.category,
+                    colors: product.colors,
+                    sizes: product.sizes,
+                    numberOfReviews: product.numberOfReviews,
+                    totalRating: product.totalRating,
+                    id: product.id,
+                  })
+                }
+              >
                 <HorizontalProduct
                   imgURL={product.images[0]}
                   marginRight={0}
@@ -90,6 +158,8 @@ export default function FavoritesScreen() {
                   numberOfReviews={product.numberOfReviews}
                   totalRating={product.totalRating}
                   marginBottom={20}
+                  isFavoriteItem={true}
+                  removeFromFavorite={() => removeAFavoriteProduct(product.id)}
                 />
               </TouchableOpacity>
             );
