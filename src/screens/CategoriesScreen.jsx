@@ -9,11 +9,11 @@ import {
 import { SearchBar } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
 
-import { setKeywordFilter } from "../redux/filterSlice";
+import { setKeywordFilter, setTagFilter } from "../redux/filterSlice";
 
 export const tags = [
-  "Sneakers",
-  "Nike",
+  "Sneaker",
+  "Jordan",
   "T-shirts",
   "Polo shirts",
   "Football boots",
@@ -39,6 +39,10 @@ const CategoriesScreen = ({ navigation }) => {
       navigation.navigate("Shop Stack", { ...filters });
     } else return;
   };
+
+  const handleTagSelect = (text) => {
+    dispatch(setTagFilter(text))
+  }
 
   const handleViewAllBtn = () => {
     navigation.navigate("Shop Stack", { ...filters });
@@ -72,8 +76,10 @@ const CategoriesScreen = ({ navigation }) => {
               <TouchableOpacity
                 style={styles.viewCategory}
                 key={x}
-                onPressIn={() => updateSearch(x)}
-                onPress={() => { navigation.navigate("Shop Stack")}}>
+                onPress={() => {
+                  handleTagSelect(x)
+                  navigation.navigate("Shop Stack")
+                }}>
                 <View>
                   <Text style={styles.textCategory}>{x}</Text>
                 </View>
@@ -85,8 +91,10 @@ const CategoriesScreen = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.viewButton}
-        onPressIn={() => updateSearch("")}
-        onPress={() => handleViewAllBtn()}
+        onPress={() => {
+          handleTagSelect("All")
+          navigation.navigate("Shop Stack")
+        }}
       >
         <Text style={styles.textButton}>VIEW ALL PRODUCTS</Text>
       </TouchableOpacity>
