@@ -7,9 +7,11 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import { getAuth } from "firebase/auth";
 
 export default function CartScreen({ navigation }) {
-  return (
+  const auth = getAuth();
+  return auth.currentUser ? (
     <View style={styles.container}>
       <Text style={styles.title}>My Cart</Text>
       <ScrollView>
@@ -99,6 +101,14 @@ export default function CartScreen({ navigation }) {
           </Text>
         </TouchableOpacity>
       </View>
+    </View>
+  ) : (
+    <View style={styles.container2}>
+      <Image
+        source={require("../assets/login-warning.jpg")}
+        style={{ width: 300, height: 300 }}
+      />
+      <Text style={{ fontSize: 20 }}>Please sign in to add products!</Text>
     </View>
   );
 }
@@ -202,5 +212,18 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5,
     marginVertical: 5,
+  },
+  container2: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    backgroundColor: "white",
+  },
+  title2: {
+    fontSize: 34,
+    margin: 14,
+    fontWeight: "bold",
+    alignSelf: "flex-start",
+    alignItems: "flex-start",
   },
 });
