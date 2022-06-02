@@ -58,32 +58,6 @@ const ShopStackScreen = () => {
   );
 };
 
-const homeStack = createNativeStackNavigator();
-const HomeStackScreen = () => {
-  return (
-    <homeStack.Navigator>
-      <homeStack.Screen
-        name={"HomeStack"}
-        options={{
-          headerShown: false,
-        }}
-        component={HomeScreen}
-      />
-      <homeStack.Screen
-        name="ProductDetails"
-        options={{ headerShown: false }}
-        component={ProductDetailsScreen}
-      />
-
-      <homeStack.Screen
-        name="Review"
-        options={{ headerShown: false }}
-        component={CustomerRatingScreen}
-      />
-    </homeStack.Navigator>
-  );
-};
-
 const Tab = createBottomTabNavigator();
 
 export default function MainContainer() {
@@ -138,7 +112,7 @@ export default function MainContainer() {
         headerShown: false,
       })}
     >
-      <Tab.Screen name={homeName} component={HomeStackScreen} />
+      <Tab.Screen name={homeName} component={HomeScreen} />
       <Tab.Screen name={shopName} component={ShopStackScreen} />
       <Tab.Screen name={cartName} component={CartScreen} />
       <Tab.Screen name={favoritesName} component={FavoritesScreen} />
