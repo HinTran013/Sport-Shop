@@ -72,6 +72,8 @@ export default function ShopScreen({ navigation, route }) {
     setFlipView(!flipView);
   };
 
+  const [isCategoryVisible, setIsCategoryVisible] = useState(false)
+
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   //const toggleFilterModal = () => { setIsFilterVisible(!isFilterVisible) };
 
@@ -136,7 +138,7 @@ export default function ShopScreen({ navigation, route }) {
           <TouchableOpacity
             style={styles.viewSearchIcon}
             onPress={() => {
-              navigation.navigate("Category");
+              navigation.navigate("Category", { visible: isCategoryVisible });
             }}
           >
             <Image style={{ tintColor: "#000" }} source={SearchImg} />
