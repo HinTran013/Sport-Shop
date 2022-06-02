@@ -484,8 +484,6 @@ const ProductDetailsScreen = ({ route, navigation }) => {
                 })}
             </ScrollView>
           </View>
-
-          <View style={{ paddingBottom: 70 }}></View>
         </ScrollView>
       ) : (
         <View style={styles().loadingScreen}>
