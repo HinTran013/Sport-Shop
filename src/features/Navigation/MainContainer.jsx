@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+// import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { firebaseConfig } from "../../firebase-config";
 import { initializeApp } from "firebase/app";
@@ -17,10 +16,10 @@ import ShopScreen from "../../screens/ShopScreen";
 import CartScreen from "../../screens/CartScreen";
 import FavoritesScreen from "../../screens/FavoritesScreen";
 import ProfileScreen from "../../screens/ProfileScreen";
-import CategoriesScreen from "../../screens/CategoriesScreen";
-import FiltersScreen from "../../screens/FiltersScreen";
-import ProductDetailsScreen from "../../screens/ProductDetailsScreen";
-import CustomerRatingScreen from "../../screens/CustomerRatingScreen";
+// import CategoriesScreen from "../../screens/CategoriesScreen";
+// import FiltersScreen from "../../screens/FiltersScreen";
+// import ProductDetailsScreen from "../../screens/ProductDetailsScreen";
+// import CustomerRatingScreen from "../../screens/CustomerRatingScreen";
 import loadAddresses from "../../utils/loadAddresses";
 //screen names
 const homeName = "Home";
@@ -29,34 +28,34 @@ const cartName = "Cart";
 const favoritesName = "Favorites";
 const profileName = "Profile";
 
-const ShopStack = createNativeStackNavigator();
-const ShopStackScreen = () => {
-  return (
-    <ShopStack.Navigator>
-      <ShopStack.Screen
-        name={"Shop Stack"}
-        component={ShopScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <ShopStack.Screen
-        name="Category"
-        component={CategoriesScreen}
-        options={{
-          presentation: "modal",
-        }}
-      />
-      <ShopStack.Screen
-        name="Filters"
-        component={FiltersScreen}
-        options={{
-          presentation: "modal",
-        }}
-      />
-    </ShopStack.Navigator>
-  );
-};
+// const ShopStack = createNativeStackNavigator();
+// const ShopStackScreen = () => {
+//   return (
+//     <ShopStack.Navigator>
+//       <ShopStack.Screen
+//         name={"Shop Stack"}
+//         component={ShopScreen}
+//         options={{
+//           headerShown: false,
+//         }}
+//       />
+//       <ShopStack.Screen
+//         name="Category"
+//         component={CategoriesScreen}
+//         options={{
+//           presentation: "modal",
+//         }}
+//       />
+//       <ShopStack.Screen
+//         name="Filters"
+//         component={FiltersScreen}
+//         options={{
+//           presentation: "modal",
+//         }}
+//       />
+//     </ShopStack.Navigator>
+//   );
+// };
 
 const Tab = createBottomTabNavigator();
 
@@ -113,7 +112,7 @@ export default function MainContainer() {
       })}
     >
       <Tab.Screen name={homeName} component={HomeScreen} />
-      <Tab.Screen name={shopName} component={ShopStackScreen} />
+      <Tab.Screen name={shopName} component={ShopScreen} />
       <Tab.Screen name={cartName} component={CartScreen} />
       <Tab.Screen name={favoritesName} component={FavoritesScreen} />
       <Tab.Screen name={profileName} component={ProfileScreen} />

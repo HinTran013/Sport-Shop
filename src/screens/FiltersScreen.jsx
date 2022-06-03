@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -17,7 +17,6 @@ import { useSelector, useDispatch } from "react-redux";
 import ArrowBackImg from "../assets/arrow.png";
 import {
   resetAllFilter,
-  setAllFilter,
   setCategoryFilter,
   setColorFilter,
   setPriceFilter,
@@ -92,7 +91,7 @@ const FiltersScreen = ({ visible, navigation }) => {
   };
 
   const applyFilterFunc = () => {
-    navigation.navigate("Shop Stack", { ...filters });
+    navigation.navigate("Shop", { ...filters });
     //navigation.goBack()
   };
 
