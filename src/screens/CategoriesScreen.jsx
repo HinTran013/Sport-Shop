@@ -40,7 +40,7 @@ const CategoriesScreen = ({ visible, navigation }) => {
 
   const handleSearch = () => {
     if (search != "") {
-      navigation.navigate("Shop Stack", { ...filters });
+      navigation.navigate("Shop", { ...filters });
     } else return;
   };
 
@@ -96,7 +96,7 @@ const CategoriesScreen = ({ visible, navigation }) => {
                   key={x}
                   onPress={() => {
                     handleTagSelect(x)
-                    navigation.navigate("Shop Stack")
+                    navigation.navigate("Shop")
                   }}>
                   <View>
                     <Text style={styles.textCategory}>{x}</Text>
@@ -112,7 +112,7 @@ const CategoriesScreen = ({ visible, navigation }) => {
           onPress={() => {
             handleTagSelect("All")
             dispatch(setKeywordFilter(""))
-            navigation.navigate("Shop Stack")
+            navigation.navigate("Shop")
           }}
         >
           <Text style={styles.textButton}>VIEW ALL PRODUCTS</Text>
