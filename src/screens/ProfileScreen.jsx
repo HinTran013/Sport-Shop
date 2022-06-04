@@ -10,6 +10,7 @@ export default function ProfileScreen({ navigation }) {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const person = useSelector((state) => state.user);
+  const listAddress = useSelector((state) => state.address.listAddresses);
 
   function handleSignOut() {
     signOut(auth)
@@ -37,7 +38,7 @@ export default function ProfileScreen({ navigation }) {
       />
       <Item
         title="Shipping addresses"
-        content="3 addresses"
+        content={`${listAddress.length} addresses`}
         screen="Address"
         navigation={navigation}
       />

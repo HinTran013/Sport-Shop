@@ -12,10 +12,35 @@ export const addressSlice = createSlice({
     resetAddress: (state) => {
       state.listAddresses = [];
     },
+    setDefault: (state, action) => {
+      state.listAddresses.forEach((e) => {
+        if (e.id == action.payload) e.default = true;
+        else e.default = false;
+      });
+    },
+    updateAddress: (state, action) => {
+      state.listAddresses.forEach((e) => {
+        if (e.id == action.payload) {
+          e.id = action.payload;
+        }
+      });
+    },
+    deleteAddress: (state, action) => {
+      state.listAddresses.splice(
+        state.listAddresses.findIndex((e) => e.id === action.payload),
+        1
+      );
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setAddress, resetAddress } = addressSlice.actions;
+export const {
+  setAddress,
+  resetAddress,
+  setDefault,
+  updateAddress,
+  deleteAddress,
+} = addressSlice.actions;
 
 export default addressSlice.reducer;
