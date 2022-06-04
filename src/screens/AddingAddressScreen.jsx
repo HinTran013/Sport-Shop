@@ -10,11 +10,12 @@ import {
 import React, { useState, useEffect } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, set, onValue } from "firebase/database";
-import { useDispatch } from "react-redux";
-import { setAddress } from "../redux/addressSlice";
+import { getDatabase, ref, set, onValue, update } from "firebase/database";
+import { useDispatch, useSelector } from "react-redux";
+import { setAddress, updateAddress } from "../redux/addressSlice";
 
-export default function AddingAddressScreen({ navigation }) {
+export default function AddingAddressScreen({ navigation, route }) {
+  const data = route.params;
   const [openProvince, setOpenProvince] = useState(false);
   const [openDistrict, setOpenDistrict] = useState(false);
   const [openWard, setOpenWard] = useState(false);
@@ -34,50 +35,77 @@ export default function AddingAddressScreen({ navigation }) {
 
   useEffect(() => {
     loadProvinceList();
-    setValueDistrict("");
+    if (data != null) {
+      loadDistrictList(valueProvince);
+      loadWardList(valueProvince, valueDistrict);
+      fillData();
+    }
   }, []);
   useEffect(() => {
     loadDistrictList(valueProvince);
-    setValueDistrict("");
-    setValueWard("");
   }, [valueProvince]);
   useEffect(() => {
     loadWardList(valueProvince, valueDistrict);
-    setValueWard("");
   }, [valueDistrict]);
+
+  const saveNew = () => {
+    const db = getDatabase();
+    let index = 0;
+    const starCountRef = ref(
+      db,
+      "users/" + currentUser.uid + "/addresses/index"
+    );
+    onValue(starCountRef, (snapshot) => {
+      index = snapshot.val();
+    });
+    if (index == null) {
+      set(ref(db, "users/" + currentUser.uid + "/addresses/index"), 1);
+    } else {
+      set(ref(db, "users/" + currentUser.uid + "/addresses/index"), index + 1);
+    }
+    const newAddress = {
+      id: "address" + index,
+      name: name,
+      phone: phone,
+      address: address,
+      province: valueProvince,
+      district: valueDistrict,
+      ward: valueWard,
+      default: false,
+    };
+    set(
+      ref(db, "users/" + currentUser.uid + `/addresses/address${index}`),
+      newAddress
+    );
+    dispatch(setAddress(newAddress));
+    Alert.alert("You have added 1 address successfully!");
+  };
+  const update = () => {
+    const db = getDatabase();
+    const updateAdd = {
+      id: data.id,
+      name: name,
+      phone: phone,
+      address: address,
+      province: valueProvince,
+      district: valueDistrict,
+      ward: valueWard,
+      default: data.default,
+    };
+    set(
+      ref(db, "users/" + currentUser.uid + `/addresses/${data.id}`),
+      updateAdd
+    );
+    dispatch(updateAddress(updateAdd));
+    Alert.alert("You have updated successfully!");
+  };
   const handleSave = () => {
     if (isFormValid()) {
-      const db = getDatabase();
-      let index = 0;
-      const starCountRef = ref(
-        db,
-        "users/" + currentUser.uid + "/addresses/index"
-      );
-      onValue(starCountRef, (snapshot) => {
-        index = snapshot.val();
-      });
-      if (index == null) {
-        set(ref(db, "users/" + currentUser.uid + "/addresses/index"), 1);
+      if (data == null) {
+        saveNew();
       } else {
-        set(
-          ref(db, "users/" + currentUser.uid + "/addresses/index"),
-          index + 1
-        );
+        update();
       }
-      const newAddress = {
-        name: name,
-        phone: phone,
-        address: address,
-        province: valueProvince,
-        district: valueDistrict,
-        ward: valueWard,
-      };
-      set(
-        ref(db, "users/" + currentUser.uid + `/addresses/address${index}`),
-        newAddress
-      );
-      dispatch(setAddress(newAddress));
-      Alert.alert("You have added 1 address successfully!");
       navigation.replace("Address");
     }
   };
@@ -155,11 +183,20 @@ export default function AddingAddressScreen({ navigation }) {
     }
     return true;
   };
+  const fillData = () => {
+    setName(data.name);
+    setPhone(data.phone);
+    setAddress1(data.addressOne);
+    setValueProvince(data.addressThree);
+    const array = data.addressTwo.split(", ");
+    setValueDistrict(array[1]);
+    setValueWard(array[0]);
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => navigation.pop()}>
+        <TouchableOpacity onPress={() => navigation.replace("Address")}>
           <Image source={require("../assets/arrow-left.png")} />
         </TouchableOpacity>
         <Text
@@ -170,23 +207,26 @@ export default function AddingAddressScreen({ navigation }) {
             fontWeight: "bold",
           }}
         >
-          New Address
+          {data ? "Change Address" : "New Address"}
         </Text>
       </View>
       <View style={{ marginTop: 50, flex: 1 }}>
         <Text>Full Name:</Text>
         <TextInput
+          value={name}
           style={styles.input}
           onChangeText={(text) => setName(text)}
         />
         <Text>Phone:</Text>
         <TextInput
+          value={phone}
           style={styles.input}
           keyboardType="number-pad"
           onChangeText={(text) => setPhone(text)}
         />
         <Text>Address:</Text>
         <TextInput
+          value={address}
           style={styles.input}
           placeholder="Home number, street name"
           onChangeText={(text) => setAddress1(text)}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -8,9 +8,14 @@ import {
   ScrollView,
 } from "react-native";
 import { getAuth } from "firebase/auth";
+import { useSelector } from "react-redux";
 
 export default function CartScreen({ navigation }) {
   const auth = getAuth();
+
+  const list = useSelector((state) => state.cart.list);
+  console.log("cart", list);
+
   return auth.currentUser ? (
     <View style={styles.container}>
       <Text style={styles.title}>My Cart</Text>

@@ -5,14 +5,22 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Alert,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setDefaultAddress,
+  deleteAddressFromDatabase,
+} from "../utils/loadAddresses";
+import { setDefault, deleteAddress } from "../redux/addressSlice";
+import { Icon } from "react-native-elements";
 
 export default function AddressScreen({ navigation }) {
   const list = useSelector((state) => state.address.listAddresses);
-
+  const dispatch = useDispatch();
+  useEffect(() => {}, [list]);
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -35,15 +43,18 @@ export default function AddressScreen({ navigation }) {
           {list.map((element) => {
             return (
               <Address
+                id={element.id}
+                default={element.default}
                 name={element.name}
                 addressOne={element.address}
                 addressTwo={`${element.ward}, ${element.district}`}
                 addressThree={element.province}
+                phone={element.phone}
                 navigation={navigation}
+                dispatch={dispatch}
               />
             );
           })}
-          
         </ScrollView>
       ) : (
         <View
@@ -63,20 +74,49 @@ export default function AddressScreen({ navigation }) {
 }
 
 const Address = (props) => {
+  const handleCheck = () => {
+    setDefaultAddress(props.id);
+    props.dispatch(setDefault(props.id));
+  };
+  const handleDelete = () => {
+    Alert.alert("Confirm", "Do you want to delete this address?", [
+      {
+        text: "No",
+        style: "cancel",
+      },
+      {
+        text: "Yes",
+        onPress: () => {
+          deleteAddressFromDatabase(props.id);
+          props.dispatch(deleteAddress(props.id));
+        },
+      },
+    ]);
+  };
   return (
     <View style={styles.addressContainer}>
       <View style={{ flexDirection: "row", marginBottom: 10 }}>
         <Text style={{ flex: 1, fontWeight: "bold" }}>{props.name}</Text>
-        <TouchableOpacity onPress={() => props.navigation.navigate("AddAddress")}>
+        <TouchableOpacity
+          onPress={() => props.navigation.replace("AddAddress", props)}
+        >
           <Text style={{ color: "#DB3022" }}>Edit</Text>
         </TouchableOpacity>
       </View>
       <Text>{props.addressOne}</Text>
       <Text>{props.addressTwo}</Text>
       <Text>{props.addressThree}</Text>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <CheckBox />
+      <View style={{ flexDirection: "row", alignItems: "center", flex: 1 }}>
+        <CheckBox checked={props.default} onPress={() => handleCheck()} />
         <Text>Use as default shipping address</Text>
+        <View style={styles.icon}>
+          <Icon
+            name="delete"
+            type="material"
+            color="#DB3022"
+            onPress={() => handleDelete()}
+          />
+        </View>
       </View>
     </View>
   );
@@ -116,5 +156,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#DB3022",
     paddingHorizontal: 12,
     borderRadius: 50,
+  },
+  icon: {
+    flex: 1,
+    alignItems: "flex-end",
   },
 });

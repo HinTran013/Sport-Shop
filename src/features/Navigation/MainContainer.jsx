@@ -22,6 +22,7 @@ import FiltersScreen from "../../screens/FiltersScreen";
 import ProductDetailsScreen from "../../screens/ProductDetailsScreen";
 import CustomerRatingScreen from "../../screens/CustomerRatingScreen";
 import loadAddresses from "../../utils/loadAddresses";
+import { fetchCartList } from "../../redux/cartSlice";
 //screen names
 const homeName = "Home";
 const shopName = "Shop";
@@ -65,7 +66,9 @@ export default function MainContainer() {
   const auth = getAuth(app);
   const currentUser = auth.currentUser;
   const dispatch = useDispatch();
-  if (currentUser != null) loadAddresses();
+  if (currentUser != null) {
+    loadAddresses();
+  }
 
   useEffect(() => {
     if (currentUser != null) {
@@ -74,6 +77,7 @@ export default function MainContainer() {
       onValue(starCountRef, (snapshot) => {
         const data = snapshot.val();
         dispatch(setUserData(data));
+        dispatch(fetchCartList());
       });
     }
   }, [currentUser]);

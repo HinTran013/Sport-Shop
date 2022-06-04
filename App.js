@@ -22,7 +22,7 @@ import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./src/firebase-config";
 import { getAuth } from "firebase/auth";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import { persistor, store } from "./src/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 

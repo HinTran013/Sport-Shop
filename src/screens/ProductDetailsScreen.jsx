@@ -25,7 +25,7 @@ import {
 } from "../utils/Product Utils/product";
 import { updateFavoriteProduct } from "../utils/Product Utils/product";
 import { useDispatch } from "react-redux";
-import { addAProductToCart } from "../redux/cartSlice";
+import { addAProductToCart, fetchCartList } from "../redux/cartSlice";
 import { auth } from "../firebase-config";
 
 const ProductDetailsScreen = ({ route, navigation }) => {
@@ -126,6 +126,7 @@ const ProductDetailsScreen = ({ route, navigation }) => {
       ).then(() => {
         setFavorLoading(false);
         setFavor(true);
+        dispatch(fetchCartList());
         Alert.alert("Notification", "The product has been added to favorites");
       });
     } else {
