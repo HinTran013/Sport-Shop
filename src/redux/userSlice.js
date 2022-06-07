@@ -23,10 +23,21 @@ export const userSlice = createSlice({
       state.notiSales = action.payload.notiSales;
       state.notiStatus = action.payload.notiStatus;
     },
+    updateUserData: (state, action) => {
+      state.name = action.payload.name;
+      state.phone = action.payload.phone;
+      state.dob = action.payload.dob;
+      state.notiNew = action.payload.isEnabledNew;
+      state.notiSales = action.payload.isEnabledSales;
+      state.notiStatus = action.payload.isEnabledStatus;
+    },
+    updatePass: (state, action) => {
+      state.password = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUserData } = userSlice.actions;
+export const { setUserData, updateUserData, updatePass } = userSlice.actions;
 
 export default userSlice.reducer;

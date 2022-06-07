@@ -20,8 +20,8 @@ export const addressSlice = createSlice({
     },
     updateAddress: (state, action) => {
       state.listAddresses.forEach((e) => {
-        if (e.id == action.payload) {
-          e.id = action.payload;
+        if (e.id == action.payload.id) {
+          e = action.payload;
         }
       });
     },

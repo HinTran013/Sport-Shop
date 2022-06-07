@@ -12,100 +12,64 @@ import { useSelector } from "react-redux";
 
 export default function CartScreen({ navigation }) {
   const auth = getAuth();
-
   const list = useSelector((state) => state.cart.list);
-  console.log("cart", list);
+  let totalPrice = 0;
+  list.map((item) => (totalPrice += item.quantity * item.price));
 
   return auth.currentUser ? (
     <View style={styles.container}>
       <Text style={styles.title}>My Cart</Text>
-      <ScrollView>
-        <Item
-          image="https://cdn.webshopapp.com/shops/259039/files/343584140/terry-cloth-aqua.jpg"
-          name="Clothe"
-          color="Black"
-          size="M"
-          quantity={3}
-          price={54}
-        />
-        <Item
-          image="https://cdn.webshopapp.com/shops/259039/files/343584140/terry-cloth-aqua.jpg"
-          name="Clothe"
-          color="Black"
-          size="M"
-          quantity={3}
-          price={54}
-        />
-        <Item
-          image="https://cdn.webshopapp.com/shops/259039/files/343584140/terry-cloth-aqua.jpg"
-          name="Clothe"
-          color="Black"
-          size="M"
-          quantity={3}
-          price={54}
-        />
-        <Item
-          image="https://cdn.webshopapp.com/shops/259039/files/343584140/terry-cloth-aqua.jpg"
-          name="Clothe"
-          color="Black"
-          size="M"
-          quantity={3}
-          price={54}
-        />
-        <Item
-          image="https://cdn.webshopapp.com/shops/259039/files/343584140/terry-cloth-aqua.jpg"
-          name="Clothe"
-          color="Black"
-          size="M"
-          quantity={3}
-          price={54}
-        />
-        <Item
-          image="https://cdn.webshopapp.com/shops/259039/files/343584140/terry-cloth-aqua.jpg"
-          name="Clothe"
-          color="Black"
-          size="M"
-          quantity={3}
-          price={54}
-        />
-        <Item
-          image="https://cdn.webshopapp.com/shops/259039/files/343584140/terry-cloth-aqua.jpg"
-          name="Clothe"
-          color="Black"
-          size="M"
-          quantity={3}
-          price={54}
-        />
-      </ScrollView>
-      <View style={{ marginBottom: 50, marginTop: 20 }}>
-        <View style={{ flexDirection: "row" }}>
-          <Text>Total:</Text>
-          <Text
-            style={{
-              flex: 1,
-              textAlign: "right",
-              fontWeight: "bold",
-              fontSize: 18,
-            }}
-          >
-            132$
-          </Text>
+      {list.length == 0 ? (
+        <View style={styles.container2}>
+          <Text>There is no items in your cart!</Text>
         </View>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Checkout")}
-        >
-          <Text
-            style={{
-              alignSelf: "center",
-              color: "white",
-              fontSize: 14,
-            }}
-          >
-            CHECK OUT
-          </Text>
-        </TouchableOpacity>
-      </View>
+      ) : (
+        <View style={{ flex: 1 }}>
+          <ScrollView>
+            {list.map((item) => {
+              return (
+                <Item
+                  image={item.productImage}
+                  name={item.name}
+                  color={item.currentColor}
+                  size={item.currentSize}
+                  quantity={item.quantity}
+                  price={item.price}
+                />
+              );
+            })}
+          </ScrollView>
+          <View style={{ marginBottom: 50, marginTop: 5 }}>
+            <View style={{ flexDirection: "row" }}>
+              <Text>Total:</Text>
+              <Text
+                style={{
+                  flex: 1,
+                  textAlign: "right",
+                  fontWeight: "bold",
+                  fontSize: 18,
+                }}
+              >
+                {totalPrice}$
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate("Checkout")}
+            >
+              <Text
+                style={{
+                  alignSelf: "center",
+                  color: "white",
+                  fontSize: 14,
+                }}
+              >
+                CHECK OUT
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </View>
   ) : (
     <View style={styles.container2}>
@@ -129,9 +93,16 @@ const Item = (props) => {
       />
       <View style={{ padding: 5, marginLeft: 10, flex: 1 }}>
         <Text style={{ fontSize: 16, fontWeight: "bold" }}>{props.name}</Text>
-        <Text style={{ color: "#bababa" }}>
-          Color: {props.color} Size: {props.size}
-        </Text>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Text style={{ color: "#bababa" }}>Color: </Text>
+          <Text style={{ fontWeight: "bold", color: "#75736d" }}>
+            {props.color}{" "}
+          </Text>
+          <Text style={{ color: "#bababa" }}>Size: </Text>
+          <Text style={{ fontWeight: "bold", color: "#75736d" }}>
+            {props.size}
+          </Text>
+        </View>
         <View
           style={{
             flexDirection: "row",
@@ -146,7 +117,7 @@ const Item = (props) => {
           <TouchableOpacity style={styles.countButton}>
             <Text>+</Text>
           </TouchableOpacity>
-          <Text style={styles.itemPrice}>{props.price}$</Text>
+          <Text style={styles.itemPrice}>{props.price * props.quantity}$</Text>
         </View>
       </View>
     </View>
