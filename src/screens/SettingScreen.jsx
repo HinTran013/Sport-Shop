@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 import md5 from "md5";
 import DateField from "react-native-datefield";
 import moment from "moment";
+import { updatePass, updateUserData } from "../redux/userSlice";
 
 export default function SettingScreen({ navigation }) {
   //Set initial variables
@@ -23,6 +24,13 @@ export default function SettingScreen({ navigation }) {
   const [name, setName] = useState(currentUser.name);
   const [dob, setDOB] = useState(currentUser.dob);
   const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useDispatch();
+  let day, month, year;
+  if (dob != null) {
+    day = parseInt(currentUser.dob.split("/")[0]);
+    month = parseInt(currentUser.dob.split("/")[1]) - 1;
+    year = parseInt(currentUser.dob.split("/")[2]);
+  }
 
   //Set status radio buttons
   const [isEnabledSales, setIsEnabledSales] = useState(currentUser.notiSales);
@@ -54,6 +62,16 @@ export default function SettingScreen({ navigation }) {
       ref(db, "users/" + auth.currentUser.uid + "/notiStatus"),
       isEnabledStatus == false ? false : true
     );
+    dispatch(
+      updateUserData({
+        name,
+        dob,
+        isEnabledNew,
+        isEnabledSales,
+        isEnabledStatus,
+      })
+    );
+    Alert.alert("You have saved successfully!");
   };
 
   return (
@@ -95,7 +113,7 @@ export default function SettingScreen({ navigation }) {
         labelDate="Input date"
         labelMonth="Input month"
         labelYear="Input year"
-        defaultValue={new Date()}
+        defaultValue={dob ? new Date(year, month, day) : null}
         onSubmit={(value) => setDOB(moment(value).format("DD/MM/YYYY"))}
       />
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -168,7 +186,7 @@ const ResetPassword = ({ navigation, setModalVisible }) => {
   //Password change
   const isFormValid = () => {
     if (oldPassword == "" || newPassword == "" || confirmPassword == "") {
-      Alert.alert("Vui lòng điền đầy đủ thông tin!");
+      Alert.alert("Please fill all datas!");
       return false;
     }
     return true;
@@ -176,14 +194,14 @@ const ResetPassword = ({ navigation, setModalVisible }) => {
   const pass = currentUser.password;
   const isCorrectPassword = () => {
     if (pass != md5(oldPassword)) {
-      Alert.alert("Mật khẩu cũ chưa chính xác!");
+      Alert.alert("Old password is incorrect!");
       return false;
     }
     return true;
   };
   const isConfirmedPassword = () => {
     if (newPassword != confirmPassword) {
-      Alert.alert("Mật khẩu mới chưa chính xác!");
+      Alert.alert("New password is incorrect!");
       return false;
     }
     return true;
@@ -199,6 +217,7 @@ const ResetPassword = ({ navigation, setModalVisible }) => {
             .then(() => {
               const db = getDatabase();
               set(ref(db, "users/" + user.uid + "/password"), md5(newPassword));
+              dispatch(updatePass(md5(newPassword)));
               Alert.alert("Bạn đã đổi mật khẩu thành công!");
               setModalVisible(false);
             })

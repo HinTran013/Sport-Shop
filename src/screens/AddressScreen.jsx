@@ -21,6 +21,7 @@ export default function AddressScreen({ navigation }) {
   const list = useSelector((state) => state.address.listAddresses);
   const dispatch = useDispatch();
   useEffect(() => {}, [list]);
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -43,6 +44,7 @@ export default function AddressScreen({ navigation }) {
           {list.map((element) => {
             return (
               <Address
+                key={element.id}
                 id={element.id}
                 default={element.default}
                 name={element.name}

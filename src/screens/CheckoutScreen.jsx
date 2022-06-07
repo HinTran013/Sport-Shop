@@ -44,7 +44,21 @@ export default function CheckoutScreen({ navigation }) {
           name="Payment on receipt of products"
         />
         <Text style={styles.title}>Delivery Method</Text>
-        <Delivery />
+        <Delivery
+          name="Giaohangtietkiem"
+          image={require("../assets/ghtk.png")}
+          fee={15}
+        />
+        <Delivery
+          name="Giaohangnhanh"
+          image={require("../assets/ghn.png")}
+          fee={10}
+        />
+        <Delivery
+          name="VNPost"
+          image={require("../assets/vnpost.png")}
+          fee={8}
+        />
         <View style={{ flex: 1, justifyContent: "flex-end" }}>
           <View style={{ flexDirection: "row" }}>
             <Text style={{ flex: 1 }}>Order:</Text>
@@ -110,7 +124,7 @@ const Payment = (props) => {
   );
 };
 
-const Delivery = () => {
+const Delivery = (props) => {
   return (
     <View
       style={[
@@ -120,10 +134,10 @@ const Delivery = () => {
     >
       <Image
         style={{ width: 32, height: 32, marginRight: 10 }}
-        source={require("../assets/ghtk.png")}
+        source={props.image}
       />
-      <Text style={{ flex: 1 }}>Giaohangtietkiem</Text>
-      <Text style={{ color: "#bababa" }}>2-3 days</Text>
+      <Text style={{ flex: 1 }}>{props.name}</Text>
+      <Text>{props.fee}$</Text>
     </View>
   );
 };

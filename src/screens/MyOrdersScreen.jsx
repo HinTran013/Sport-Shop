@@ -37,6 +37,7 @@ export default function MyOrdersScreen({ navigation }) {
             price="123$"
             status="Delivered"
             color="green"
+            navigation={navigation}
           />
           <Order
             idNumber="123456"
@@ -46,6 +47,7 @@ export default function MyOrdersScreen({ navigation }) {
             price="123$"
             status="Delivered"
             color="green"
+            navigation={navigation}
           />
           <Order
             idNumber="123456"
@@ -55,6 +57,7 @@ export default function MyOrdersScreen({ navigation }) {
             price="123$"
             status="Delivered"
             color="green"
+            navigation={navigation}
           />
         </ScrollView>
       ) : null}
@@ -68,6 +71,7 @@ export default function MyOrdersScreen({ navigation }) {
             price="123$"
             status="Processing"
             color="orange"
+            navigation={navigation}
           />
           <Order
             idNumber="123456"
@@ -77,6 +81,7 @@ export default function MyOrdersScreen({ navigation }) {
             price="123$"
             status="Processing"
             color="orange"
+            navigation={navigation}
           />
           <Order
             idNumber="123456"
@@ -86,6 +91,7 @@ export default function MyOrdersScreen({ navigation }) {
             price="123$"
             status="Processing"
             color="orange"
+            navigation={navigation}
           />
         </ScrollView>
       ) : null}
@@ -99,6 +105,7 @@ export default function MyOrdersScreen({ navigation }) {
             price="123$"
             status="Cancelled"
             color="red"
+            navigation={navigation}
           />
           <Order
             idNumber="123456"
@@ -108,6 +115,7 @@ export default function MyOrdersScreen({ navigation }) {
             price="123$"
             status="Cancelled"
             color="red"
+            navigation={navigation}
           />
         </ScrollView>
       ) : null}
@@ -210,6 +218,7 @@ const Order = (props) => {
             borderColor: "black",
             borderRadius: 50,
           }}
+          onPress={() => props.navigation.navigate("OrderDetail")}
         >
           <Text style={{ fontSize: 16 }}>Detail</Text>
         </TouchableOpacity>
