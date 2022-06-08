@@ -26,7 +26,8 @@ export default function SettingScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
   let day, month, year;
-  if (dob != null) {
+
+  if (currentUser.dob != null) {
     day = parseInt(currentUser.dob.split("/")[0]);
     month = parseInt(currentUser.dob.split("/")[1]) - 1;
     year = parseInt(currentUser.dob.split("/")[2]);
@@ -113,7 +114,7 @@ export default function SettingScreen({ navigation }) {
         labelDate="Input date"
         labelMonth="Input month"
         labelYear="Input year"
-        defaultValue={dob ? new Date(year, month, day) : null}
+        defaultValue={currentUser.dob ? new Date(year, month, day) : null}
         onSubmit={(value) => setDOB(moment(value).format("DD/MM/YYYY"))}
       />
       <View style={{ flexDirection: "row", alignItems: "center" }}>
