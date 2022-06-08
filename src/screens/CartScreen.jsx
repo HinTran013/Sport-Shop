@@ -55,7 +55,7 @@ export default function CartScreen({ navigation }) {
             </View>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate("Checkout")}
+              onPress={() => navigation.navigate("Checkout", {totalPrice})}
             >
               <Text
                 style={{

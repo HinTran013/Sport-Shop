@@ -31,7 +31,7 @@ export default function SuccessScreen({ navigation }) {
               fontSize: 14,
             }}
           >
-            SUBMIT ORDER
+            GO TO HOME
           </Text>
         </TouchableOpacity>
       </ImageBackground>

@@ -1,7 +1,15 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import getDefaultAddress from "../utils/getDefaultAddress";
 
-export default function CheckoutScreen({ navigation }) {
+export default function CheckoutScreen({ navigation, route }) {
+  const [isActived, setActived] = useState({
+    name: "Giaohangtietkiem",
+    fee: 15,
+  });
+  const orderPrice = route.params.totalPrice;
+  const defaultAddress = getDefaultAddress();
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -21,12 +29,23 @@ export default function CheckoutScreen({ navigation }) {
       </View>
       <View style={{ marginTop: 30, flex: 1 }}>
         <Text style={styles.title}>Shipping Address</Text>
-        <Address
-          name="Le Khai Hoan"
-          addressOne="123 Pham Van Dong"
-          addressTwo="Phuong Linh Trung, Tp. Thu Duc"
-          navigation={navigation}
-        />
+        {defaultAddress ? (
+          <Address
+            name={defaultAddress.name}
+            addressOne={defaultAddress.address}
+            addressTwo={defaultAddress.ward}
+            navigation={navigation}
+          />
+        ) : (
+          <TouchableOpacity
+            style={styles.addressContainer}
+            onPress={() => navigation.navigate("Address")}
+          >
+            <Text style={{ textAlign: "center" }}>
+              Please choose an address
+            </Text>
+          </TouchableOpacity>
+        )}
         <View
           style={{
             flexDirection: "row",
@@ -47,30 +66,42 @@ export default function CheckoutScreen({ navigation }) {
         <Delivery
           name="Giaohangtietkiem"
           image={require("../assets/ghtk.png")}
+          isActived={isActived}
+          setActived={setActived}
           fee={15}
         />
         <Delivery
           name="Giaohangnhanh"
           image={require("../assets/ghn.png")}
+          isActived={isActived}
+          setActived={setActived}
           fee={10}
         />
         <Delivery
           name="VNPost"
           image={require("../assets/vnpost.png")}
+          isActived={isActived}
+          setActived={setActived}
           fee={8}
         />
         <View style={{ flex: 1, justifyContent: "flex-end" }}>
           <View style={{ flexDirection: "row" }}>
             <Text style={{ flex: 1 }}>Order:</Text>
-            <Text style={{ fontWeight: "bold", fontSize: 16 }}>132$</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+              {orderPrice}$
+            </Text>
           </View>
           <View style={{ flexDirection: "row" }}>
             <Text style={{ flex: 1 }}>Delivery:</Text>
-            <Text style={{ fontWeight: "bold", fontSize: 16 }}>15$</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+              {isActived.fee}$
+            </Text>
           </View>
           <View style={{ flexDirection: "row" }}>
             <Text style={{ flex: 1, fontSize: 16 }}>Total:</Text>
-            <Text style={{ fontWeight: "bold", fontSize: 18 }}>147$</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+              {orderPrice + isActived.fee}$
+            </Text>
           </View>
           <TouchableOpacity
             style={styles.button}
@@ -125,12 +156,17 @@ const Payment = (props) => {
 };
 
 const Delivery = (props) => {
+  const handleClick = () => {
+    props.setActived({ name: props.name, fee: props.fee });
+  };
   return (
-    <View
+    <TouchableOpacity
       style={[
         { flexDirection: "row", alignItems: "center" },
         styles.addressContainer,
+        props.name == props.isActived.name ? styles.actived : null,
       ]}
+      onPress={() => handleClick()}
     >
       <Image
         style={{ width: 32, height: 32, marginRight: 10 }}
@@ -138,7 +174,7 @@ const Delivery = (props) => {
       />
       <Text style={{ flex: 1 }}>{props.name}</Text>
       <Text>{props.fee}$</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -185,5 +221,9 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5,
     marginVertical: 5,
+  },
+  actived: {
+    borderWidth: 2,
+    borderColor: "green",
   },
 });
