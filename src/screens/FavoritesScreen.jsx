@@ -116,6 +116,8 @@ export default function FavoritesScreen({ navigation }) {
                   marginBottom={20}
                   isFavoriteItem={true}
                   removeFromFavorite={() => removeAFavoriteProduct(product.id)}
+                  isHideReviews={true}
+                  contentMarginTop={10}
                 />
               </TouchableOpacity>
             );
@@ -160,6 +162,7 @@ export default function FavoritesScreen({ navigation }) {
                   marginBottom={20}
                   isFavoriteItem={true}
                   removeFromFavorite={() => removeAFavoriteProduct(product.id)}
+                  isHideReviews={true}
                 />
               </TouchableOpacity>
             );

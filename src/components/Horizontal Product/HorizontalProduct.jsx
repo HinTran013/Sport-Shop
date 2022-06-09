@@ -17,6 +17,7 @@ const HorizontalProduct = ({
   totalRating = 0,
   isFavoriteItem = false,
   removeFromFavorite = () => {},
+  isHideReviews = false,
 }) => {
   //const [starRate, setStarRate] = useState(totalRating);
   const [favIcon, setFavIcon] = useState({
@@ -56,25 +57,29 @@ const HorizontalProduct = ({
             <Text style={textStyles(14, "300", "#9B9B9B").textStyle}>
               {brand}
             </Text>
-            <View style={styles.viewStar}>
-              <StarRating
-                containerStyle={{
-                  justifyContent: "flex-start",
-                  marginVertical: 3,
-                }}
-                buttonStyle={{ marginRight: 5 }}
-                disabled={true}
-                maxStars={5}
-                rating={totalRating}
-                starSize={15}
-                fullStarColor="#FFBA49"
-                halfStarColor="#FFBA49"
-                emptyStarColor="#FFBA49"
-              />
-              <Text style={styles.textStarRate}>
-                ({numberOfReviews}) Reviews
-              </Text>
-            </View>
+            {!isHideReviews && (
+              <View style={styles.viewStar}>
+                <StarRating
+                  containerStyle={{
+                    justifyContent: "flex-start",
+                    marginVertical: 3,
+                  }}
+                  buttonStyle={{ marginRight: 5 }}
+                  disabled={true}
+                  maxStars={5}
+                  rating={
+                    numberOfReviews === 0 ? 0 : totalRating / numberOfReviews
+                  }
+                  starSize={15}
+                  fullStarColor="#FFBA49"
+                  halfStarColor="#FFBA49"
+                  emptyStarColor="#FFBA49"
+                />
+                <Text style={styles.textStarRate}>
+                  ({numberOfReviews}) Reviews
+                </Text>
+              </View>
+            )}
             <Text style={textStyles(16, "600").textStyle}>${price}</Text>
             {/* <IconButton
                             icon={favIcon.name}

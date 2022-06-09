@@ -163,23 +163,47 @@ const addAProductToDatabaseCart = (
 ) => {
   const cartRef = ref(database, `users/${userId}/cart`);
 
-  push(cartRef, {
-    brand,
-    category,
-    currentColor,
-    detailedDesc,
-    id,
-    productImage,
-    name,
-    numberOfReviews,
-    price,
-    shippingInfo,
-    shortDesc,
-    currentSize,
-    supportInfo,
-    totalRating,
-    quantity,
-  });
+  get(cartRef)
+    .then((snapShot) => {
+      let isHaveMatchedProduct = false;
+      snapShot.forEach((child) => {
+        if (
+          child.val().id === id &&
+          child.val().currentColor === currentColor &&
+          child.val().currentSize === currentSize
+        ) {
+          isHaveMatchedProduct = true;
+          update(child.ref, {
+            quantity: child.val().quantity + quantity,
+          });
+        }
+      });
+
+      return isHaveMatchedProduct;
+    })
+    .then((isHaveMatchedProduct) => {
+      if (!isHaveMatchedProduct) {
+        push(cartRef, {
+          brand,
+          category,
+          currentColor,
+          detailedDesc,
+          id,
+          productImage,
+          name,
+          numberOfReviews,
+          price,
+          shippingInfo,
+          shortDesc,
+          currentSize,
+          supportInfo,
+          totalRating,
+          quantity,
+        });
+      } else {
+        // do nothing
+      }
+    });
 };
 
 const getFavoriteProducts = (userId, setData) => {

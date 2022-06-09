@@ -23,6 +23,8 @@ const ProductItem = ({
   totalRating = 0,
   marginBottom = 0,
   isFavoriteItem = false,
+  isHideReviews = false,
+  contentMarginTop = 0,
   removeFromFavorite = () => {},
 }) => {
   // variables of favorite icon
@@ -68,34 +70,38 @@ const ProductItem = ({
       {/* Main content container */}
       <View style={styles().contentContainer}>
         {/* Star Section */}
-        <View style={styles().starSection}>
-          <StarRating
-            containerStyle={styles().starContainer}
-            buttonStyle={{
-              marginRight: 5,
-            }}
-            maxStars={5}
-            rating={totalRating}
-            starSize={15}
-            fullStarColor="#FFBA49"
-            halfStarColor="#FFBA49"
-            emptyStarColor="#FFBA49"
-            disabled={true}
-          />
+        {!isHideReviews && (
+          <View style={styles().starSection}>
+            <StarRating
+              containerStyle={styles().starContainer}
+              buttonStyle={{
+                marginRight: 5,
+              }}
+              maxStars={5}
+              rating={numberOfReviews === 0 ? 0 : totalRating / numberOfReviews}
+              starSize={15}
+              fullStarColor="#FFBA49"
+              halfStarColor="#FFBA49"
+              emptyStarColor="#FFBA49"
+              disabled={true}
+            />
 
-          <Text
-            style={{
-              marginTop: 6,
-              color: "#9B9B9B",
-              fontSize: 14,
-            }}
-          >
-            ({numberOfReviews})
-          </Text>
-        </View>
+            <Text
+              style={{
+                marginTop: 6,
+                color: "#9B9B9B",
+                fontSize: 14,
+              }}
+            >
+              ({numberOfReviews})
+            </Text>
+          </View>
+        )}
 
         {/* Product basic information */}
-        <Text style={styles().productBrand}>{brand}</Text>
+        <Text style={[styles().productBrand, { marginTop: contentMarginTop }]}>
+          {brand}
+        </Text>
         <Text style={styles().productName}>{name}</Text>
         <Text style={styles().productPrice}>${price}</Text>
       </View>
