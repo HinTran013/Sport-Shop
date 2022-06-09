@@ -318,6 +318,7 @@ const ProductDetailsScreen = ({ route, navigation }) => {
                 onPress={() =>
                   navigation.push("Review", {
                     id: id,
+                    productName: name,
                   })
                 }
                 style={styles().starSection}

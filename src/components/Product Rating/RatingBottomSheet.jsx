@@ -14,7 +14,12 @@ import { Button, Icon } from "react-native-elements";
 import { writeReview } from "../../utils/Product Utils/commentAndRating";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-const RatingBottomSheet = ({ isVisible = false, closeSheet, productId }) => {
+const RatingBottomSheet = ({
+  isVisible = false,
+  closeSheet,
+  productId,
+  productName = "",
+}) => {
   const [currentDate, setCurrentDate] = useState("");
   const [ratingNumber, setRatingNumber] = useState(3);
   const [comment, setComment] = useState("");
@@ -41,7 +46,8 @@ const RatingBottomSheet = ({ isVisible = false, closeSheet, productId }) => {
       ratingNumber,
       userEmail,
       userId,
-      productId
+      productId,
+      productName
     )
       .then(() => {
         setLoading(false);
