@@ -15,7 +15,7 @@ import {
 import { auth } from "../firebase-config";
 
 const CustomerRatingScreen = ({ route, navigation }) => {
-  const { id } = route.params;
+  const { id, productName } = route.params;
 
   // user id
   const userId = auth.currentUser?.uid;
@@ -130,6 +130,7 @@ const CustomerRatingScreen = ({ route, navigation }) => {
         isVisible={showReviewSheet}
         closeSheet={closeReviewBottom}
         productId={id}
+        productName={productName}
       />
     </View>
   );

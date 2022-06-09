@@ -9,6 +9,7 @@ import {
   update,
   get,
 } from "firebase/database";
+import { nanoid } from "@reduxjs/toolkit";
 
 export const getProductNumberOfRatings = (productId, setData) => {
   const productRef = ref(
@@ -32,15 +33,27 @@ export const getProductTotalRating = (productId, setData) => {
   });
 };
 
-export const writeReview = (comment, date, rating, user, userId, productId) => {
+export const writeReview = (
+  comment,
+  date,
+  rating,
+  user,
+  userId,
+  productId,
+  productName
+) => {
   // product comments
   const reviewRef = ref(database, "/data/products/" + productId + "/reviews");
+  let reviewId = nanoid(8);
 
   return push(reviewRef, {
     comment,
     date,
     rating,
     user,
+    productId,
+    productName,
+    reviewId,
   })
     .then(() => {
       // update number of reviews and total rating
@@ -66,6 +79,9 @@ export const writeReview = (comment, date, rating, user, userId, productId) => {
         date,
         rating,
         user,
+        productId,
+        productName,
+        reviewId,
       });
     });
 };
