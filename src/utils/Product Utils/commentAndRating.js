@@ -54,6 +54,7 @@ export const writeReview = (
     productId,
     productName,
     reviewId,
+    userId,
   })
     .then(() => {
       // update number of reviews and total rating
@@ -82,6 +83,7 @@ export const writeReview = (
         productId,
         productName,
         reviewId,
+        userId,
       });
     });
 };
