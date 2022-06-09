@@ -55,16 +55,18 @@ const CustomerRatingScreen = ({ route, navigation }) => {
 
   return (
     <View style={{ position: "relative", flex: 1 }}>
+      <SimpleScreenHeader
+        headerTitle="Rating and Review"
+        onBackPress={() => navigation.pop()}
+      />
       <ScrollView style={styles.container}>
-        <SimpleScreenHeader
-          headerTitle="Rating and Review"
-          onBackPress={() => navigation.pop()}
-        />
         <View style={styles.mainContentContainer}>
           <View style={{ alignItems: "center", marginTop: 15 }}>
             <ProductRating
               numberOfReviews={numberOfReviews}
-              totalRating={totalRating}
+              totalRating={
+                numberOfReviews === 0 ? 0 : totalRating / numberOfReviews
+              }
             />
           </View>
 
@@ -84,8 +86,6 @@ const CustomerRatingScreen = ({ route, navigation }) => {
               })}
           </View>
         </View>
-
-        <View style={{ paddingBottom: 80 }}></View>
       </ScrollView>
       <Button
         onPress={() => {
@@ -112,7 +112,7 @@ const CustomerRatingScreen = ({ route, navigation }) => {
         containerStyle={{
           position: "absolute",
           right: 12,
-          bottom: 70,
+          bottom: 15,
           elevation: 10,
           borderRadius: 999,
         }}
@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
   mainContentContainer: {
     paddingLeft: 25,
     paddingRight: 25,
+    paddingBottom: 25,
     flex: 1,
   },
 });

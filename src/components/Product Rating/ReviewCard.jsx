@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import StarRating from "react-native-star-rating";
 
+const avatar = require("../../assets/avatar-empty.jpg");
 const ReviewCard = ({ containerStyle, name, rating, date, comment }) => {
   return (
     <View style={[styles.container, containerStyle]}>
@@ -38,9 +39,7 @@ const ReviewCard = ({ containerStyle, name, rating, date, comment }) => {
 
       <View style={styles.imageContainer}>
         <Image
-          source={{
-            uri: "https://github.com/khaihoan2306/My-Wallet/blob/main/app/src/main/res/drawable/hien_bede.jpg?raw=true",
-          }}
+          source={avatar}
           style={{ width: 40, height: 40, borderRadius: 50 }}
         />
       </View>

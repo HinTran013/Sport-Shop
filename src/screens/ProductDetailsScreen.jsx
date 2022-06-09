@@ -38,7 +38,6 @@ const ProductDetailsScreen = ({ route, navigation }) => {
     brand,
     name,
     price,
-    rating,
     details,
     shortDescription,
     shippingInfo,
@@ -329,7 +328,9 @@ const ProductDetailsScreen = ({ route, navigation }) => {
                     marginRight: 5,
                   }}
                   maxStars={5}
-                  rating={rating}
+                  rating={
+                    numberOfReviews === 0 ? 0 : totalRating / numberOfReviews
+                  }
                   starSize={15}
                   fullStarColor="#FFBA49"
                   halfStarColor="#FFBA49"
@@ -452,7 +453,6 @@ const ProductDetailsScreen = ({ route, navigation }) => {
                           brand: relativeProducts.brand,
                           name: relativeProducts.name,
                           price: relativeProducts.price,
-                          rating: relativeProducts.totalRating,
                           details: relativeProducts.detailedDesc,
                           shortDescription: relativeProducts.shortDesc,
                           shippingInfo: relativeProducts.shippingInfo,

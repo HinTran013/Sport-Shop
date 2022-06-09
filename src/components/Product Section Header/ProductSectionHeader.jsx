@@ -14,7 +14,7 @@ const ProductSectionHeader = ({
         <Text style={styles().subHeader}>{subHeader}</Text>
       </View>
 
-      <Text style={styles().viewAll}>View all</Text>
+      {/* <Text style={styles().viewAll}>View all</Text> */}
     </View>
   );
 };

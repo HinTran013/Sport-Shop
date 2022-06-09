@@ -6,6 +6,7 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { AirbnbRating } from "react-native-ratings";
 import { BottomSheet } from "react-native-elements";
@@ -19,6 +20,8 @@ const RatingBottomSheet = ({ isVisible = false, closeSheet, productId }) => {
   const [comment, setComment] = useState("");
   const [userId, setUserId] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [isLoading, setLoading] = useState(false);
+
   const auth = getAuth();
 
   const handleRatingNumber = (rating) => {
@@ -29,17 +32,27 @@ const RatingBottomSheet = ({ isVisible = false, closeSheet, productId }) => {
     setComment(text);
   };
 
-  const handleSendReview = async () => {
-    await writeReview(
+  const handleSendReview = () => {
+    setLoading(true);
+
+    writeReview(
       comment,
       currentDate,
       ratingNumber,
       userEmail,
       userId,
       productId
-    );
-    await closeSheet();
+    )
+      .then(() => {
+        setLoading(false);
+        closeSheet();
+      })
+      .then(() => {
+        Alert.alert("Notification", "Your review has been saved");
+      });
   };
+
+  console.log(ratingNumber);
 
   useEffect(() => {
     // get current date
@@ -129,6 +142,7 @@ const RatingBottomSheet = ({ isVisible = false, closeSheet, productId }) => {
               paddingBottom: 12,
               backgroundColor: "#DB3022",
             }}
+            loading={isLoading}
           />
         </View>
       </ScrollView>
