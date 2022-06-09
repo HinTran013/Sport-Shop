@@ -55,7 +55,7 @@ export default function FavoritesScreen({ navigation }) {
     );
   };
 
-  return (
+  return userId ? (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={{ fontSize: 24, fontWeight: "bold" }}>
@@ -169,6 +169,16 @@ export default function FavoritesScreen({ navigation }) {
           })}
       </ScrollView>
     </View>
+  ) : (
+    <View style={styles.container2}>
+      <Image
+        source={require("../assets/login-warning.jpg")}
+        style={{ width: 300, height: 300 }}
+      />
+      <Text style={{ fontSize: 20 }}>
+        Please sign in to see your favorites!
+      </Text>
+    </View>
   );
 }
 
@@ -203,5 +213,11 @@ const styles = StyleSheet.create({
   horizontalProductContainer: {
     paddingTop: 20,
     paddingBottom: 50,
+  },
+  container2: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    backgroundColor: "white",
   },
 });

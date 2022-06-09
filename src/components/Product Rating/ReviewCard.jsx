@@ -1,12 +1,69 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import StarRating from "react-native-star-rating";
+import { Button, Icon } from "react-native-elements";
+import { auth } from "../../firebase-config";
 
 const avatar = require("../../assets/avatar-empty.jpg");
-const ReviewCard = ({ containerStyle, name, rating, date, comment }) => {
+const ReviewCard = ({
+  containerStyle,
+  name,
+  rating,
+  date,
+  comment,
+  uid = "",
+  reviewId,
+  onEditPress = () => {},
+  onDeletePress = () => {},
+  setEditComment = () => {},
+  setEditRating = () => {},
+  setEditReviewId = () => {},
+  setDeleteReviewId = () => {},
+  setDeleteRatingId = () => {},
+}) => {
+  const userId = auth.currentUser?.uid;
+
   return (
     <View style={[styles.container, containerStyle]}>
-      <Text style={styles.customerName}>{name}</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Text style={styles.customerName}>{name}</Text>
+
+        {userId === uid && (
+          <View style={{ flexDirection: "row" }}>
+            <Button
+              icon={{
+                name: "edit",
+                type: "material",
+              }}
+              buttonStyle={{ padding: 5, backgroundColor: "white" }}
+              onPress={() => {
+                setEditComment(comment);
+                setEditRating(rating);
+                setEditReviewId(reviewId);
+                onEditPress();
+              }}
+            />
+            <Button
+              icon={{
+                name: "delete",
+                type: "material",
+              }}
+              buttonStyle={{ padding: 5, backgroundColor: "white" }}
+              onPress={() => {
+                // setDeleteReviewId(reviewId);
+                // setDeleteRatingId(rating);
+                onDeletePress(reviewId, rating);
+              }}
+            />
+          </View>
+        )}
+      </View>
       <View
         style={{
           flexDirection: "row",

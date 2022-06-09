@@ -437,7 +437,9 @@ const ProductDetailsScreen = ({ route, navigation }) => {
             <Text style={{ fontSize: 18, fontWeight: "bold" }}>
               You can also like
             </Text>
-            <Text style={{ color: "#9B9B9B" }}>12 items</Text>
+            <Text style={{ color: "#9B9B9B" }}>
+              {relativeProducts.length} item(s)
+            </Text>
           </View>
           <View style={{ paddingLeft: 20, paddingRight: 20 }}>
             <ScrollView

@@ -6,8 +6,8 @@ import ReviewCard from "../components/Product Rating/ReviewCard";
 import { Button } from "react-native-elements";
 import { Icon } from "react-native-elements";
 import RatingBottomSheet from "../components/Product Rating/RatingBottomSheet";
-import { getProductInfo } from "../utils/Product Utils/product";
 import {
+  deleteReview,
   getAllProductReviews,
   getProductNumberOfRatings,
   getProductTotalRating,
@@ -27,10 +27,24 @@ const CustomerRatingScreen = ({ route, navigation }) => {
 
   // is show review sheet
   const [showReviewSheet, setShowReviewSheet] = useState(false);
+  const [showEditingSheet, setShowEditingSheet] = useState(false);
+
+  // comment and rating to edit
+  const [commentToEdit, setCommentToEdit] = useState("");
+  const [ratingToEdit, setRatingToEdit] = useState(null);
+  const [reviewIdToEdit, setReviewIdToEdit] = useState("");
+
+  // deleting comment
+  const [reviewIdToDelete, setReviewIdToDelete] = useState("");
+  const [ratingToDelete, setRatingToDelete] = useState(null);
 
   // method
   const closeReviewBottom = () => {
     setShowReviewSheet(false);
+  };
+
+  const closeEditingSheet = () => {
+    setShowEditingSheet(false);
   };
 
   const handleGetProductReviews = (data) => {
@@ -51,7 +65,43 @@ const CustomerRatingScreen = ({ route, navigation }) => {
     getProductTotalRating(id, handleGetTotalRating);
   }, []);
 
-  console.log("test rerender");
+  // edit methods
+  const handleEditPress = () => {
+    Alert.alert("Notification", "Do you want to edit your review?", [
+      {
+        text: "cancel",
+        style: "cancel",
+      },
+      {
+        text: "edit",
+        onPress: () => handleEdit(),
+      },
+    ]);
+  };
+
+  const handleEdit = () => {
+    setShowEditingSheet(!showEditingSheet);
+  };
+
+  // delete methods
+  const handleDeletePress = (reviewId, rating) => {
+    Alert.alert("Notification", "Do you want to delete your review?", [
+      {
+        text: "cancel",
+        style: "cancel",
+      },
+      {
+        text: "delete",
+        onPress: () => handleDelete(reviewId, rating),
+      },
+    ]);
+  };
+
+  const handleDelete = (reviewId, rating) => {
+    deleteReview(id, reviewId, userId, rating).then(() => {
+      Alert.alert("Notification", "Your review has been deleted");
+    });
+  };
 
   return (
     <View style={{ position: "relative", flex: 1 }}>
@@ -81,6 +131,15 @@ const CustomerRatingScreen = ({ route, navigation }) => {
                     rating={item.rating}
                     date={item.date}
                     comment={item.comment}
+                    uid={item.userId}
+                    reviewId={item.reviewId}
+                    onEditPress={handleEditPress}
+                    onDeletePress={handleDeletePress}
+                    setEditComment={setCommentToEdit}
+                    setEditRating={setRatingToEdit}
+                    setEditReviewId={setReviewIdToEdit}
+                    setDeleteReviewId={setReviewIdToDelete}
+                    setDeleteRatingId={setRatingToDelete}
                   />
                 );
               })}
@@ -131,6 +190,18 @@ const CustomerRatingScreen = ({ route, navigation }) => {
         closeSheet={closeReviewBottom}
         productId={id}
         productName={productName}
+        type={"addNew"}
+      />
+
+      <RatingBottomSheet
+        isVisible={showEditingSheet}
+        closeSheet={closeEditingSheet}
+        productId={id}
+        productName={productName}
+        type={"edit"}
+        existingComment={commentToEdit}
+        existingRating={ratingToEdit}
+        reviewId={reviewIdToEdit}
       />
     </View>
   );

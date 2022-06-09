@@ -8,6 +8,7 @@ import {
   push,
   update,
   get,
+  remove,
 } from "firebase/database";
 import { nanoid } from "@reduxjs/toolkit";
 
@@ -84,6 +85,95 @@ export const writeReview = (
         productName,
         reviewId,
         userId,
+      });
+    });
+};
+
+export const editReview = (
+  comment,
+  date,
+  rating,
+  user,
+  userId,
+  productId,
+  productName,
+  reviewId,
+  oldRating
+) => {
+  const reviewRef = ref(database, "/data/products/" + productId + "/reviews");
+
+  return get(reviewRef)
+    .then((snapShot) => {
+      snapShot.forEach((child) => {
+        if (child.val().reviewId === reviewId) {
+          update(child.ref, {
+            comment,
+            date,
+            rating,
+          });
+        }
+      });
+    })
+    .then(() => {
+      // update in user comments
+      const userReviewRef = ref(database, "/users/" + userId + "/reviews");
+
+      get(userReviewRef).then((snapShot) => {
+        snapShot.forEach((child) => {
+          if (child.val().reviewId === reviewId) {
+            update(child.ref, {
+              comment,
+              date,
+              rating,
+            });
+          }
+        });
+      });
+    })
+    .then(() => {
+      const productRef = ref(database, "/data/products/" + productId);
+
+      get(productRef).then((snapShot) => {
+        update(productRef, {
+          totalRating: snapShot.val().totalRating - oldRating + rating,
+        });
+      });
+    });
+};
+
+export const deleteReview = (productId, reviewId, userId, rating) => {
+  const productRef = ref(database, "/data/products/" + productId);
+
+  return get(productRef)
+    .then((snapShot) => {
+      update(productRef, {
+        numberOfReviews: snapShot.val().numberOfReviews - 1,
+        totalRating: snapShot.val().totalRating - rating,
+      });
+    })
+    .then(() => {
+      const reviewRef = ref(
+        database,
+        "/data/products/" + productId + "/reviews"
+      );
+
+      get(reviewRef).then((snapShot) => {
+        snapShot.forEach((child) => {
+          if (child.val().reviewId === reviewId) {
+            remove(child.ref);
+          }
+        });
+      });
+    })
+    .then(() => {
+      const userReviewRef = ref(database, "/users/" + userId + "/reviews");
+
+      get(userReviewRef).then((snapShot) => {
+        snapShot.forEach((child) => {
+          if (child.val().reviewId === reviewId) {
+            remove(child.ref);
+          }
+        });
       });
     });
 };

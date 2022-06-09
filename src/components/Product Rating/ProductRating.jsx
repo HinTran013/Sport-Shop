@@ -9,7 +9,11 @@ const ProductRating = ({ numberOfReviews, totalRating }) => {
           There were {numberOfReviews} Ratings
         </Text>
       </View>
-      <AirbnbRating showRating isDisabled={true} defaultRating={totalRating} />
+      <AirbnbRating
+        showRating
+        isDisabled={true}
+        defaultRating={Math.round(totalRating)}
+      />
     </View>
   );
 };
