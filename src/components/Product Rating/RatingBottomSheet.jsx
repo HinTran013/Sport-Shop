@@ -11,7 +11,10 @@ import {
 import { AirbnbRating } from "react-native-ratings";
 import { BottomSheet } from "react-native-elements";
 import { Button, Icon } from "react-native-elements";
-import { writeReview } from "../../utils/Product Utils/commentAndRating";
+import {
+  editReview,
+  writeReview,
+} from "../../utils/Product Utils/commentAndRating";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const RatingBottomSheet = ({
@@ -19,14 +22,17 @@ const RatingBottomSheet = ({
   closeSheet,
   productId,
   productName = "",
+  existingComment = "",
+  existingRating = 3,
+  type,
+  reviewId = "",
 }) => {
   const [currentDate, setCurrentDate] = useState("");
-  const [ratingNumber, setRatingNumber] = useState(3);
-  const [comment, setComment] = useState("");
+  const [ratingNumber, setRatingNumber] = useState(existingRating);
+  const [comment, setComment] = useState(existingComment);
   const [userId, setUserId] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [isLoading, setLoading] = useState(false);
-
   const auth = getAuth();
 
   const handleRatingNumber = (rating) => {
@@ -37,28 +43,48 @@ const RatingBottomSheet = ({
     setComment(text);
   };
 
-  const handleSendReview = () => {
-    setLoading(true);
+  const handleSendReview = async () => {
+    if (type === "addNew") {
+      await setLoading(true);
 
-    writeReview(
-      comment,
-      currentDate,
-      ratingNumber,
-      userEmail,
-      userId,
-      productId,
-      productName
-    )
-      .then(() => {
-        setLoading(false);
-        closeSheet();
-      })
-      .then(() => {
-        Alert.alert("Notification", "Your review has been saved");
-      });
+      await writeReview(
+        comment,
+        currentDate,
+        ratingNumber,
+        userEmail,
+        userId,
+        productId,
+        productName
+      )
+        .then(() => {
+          setLoading(false);
+          closeSheet();
+        })
+        .then(() => {
+          Alert.alert("Notification", "Your review has been saved");
+        });
+    } else {
+      await setLoading(true);
+      await editReview(
+        comment,
+        currentDate,
+        ratingNumber,
+        userEmail,
+        userId,
+        productId,
+        productName,
+        reviewId,
+        existingRating
+      )
+        .then(() => {
+          setLoading(false);
+          closeSheet();
+        })
+        .then(() => {
+          Alert.alert("Notification", "Your editing has been saved");
+        });
+    }
   };
-
-  console.log(ratingNumber);
 
   useEffect(() => {
     // get current date
@@ -104,6 +130,7 @@ const RatingBottomSheet = ({
           </View>
 
           <AirbnbRating
+            defaultRating={existingRating}
             onFinishRating={(rating) => handleRatingNumber(rating)}
           />
           <View style={{ alignItems: "center" }}>
@@ -135,11 +162,12 @@ const RatingBottomSheet = ({
             placeholder="Write your review"
             multiline={true}
             onChangeText={(text) => handleInputText(text)}
+            defaultValue={existingComment}
           />
 
           <Button
             onPress={handleSendReview}
-            title={"SEND REVIEW"}
+            title={type === "addNew" ? "SEND REVIEW" : "EDIT"}
             containerStyle={{ marginTop: 25 }}
             buttonStyle={{
               width: "100%",
