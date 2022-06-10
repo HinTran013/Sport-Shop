@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert, Image } from "react-native";
 import SimpleScreenHeader from "../components/Simple Screen Header/SimpleScreenHeader";
 import ProductRating from "../components/Product Rating/ProductRating";
 import ReviewCard from "../components/Product Rating/ReviewCard";
@@ -122,6 +122,7 @@ const CustomerRatingScreen = ({ route, navigation }) => {
 
           <View>
             {productReviews &&
+              productReviews.length > 0 &&
               productReviews.map((item, index) => {
                 return (
                   <ReviewCard
@@ -146,6 +147,25 @@ const CustomerRatingScreen = ({ route, navigation }) => {
           </View>
         </View>
       </ScrollView>
+
+      {productReviews && productReviews.length === 0 && (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 18 }}>
+            Be the one who has the first review.
+          </Text>
+          <Image
+            source={require("../assets/review_vector.png")}
+            style={{ height: 150 }}
+            resizeMode="contain"
+          />
+        </View>
+      )}
+
       <Button
         onPress={() => {
           if (!userId) {

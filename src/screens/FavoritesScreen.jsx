@@ -21,7 +21,7 @@ import { deleteAFavoriteProduct } from "../utils/Product Utils/product";
 
 export default function FavoritesScreen({ navigation }) {
   const [flipView, setFlipView] = useState(false);
-  const [products, setProducts] = useState(null);
+  const [products, setProducts] = useState([]);
   const userId = auth.currentUser?.uid;
 
   useEffect(() => {
@@ -70,104 +70,120 @@ export default function FavoritesScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <ScrollView
-        contentContainerStyle={
-          !flipView
-            ? styles.productItemContainer
-            : styles.horizontalProductContainer
-        }
-      >
-        {!flipView &&
-          products &&
-          products.map((product, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                onPress={() =>
-                  navigation.navigate("ProductDetails", {
-                    images: product.images,
-                    brand: product.brand,
-                    name: product.name,
-                    price: product.price,
-                    rating: product.totalRating,
-                    details: product.detailedDesc,
-                    shortDescription: product.shortDesc,
-                    shippingInfo: product.shippingInfo,
-                    supportInfo: product.supportInfo,
-                    category: product.category,
-                    colors: product.colors,
-                    sizes: product.sizes,
-                    numberOfReviews: product.numberOfReviews,
-                    totalRating: product.totalRating,
-                    id: product.id,
-                  })
-                }
-              >
-                <ProductItem
-                  imgURL={product.images[0]}
-                  marginRight={0}
-                  badgeType=""
-                  badgeContent=""
-                  brand={product.brand}
-                  price={product.price}
-                  name={product.name}
-                  numberOfReviews={product.numberOfReviews}
-                  totalRating={product.totalRating}
-                  marginBottom={20}
-                  isFavoriteItem={true}
-                  removeFromFavorite={() => removeAFavoriteProduct(product.id)}
-                  isHideReviews={true}
-                  contentMarginTop={10}
-                />
-              </TouchableOpacity>
-            );
-          })}
+      {products.length !== 0 ? (
+        <ScrollView
+          contentContainerStyle={
+            !flipView
+              ? styles.productItemContainer
+              : styles.horizontalProductContainer
+          }
+        >
+          {!flipView &&
+            products &&
+            products.map((product, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() =>
+                    navigation.navigate("ProductDetails", {
+                      images: product.images,
+                      brand: product.brand,
+                      name: product.name,
+                      price: product.price,
+                      rating: product.totalRating,
+                      details: product.detailedDesc,
+                      shortDescription: product.shortDesc,
+                      shippingInfo: product.shippingInfo,
+                      supportInfo: product.supportInfo,
+                      category: product.category,
+                      colors: product.colors,
+                      sizes: product.sizes,
+                      numberOfReviews: product.numberOfReviews,
+                      totalRating: product.totalRating,
+                      id: product.id,
+                    })
+                  }
+                >
+                  <ProductItem
+                    imgURL={product.images[0]}
+                    marginRight={0}
+                    badgeType=""
+                    badgeContent=""
+                    brand={product.brand}
+                    price={product.price}
+                    name={product.name}
+                    numberOfReviews={product.numberOfReviews}
+                    totalRating={product.totalRating}
+                    marginBottom={20}
+                    isFavoriteItem={true}
+                    removeFromFavorite={() =>
+                      removeAFavoriteProduct(product.id)
+                    }
+                    isHideReviews={true}
+                    contentMarginTop={10}
+                  />
+                </TouchableOpacity>
+              );
+            })}
 
-        {flipView &&
-          products &&
-          products.map((product, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                onPress={() =>
-                  navigation.navigate("ProductDetails", {
-                    images: product.images,
-                    brand: product.brand,
-                    name: product.name,
-                    price: product.price,
-                    rating: product.totalRating,
-                    details: product.detailedDesc,
-                    shortDescription: product.shortDesc,
-                    shippingInfo: product.shippingInfo,
-                    supportInfo: product.supportInfo,
-                    category: product.category,
-                    colors: product.colors,
-                    sizes: product.sizes,
-                    numberOfReviews: product.numberOfReviews,
-                    totalRating: product.totalRating,
-                    id: product.id,
-                  })
-                }
-              >
-                <HorizontalProduct
-                  imgURL={product.images[0]}
-                  marginRight={0}
-                  badgeType=""
-                  badgeContent=""
-                  brand={product.brand}
-                  price={product.price}
-                  name={product.name}
-                  numberOfReviews={product.numberOfReviews}
-                  totalRating={product.totalRating}
-                  marginBottom={20}
-                  isFavoriteItem={true}
-                  removeFromFavorite={() => removeAFavoriteProduct(product.id)}
-                  isHideReviews={true}
-                />
-              </TouchableOpacity>
-            );
-          })}
-      </ScrollView>
+          {flipView &&
+            products &&
+            products.map((product, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() =>
+                    navigation.navigate("ProductDetails", {
+                      images: product.images,
+                      brand: product.brand,
+                      name: product.name,
+                      price: product.price,
+                      rating: product.totalRating,
+                      details: product.detailedDesc,
+                      shortDescription: product.shortDesc,
+                      shippingInfo: product.shippingInfo,
+                      supportInfo: product.supportInfo,
+                      category: product.category,
+                      colors: product.colors,
+                      sizes: product.sizes,
+                      numberOfReviews: product.numberOfReviews,
+                      totalRating: product.totalRating,
+                      id: product.id,
+                    })
+                  }
+                >
+                  <HorizontalProduct
+                    imgURL={product.images[0]}
+                    marginRight={0}
+                    badgeType=""
+                    badgeContent=""
+                    brand={product.brand}
+                    price={product.price}
+                    name={product.name}
+                    numberOfReviews={product.numberOfReviews}
+                    totalRating={product.totalRating}
+                    marginBottom={20}
+                    isFavoriteItem={true}
+                    removeFromFavorite={() =>
+                      removeAFavoriteProduct(product.id)
+                    }
+                    isHideReviews={true}
+                  />
+                </TouchableOpacity>
+              );
+            })}
+        </ScrollView>
+      ) : (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Image
+            source={require("../assets/searching_vector.png")}
+            style={{ width: 200, height: 200 }}
+          />
+          <Text style={{ fontSize: 16 }}>There is no favorite products.</Text>
+        </View>
+      )}
     </View>
   ) : (
     <View style={styles.container2}>
