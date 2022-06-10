@@ -38,19 +38,19 @@ export default function LoginScreen({ navigation }) {
         })
         .catch((error) => {
           if (error.code === "auth/user-not-found") {
-            Alert.alert("Tài khoản này không tồn tại!");
+            Alert.alert("This account is not exist!");
           } else if (error.code === "auth/wrong-password") {
-            Alert.alert("Mật khẩu chưa chính xác!");
+            Alert.alert("Wrong password!");
           } else Alert.alert(error.message);
         });
     }
   };
   const isValidForm = () => {
     if (email == "") {
-      Alert.alert("Vui lòng nhập email!");
+      Alert.alert("Please enter your email!");
       return false;
     } else if (password == "") {
-      Alert.alert("Vui lòng nhập mật khẩu!");
+      Alert.alert("Please enter your password!");
       return false;
     }
     return true;

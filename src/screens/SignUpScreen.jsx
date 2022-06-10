@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
-import md5 from 'md5';
+import md5 from "md5";
 
 export default function SignUpScreen({ navigation }) {
   const [name, setName] = useState("");
@@ -29,7 +29,7 @@ export default function SignUpScreen({ navigation }) {
             email: email,
             password: md5(password),
           });
-          Alert.alert("Bạn đã đăng ký thành công!");
+          Alert.alert("You have signed up successfully!");
           navigation.navigate("Login");
         })
         .catch((error) => {
@@ -38,7 +38,7 @@ export default function SignUpScreen({ navigation }) {
           Alert.alert(errorMessage);
         });
     } else {
-      Alert.alert("Mật khẩu phải lớn hơn 8 ký tự!");
+      Alert.alert("Password is more than 7 characters!");
     }
   };
 
