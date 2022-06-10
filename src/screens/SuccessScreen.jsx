@@ -6,8 +6,15 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { resetCartList } from "../redux/cartSlice";
 
 export default function SuccessScreen({ navigation }) {
+  const dispatch = useDispatch();
+  const handleBack = () => {
+    dispatch(resetCartList());
+    navigation.navigate("Main");
+  };
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -20,10 +27,7 @@ export default function SuccessScreen({ navigation }) {
           Your order will be delivered soon.
         </Text>
         <Text style={styles.content}>Thank you for choosing our app!</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.replace("Main")}
-        >
+        <TouchableOpacity style={styles.button} onPress={() => handleBack()}>
           <Text
             style={{
               alignSelf: "center",

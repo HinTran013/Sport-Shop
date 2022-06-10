@@ -1,14 +1,54 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Alert,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import getDefaultAddress from "../utils/getDefaultAddress";
+import submitOrder from "../utils/submitOrder";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function CheckoutScreen({ navigation, route }) {
   const [isActived, setActived] = useState({
     name: "Giaohangtietkiem",
     fee: 15,
   });
+  const [paymentMethod, setPaymentMethod] = useState(
+    "Payment on receipt of products"
+  );
   const orderPrice = route.params.totalPrice;
   const defaultAddress = getDefaultAddress();
+  const cartList = useSelector((state) => state.cart.list);
+  const dispatch = useDispatch();
+  const handleSubmit = () => {
+    if (defaultAddress != null) {
+      Alert.alert("Confirm", "Do you want to submit this order?", [
+        {
+          text: "No",
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => {
+            submitOrder({
+              payment: paymentMethod,
+              addressId: defaultAddress.id,
+              delivery: isActived.name,
+              deliveryFee: isActived.fee,
+              orderPrice: orderPrice,
+              cartList: cartList,
+            });
+            navigation.navigate("Success");
+          },
+        },
+      ]);
+    } else {
+      Alert.alert("Please choose an address!");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -105,7 +145,7 @@ export default function CheckoutScreen({ navigation, route }) {
           </View>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate("Success")}
+            onPress={() => handleSubmit()}
           >
             <Text
               style={{

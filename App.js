@@ -18,7 +18,7 @@ import MyReviewsScreen from "./src/screens/MyReviewsScreen";
 import ProductDetailsScreen from "./src/screens/ProductDetailsScreen";
 import CustomerRatingScreen from "./src/screens/CustomerRatingScreen";
 import CategoriesScreen from "./src/screens/CategoriesScreen";
-import FiltersScreen from "./src/screens/FiltersScreen"
+import FiltersScreen from "./src/screens/FiltersScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./src/firebase-config";
@@ -60,14 +60,14 @@ function App() {
                 name="Category"
                 component={CategoriesScreen}
                 options={{
-                  presentation: "modal"
+                  presentation: "modal",
                 }}
               />
               <Stack.Screen
                 name="Filters"
                 component={FiltersScreen}
                 options={{
-                presentation: "modal"
+                  presentation: "modal",
                 }}
               />
               <Stack.Screen
