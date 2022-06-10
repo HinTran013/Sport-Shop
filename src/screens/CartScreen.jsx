@@ -8,13 +8,30 @@ import {
   ScrollView,
 } from "react-native";
 import { getAuth } from "firebase/auth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  decrease,
+  fetchCartList,
+  increase,
+  resetCartList,
+} from "../redux/cartSlice";
 
 export default function CartScreen({ navigation }) {
   const auth = getAuth();
   const list = useSelector((state) => state.cart.list);
+  const dispatch = useDispatch();
   let totalPrice = 0;
   list.map((item) => (totalPrice += item.quantity * item.price));
+  useEffect(() => {
+    dispatch(fetchCartList());
+  }, [list]);
+
+  const handleIncrease = (props) => {
+    dispatch(increase(props));
+  };
+  const handleDecrease = (props) => {
+    dispatch(decrease(props));
+  };
 
   return auth.currentUser ? (
     <View style={styles.container}>
@@ -29,12 +46,15 @@ export default function CartScreen({ navigation }) {
             {list.map((item) => {
               return (
                 <Item
+                  key={item.id}
                   image={item.productImage}
                   name={item.name}
                   color={item.currentColor}
                   size={item.currentSize}
                   quantity={item.quantity}
                   price={item.price}
+                  handleIncrease={handleIncrease}
+                  handleDecrease={handleDecrease}
                 />
               );
             })}
@@ -110,11 +130,17 @@ const Item = (props) => {
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity style={styles.countButton}>
+          <TouchableOpacity
+            style={styles.countButton}
+            onPress={() => props.handleDecrease(props)}
+          >
             <Text>-</Text>
           </TouchableOpacity>
           <Text style={styles.quantity}>{props.quantity}</Text>
-          <TouchableOpacity style={styles.countButton}>
+          <TouchableOpacity
+            style={styles.countButton}
+            onPress={() => props.handleIncrease(props)}
+          >
             <Text>+</Text>
           </TouchableOpacity>
           <Text style={styles.itemPrice}>{props.price * props.quantity}$</Text>
@@ -193,7 +219,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#f9f9f9",
   },
   title2: {
     fontSize: 34,
