@@ -8,19 +8,27 @@ import {
   ScrollView,
 } from "react-native";
 import { getAuth } from "firebase/auth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { decrease, increase } from "../redux/cartSlice";
 
 export default function CartScreen({ navigation }) {
   const auth = getAuth();
+  const dispatch = useDispatch();
   const list = useSelector((state) => state.cart.list);
   let totalPrice = 0;
   list.map((item) => (totalPrice += item.quantity * item.price));
+  const handleIncrease = (props) => {
+    dispatch(increase(props));
+  };
+  const handleDecrease = (props) => {
+    dispatch(decrease(props));
+  };
 
   return auth.currentUser ? (
     <View style={styles.container}>
       <Text style={styles.title}>My Cart</Text>
       {list.length == 0 ? (
-        <View style={styles.container2}>
+        <View style={[styles.container2, { backgroundColor: "#f9f9f9" }]}>
           <Text>There is no items in your cart!</Text>
         </View>
       ) : (
@@ -35,6 +43,8 @@ export default function CartScreen({ navigation }) {
                   size={item.currentSize}
                   quantity={item.quantity}
                   price={item.price}
+                  handleDecrease={handleDecrease}
+                  handleIncrease={handleIncrease}
                 />
               );
             })}
@@ -110,11 +120,17 @@ const Item = (props) => {
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity style={styles.countButton}>
+          <TouchableOpacity
+            style={styles.countButton}
+            onPress={() => props.handleDecrease(props)}
+          >
             <Text>-</Text>
           </TouchableOpacity>
           <Text style={styles.quantity}>{props.quantity}</Text>
-          <TouchableOpacity style={styles.countButton}>
+          <TouchableOpacity
+            style={styles.countButton}
+            onPress={() => props.handleIncrease(props)}
+          >
             <Text>+</Text>
           </TouchableOpacity>
           <Text style={styles.itemPrice}>{props.price * props.quantity}$</Text>

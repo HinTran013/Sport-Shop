@@ -24,10 +24,41 @@ export const cartSlice = createSlice({
     getCartList: (state, action) => {
       state.list = action.payload;
     },
+    increase: (state, action) => {
+      state.list.forEach((element) => {
+        if (
+          element.name == action.payload.name &&
+          element.currentSize == action.payload.size &&
+          element.currentColor == action.payload.color
+        ) {
+          element.quantity += 1;
+        }
+      });
+    },
+    decrease: (state, action) => {
+      state.list.forEach((element) => {
+        if (
+          element.name == action.payload.name &&
+          element.currentSize == action.payload.size &&
+          element.currentColor == action.payload.color
+        ) {
+          element.quantity -= 1;
+          if (element.quantity == 0)
+            state.list.splice(
+              state.list.findIndex((arrow) => arrow === element),
+              1
+            );
+        }
+      });
+    },
+    resetCartList: () => {
+      return initialState;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { getCartList } = cartSlice.actions;
+export const { getCartList, increase, decrease, resetCartList } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;
