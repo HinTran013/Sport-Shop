@@ -6,10 +6,37 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReviewCard from "../components/Product Rating/ReviewCard";
+import { useSelector } from "react-redux";
+import { getProductInfo } from "../utils/Product Utils/product";
 
 export default function MyReviewsScreen({ navigation }) {
+  const list = useSelector((state) => state.review.list);
+  const user = useSelector((state) => state.user);
+  useEffect(() => {}, [list]);
+
+  const handleClick = (id) => {
+    const setData = () => {};
+    const productInfo = getProductInfo(id, setData);
+
+    navigation.navigate("ProductDetails", {
+      images: productInfo.images,
+      brand: productInfo.brand,
+      name: productInfo.name,
+      price: productInfo.price,
+      details: productInfo.detailedDesc,
+      shortDescription: productInfo.shortDesc,
+      shippingInfo: productInfo.shippingInfo,
+      supportInfo: productInfo.supportInfo,
+      category: productInfo.category,
+      colors: productInfo.colors,
+      sizes: productInfo.sizes,
+      numberOfReviews: productInfo.numberOfReviews,
+      totalRating: productInfo.totalRating,
+      id: productInfo.id,
+    });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -28,39 +55,31 @@ export default function MyReviewsScreen({ navigation }) {
         </Text>
       </View>
       <ScrollView style={{ marginTop: 30 }}>
-        <ProductReview nameProduct="Nike Air Force 1" />
-        <ProductReview nameProduct="Nike Air Force 2" />
+        {list.map((item) => {
+          return (
+            <View>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text>Review for: </Text>
+                <TouchableOpacity onPress={() => handleClick(item.productId)}>
+                  <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                    {item.productName}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <ReviewCard
+                name={user.name}
+                rating={item.rating}
+                date={item.date}
+                comment={item.comment}
+                containerStyle={{ marginHorizontal: 20, marginVertical: 20 }}
+              />
+            </View>
+          );
+        })}
       </ScrollView>
     </View>
   );
 }
-
-const ProductReview = (props) => {
-  return (
-    <View>
-      <View style={{ flexDirection: "row" }}>
-        <Text>Review for </Text>
-        <TouchableOpacity>
-          <Text style={{ fontWeight: "bold" }}>{props.nameProduct} :</Text>
-        </TouchableOpacity>
-      </View>
-      <ReviewCard
-        name="Trần Thanh Hiền"
-        rating={3}
-        date="12/05/2022"
-        comment="Như quần què"
-        containerStyle={{ marginHorizontal: 20, marginVertical: 20 }}
-      />
-      <ReviewCard
-        name="Trần Thanh Hiền"
-        rating={3}
-        date="13/05/2022"
-        comment="Như quần què"
-        containerStyle={{ marginHorizontal: 20, marginVertical: 20 }}
-      />
-    </View>
-  );
-};
 
 const styles = StyleSheet.create({
   container: {

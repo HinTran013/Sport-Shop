@@ -11,6 +11,7 @@ export default function ProfileScreen({ navigation }) {
   const auth = getAuth(app);
   const person = useSelector((state) => state.user);
   const listAddress = useSelector((state) => state.address.listAddresses);
+  const listReview = useSelector((state) => state.review.list);
 
   function handleSignOut() {
     signOut(auth)
@@ -44,7 +45,7 @@ export default function ProfileScreen({ navigation }) {
       />
       <Item
         title="My reviews"
-        content="Review for 4 items"
+        content={`Review for ${listReview.length} items`}
         screen="MyReviews"
         navigation={navigation}
       />
