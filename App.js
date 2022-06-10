@@ -18,8 +18,7 @@ import MyReviewsScreen from "./src/screens/MyReviewsScreen";
 import ProductDetailsScreen from "./src/screens/ProductDetailsScreen";
 import CustomerRatingScreen from "./src/screens/CustomerRatingScreen";
 import CategoriesScreen from "./src/screens/CategoriesScreen";
-import FiltersScreen from "./src/screens/FiltersScreen";
-import ChoosingAddressScreen from "./src/screens/ChoosingAddressScreen";
+import FiltersScreen from "./src/screens/FiltersScreen"
 import { NavigationContainer } from "@react-navigation/native";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./src/firebase-config";
@@ -57,7 +56,6 @@ function App() {
               <Stack.Screen name="Address" component={AddressScreen} />
               <Stack.Screen name="AddAddress" component={AddingAddressScreen} />
               <Stack.Screen name="MyReviews" component={MyReviewsScreen} />
-              <Stack.Screen name="ChooseAdd" component={ChoosingAddressScreen} />
               <Stack.Screen
                 name="Category"
                 component={CategoriesScreen}

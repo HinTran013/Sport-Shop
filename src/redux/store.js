@@ -29,8 +29,7 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage: AsyncStorage,
-  whitelist: ["user", "filter", "address", "cart"],
-  blacklist: [],
+  whitelist: ["user", "cart", "filter", "address"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -40,7 +39,9 @@ export const store = configureStore(
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
-        serializableCheck: false,
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
       }),
   },
   compose(applyMiddleware(thunk))

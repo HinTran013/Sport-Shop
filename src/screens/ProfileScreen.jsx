@@ -11,7 +11,6 @@ export default function ProfileScreen({ navigation }) {
   const auth = getAuth(app);
   const person = useSelector((state) => state.user);
   const listAddress = useSelector((state) => state.address.listAddresses);
-  useEffect(() => {}, [listAddress]);
 
   function handleSignOut() {
     signOut(auth)
