@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import getDefaultAddress from "../utils/getDefaultAddress";
 
 export const addressSlice = createSlice({
   name: "address",
   initialState: {
     listAddresses: [],
+    deliveredAddress: {},
   },
   reducers: {
     setAddress: (state, action) => {
@@ -31,6 +33,9 @@ export const addressSlice = createSlice({
         1
       );
     },
+    setDelivered: (state, action) => {
+      state.deliveredAddress = action.payload;
+    },
   },
 });
 
@@ -41,6 +46,7 @@ export const {
   setDefault,
   updateAddress,
   deleteAddress,
+  setDelivered,
 } = addressSlice.actions;
 
 export default addressSlice.reducer;

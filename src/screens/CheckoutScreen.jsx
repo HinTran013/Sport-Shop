@@ -1,15 +1,66 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Alert,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import getDefaultAddress from "../utils/getDefaultAddress";
+import { useSelector, useDispatch } from "react-redux";
+import { setDelivered } from "../redux/addressSlice";
+import submitOrder from "../utils/submitOrder";
+import { fetchCartList, resetCartList } from "../redux/cartSlice";
 
 export default function CheckoutScreen({ navigation, route }) {
   const [isActived, setActived] = useState({
     name: "Giaohangtietkiem",
     fee: 15,
   });
-  const orderPrice = route.params.totalPrice;
+  const [paymentMethod, setPaymentMethod] = useState(
+    "Payment on receipt of products"
+  );
+  const dispatch = useDispatch();
   const defaultAddress = getDefaultAddress();
+  if (tmp != null) dispatch(setDelivered(defaultAddress));
+  const tmp = useSelector((state) => state.address.deliveredAddress);
+  const cartList = useSelector((state) => state.cart.list);
+  const [deliveredAddress, setDeliveredAddress] = useState(tmp);
 
+  const orderPrice = route.params.totalPrice;
+  useEffect(() => {
+    setDeliveredAddress(tmp);
+  }, [tmp, cartList]);
+
+  const handleSubmit = () => {
+    if (defaultAddress != null) {
+      Alert.alert("Confirm", "Do you want to submit this order?", [
+        {
+          text: "No",
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => {
+            submitOrder({
+              payment: paymentMethod,
+              addressId: deliveredAddress.id,
+              delivery: isActived.name,
+              deliveryFee: isActived.fee,
+              orderPrice: orderPrice,
+              cartList: cartList,
+            });
+            dispatch(resetCartList());
+            dispatch(fetchCartList());
+            navigation.navigate("Success");
+          },
+        },
+      ]);
+    } else {
+      Alert.alert("Please choose an address!");
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -29,17 +80,18 @@ export default function CheckoutScreen({ navigation, route }) {
       </View>
       <View style={{ marginTop: 30, flex: 1 }}>
         <Text style={styles.title}>Shipping Address</Text>
-        {defaultAddress ? (
+        {deliveredAddress ? (
           <Address
-            name={defaultAddress.name}
-            addressOne={defaultAddress.address}
-            addressTwo={defaultAddress.ward}
+            name={deliveredAddress.name}
+            addressOne={deliveredAddress.address}
+            addressTwo={`${deliveredAddress.ward}, ${deliveredAddress.district}`}
+            addressThree={deliveredAddress.province}
             navigation={navigation}
           />
         ) : (
           <TouchableOpacity
             style={styles.addressContainer}
-            onPress={() => navigation.navigate("Address")}
+            onPress={() => navigation.navigate("ChooseAdd")}
           >
             <Text style={{ textAlign: "center" }}>
               Please choose an address
@@ -105,7 +157,7 @@ export default function CheckoutScreen({ navigation, route }) {
           </View>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate("Success")}
+            onPress={() => handleSubmit()}
           >
             <Text
               style={{
@@ -128,12 +180,15 @@ const Address = (props) => {
     <View style={styles.addressContainer}>
       <View style={{ flexDirection: "row", marginBottom: 10 }}>
         <Text style={{ flex: 1, fontWeight: "bold" }}>{props.name}</Text>
-        <TouchableOpacity onPress={() => props.navigation.navigate("Address")}>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate("ChooseAdd")}
+        >
           <Text style={{ color: "#DB3022" }}>Change</Text>
         </TouchableOpacity>
       </View>
       <Text>{props.addressOne}</Text>
       <Text>{props.addressTwo}</Text>
+      <Text>{props.addressThree}</Text>
     </View>
   );
 };
