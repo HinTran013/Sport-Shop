@@ -44,6 +44,11 @@ const RatingBottomSheet = ({
   };
 
   const handleSendReview = async () => {
+    if (comment === "") {
+      Alert.alert("Notification", "Don't let your review empty!");
+      return;
+    }
+
     if (type === "addNew") {
       await setLoading(true);
 
