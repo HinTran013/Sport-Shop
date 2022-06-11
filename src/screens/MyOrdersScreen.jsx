@@ -7,9 +7,16 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import getOrderID from "../utils/getOrderID";
 
 export default function MyOrdersScreen({ navigation }) {
-  const [status, setStatus] = useState("Delivery");
+  const [status, setStatus] = useState("Processing");
+  const list = useSelector((state) => state.order.list);
+  const listDelivery = list.filter((item) => item.status == "Delivery");
+  const listProcessing = list.filter((item) => item.status == "Processing");
+  const listCancelled = list.filter((item) => item.status == "Cancelled");
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.pop()}>
@@ -23,100 +30,110 @@ export default function MyOrdersScreen({ navigation }) {
           marginBottom: 10,
         }}
       >
-        <CustomButton name="Delivery" setStatus={setStatus} status={status} />
         <CustomButton name="Processing" setStatus={setStatus} status={status} />
+        <CustomButton name="Delivery" setStatus={setStatus} status={status} />
         <CustomButton name="Cancelled" setStatus={setStatus} status={status} />
       </View>
       {status == "Delivery" ? (
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Order
-            idNumber="123456"
-            date="10-03-2022"
-            trackingNumber="IW1231151615"
-            quantity={3}
-            price="123$"
-            status="Delivered"
-            color="green"
-            navigation={navigation}
-          />
-          <Order
-            idNumber="123456"
-            date="10-03-2022"
-            trackingNumber="IW1231151615"
-            quantity={3}
-            price="123$"
-            status="Delivered"
-            color="green"
-            navigation={navigation}
-          />
-          <Order
-            idNumber="123456"
-            date="10-03-2022"
-            trackingNumber="IW1231151615"
-            quantity={3}
-            price="123$"
-            status="Delivered"
-            color="green"
-            navigation={navigation}
-          />
+          {listDelivery.length != 0 ? (
+            listDelivery.map((item) => {
+              return (
+                <Order
+                  idNumber={getOrderID(item.id)}
+                  date={item.date}
+                  trackingNumber={item.trackingNumber}
+                  quantity={item.productList.length}
+                  price={`${item.orderPrice + item.deliveryFee}$`}
+                  status={item.status}
+                  productList={item.productList}
+                  address={item.address}
+                  delivery={item.delivery}
+                  payment={item.payment}
+                  color="green"
+                  navigation={navigation}
+                />
+              );
+            })
+          ) : (
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 50,
+              }}
+            >
+              <Text>There is no delivery orders!</Text>
+            </View>
+          )}
         </ScrollView>
       ) : null}
       {status == "Processing" ? (
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Order
-            idNumber="123456"
-            date="10-03-2022"
-            trackingNumber="IW1231151615"
-            quantity={3}
-            price="123$"
-            status="Processing"
-            color="orange"
-            navigation={navigation}
-          />
-          <Order
-            idNumber="123456"
-            date="10-03-2022"
-            trackingNumber="IW1231151615"
-            quantity={3}
-            price="123$"
-            status="Processing"
-            color="orange"
-            navigation={navigation}
-          />
-          <Order
-            idNumber="123456"
-            date="10-03-2022"
-            trackingNumber="IW1231151615"
-            quantity={3}
-            price="123$"
-            status="Processing"
-            color="orange"
-            navigation={navigation}
-          />
+          {listProcessing.length != 0 ? (
+            listProcessing.map((item) => {
+              return (
+                <Order
+                  idNumber={getOrderID(item.id)}
+                  date={item.date}
+                  trackingNumber={item.trackingNumber}
+                  quantity={item.productList.length}
+                  price={`${item.orderPrice + item.deliveryFee}$`}
+                  status={item.status}
+                  productList={item.productList}
+                  address={item.address}
+                  delivery={item.delivery}
+                  payment={item.payment}
+                  color="orange"
+                  navigation={navigation}
+                />
+              );
+            })
+          ) : (
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 50,
+              }}
+            >
+              <Text>There is no processing orders!</Text>
+            </View>
+          )}
         </ScrollView>
       ) : null}
       {status == "Cancelled" ? (
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Order
-            idNumber="123456"
-            date="10-03-2022"
-            trackingNumber="IW1231151615"
-            quantity={3}
-            price="123$"
-            status="Cancelled"
-            color="red"
-            navigation={navigation}
-          />
-          <Order
-            idNumber="123456"
-            date="10-03-2022"
-            trackingNumber="IW1231151615"
-            quantity={3}
-            price="123$"
-            status="Cancelled"
-            color="red"
-            navigation={navigation}
-          />
+          {listCancelled.length != 0 ? (
+            listCancelled.map((item) => {
+              return (
+                <Order
+                  idNumber={getOrderID(item.id)}
+                  date={item.date}
+                  trackingNumber={item.trackingNumber}
+                  quantity={item.productList.length}
+                  price={`${item.orderPrice + item.deliveryFee}$`}
+                  status={item.status}
+                  productList={item.productList}
+                  address={item.address}
+                  delivery={item.delivery}
+                  payment={item.payment}
+                  color="red"
+                  navigation={navigation}
+                />
+              );
+            })
+          ) : (
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 50,
+              }}
+            >
+              <Text>There is no cancelled orders!</Text>
+            </View>
+          )}
         </ScrollView>
       ) : null}
     </View>
@@ -218,7 +235,7 @@ const Order = (props) => {
             borderColor: "black",
             borderRadius: 50,
           }}
-          onPress={() => props.navigation.navigate("OrderDetail")}
+          onPress={() => props.navigation.navigate("OrderDetail", props)}
         >
           <Text style={{ fontSize: 16 }}>Detail</Text>
         </TouchableOpacity>
