@@ -16,13 +16,13 @@ import ArrowBackImg from "../assets/arrow.png";
 
 export const tags = [
   "Sneaker",
-  "Jordan",
+  "Pants",
   "Soccer ball",
   "T-shirts",
-  "Polo shirts",
-  "Football boots",
-  "Ice skates",
-  "Helmets",
+  "Socks",
+  "Football shoes",
+  "Caps",
+  "Hoodies",
 ];
 
 const CategoriesScreen = ({ visible, navigation }) => {
