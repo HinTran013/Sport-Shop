@@ -24,10 +24,13 @@ export const reviewList = createSlice({
     getReviewList: (state, action) => {
       state.list = action.payload;
     },
+    resetReviewList: () => {
+      return initialState;
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { getReviewList } = reviewList.actions;
+export const { getReviewList, resetReviewList } = reviewList.actions;
 
 export default reviewList.reducer;

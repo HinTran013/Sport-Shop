@@ -37,6 +37,7 @@ export default function CartScreen({ navigation }) {
             {list.map((item) => {
               return (
                 <Item
+                  key={item.id}
                   image={item.productImage}
                   name={item.name}
                   color={item.currentColor}
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     flexDirection: "row",
-    height: 90,
+    minHeight: 90,
     backgroundColor: "white",
     borderRadius: 15,
     shadowColor: "#000",

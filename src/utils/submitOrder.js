@@ -15,14 +15,22 @@ export default (props) => {
     set(ref(db, "users/" + currentUser.uid + "/orders/index"), index + 1);
   }
   const date = new Date();
+  const currentDate =
+    date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+  let trackingNumber = "";
+  for (let i = 0; i < 9; i++) {
+    trackingNumber += Math.floor(Math.random() * 10);
+  }
   const newOrder = {
     id: "order" + index,
-    addressId: props.addressId,
+    address: props.address,
     payment: props.payment,
     delivery: props.delivery,
     deliveryFee: props.deliveryFee,
     orderPrice: props.orderPrice,
-    date: date,
+    date: currentDate,
+    trackingNumber: trackingNumber,
+    status: "Processing",
     productList: props.cartList,
   };
   set(ref(db, "users/" + currentUser.uid + `/orders/order${index}`), newOrder);

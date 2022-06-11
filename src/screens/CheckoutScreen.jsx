@@ -35,7 +35,14 @@ export default function CheckoutScreen({ navigation, route }) {
           onPress: () => {
             submitOrder({
               payment: paymentMethod,
-              addressId: defaultAddress.id,
+              address:
+                defaultAddress.address +
+                ", " +
+                defaultAddress.ward +
+                ", " +
+                defaultAddress.district +
+                ", " +
+                defaultAddress.province,
               delivery: isActived.name,
               deliveryFee: isActived.fee,
               orderPrice: orderPrice,

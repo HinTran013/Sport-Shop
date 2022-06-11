@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import filterSlice from "./filterSlice";
 import addressSlice from "./addressSlice";
 import reviewSlice from "./reviewSlice";
+import orderSlice from "./orderSlice";
 
 //root reducer
 const rootReducer = combineReducers({
@@ -25,13 +26,14 @@ const rootReducer = combineReducers({
   filter: filterSlice,
   address: addressSlice,
   review: reviewSlice,
+  order: orderSlice,
 });
 
 const persistConfig = {
   key: "root",
   version: 1,
   storage: AsyncStorage,
-  whitelist: ["user", "cart", "filter", "address", "review"],
+  whitelist: ["user", "cart", "filter", "address", "review", "order"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

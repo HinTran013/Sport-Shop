@@ -23,6 +23,7 @@ import ProfileScreen from "../../screens/ProfileScreen";
 import loadAddresses from "../../utils/loadAddresses";
 import { fetchCartList } from "../../redux/cartSlice";
 import { fetchReviewList } from "../../redux/reviewSlice";
+import { fetchOrderList } from "../../redux/orderSlice";
 //screen names
 const homeName = "Home";
 const shopName = "Shop";
@@ -79,6 +80,7 @@ export default function MainContainer() {
         dispatch(setUserData(data));
         dispatch(fetchCartList());
         dispatch(fetchReviewList());
+        dispatch(fetchOrderList());
       });
     }
   }, [currentUser]);

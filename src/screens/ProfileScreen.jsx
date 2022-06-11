@@ -3,8 +3,12 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { firebaseConfig } from "../firebase-config";
 import { initializeApp } from "firebase/app";
 import { getAuth, signOut } from "firebase/auth";
-import { useSelector } from "react-redux";
-import loadAddresses from "../utils/loadAddresses";
+import { useDispatch, useSelector } from "react-redux";
+import { resetAddress } from "../redux/addressSlice";
+import { resetCartList } from "../redux/cartSlice";
+import { resetOrderList } from "../redux/orderSlice";
+import { resetReviewList } from "../redux/reviewSlice";
+import { resetUser } from "../redux/userSlice";
 
 export default function ProfileScreen({ navigation }) {
   const app = initializeApp(firebaseConfig);
@@ -12,10 +16,17 @@ export default function ProfileScreen({ navigation }) {
   const person = useSelector((state) => state.user);
   const listAddress = useSelector((state) => state.address.listAddresses);
   const listReview = useSelector((state) => state.review.list);
+  const listOrder = useSelector((state) => state.order.list);
+  const dispatch = useDispatch();
 
   function handleSignOut() {
     signOut(auth)
       .then(() => {
+        dispatch(resetAddress());
+        dispatch(resetCartList());
+        dispatch(resetOrderList());
+        dispatch(resetReviewList());
+        dispatch(resetUser());
         navigation.replace("Login");
       })
       .catch((error) => {
@@ -33,7 +44,7 @@ export default function ProfileScreen({ navigation }) {
       />
       <Item
         title="My orders"
-        content="Already have 12 orders"
+        content={`Already have ${listOrder.length} orders`}
         screen="Order"
         navigation={navigation}
       />
