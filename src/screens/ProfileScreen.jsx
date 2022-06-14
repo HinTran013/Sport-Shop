@@ -62,7 +62,7 @@ export default function ProfileScreen({ navigation }) {
       />
       <Item
         title="Settings"
-        content="Notifications, password"
+        content="Information, password"
         screen="Setting"
         navigation={navigation}
       />

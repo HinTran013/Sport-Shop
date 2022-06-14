@@ -23,6 +23,7 @@ export default function SettingScreen({ navigation }) {
   const currentUser = useSelector((state) => state.user);
   const [name, setName] = useState(currentUser.name);
   const [dob, setDOB] = useState(currentUser.dob);
+  const [phone, setPhone] = useState(currentUser.phone);
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
   let day, month, year;
@@ -51,6 +52,7 @@ export default function SettingScreen({ navigation }) {
     const auth = getAuth();
     set(ref(db, "users/" + auth.currentUser.uid + "/name"), name);
     set(ref(db, "users/" + auth.currentUser.uid + "/dob"), dob);
+    set(ref(db, "users/" + auth.currentUser.uid + "/phone"), phone);
     set(
       ref(db, "users/" + auth.currentUser.uid + "/notiSales"),
       isEnabledSales == false ? false : true
@@ -67,6 +69,7 @@ export default function SettingScreen({ navigation }) {
       updateUserData({
         name,
         dob,
+        phone,
         isEnabledNew,
         isEnabledSales,
         isEnabledStatus,
@@ -107,6 +110,13 @@ export default function SettingScreen({ navigation }) {
         value={name}
         onChangeText={(text) => setName(text)}
       />
+      <Text style={styles.title2}>Phone Number</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Phone Number"
+        value={phone}
+        onChangeText={(text) => setPhone(text)}
+      />
       <Text style={styles.title2}>Day of Birth</Text>
       <DateField
         styleInput={styles.input}
@@ -132,7 +142,7 @@ export default function SettingScreen({ navigation }) {
           editable={false}
         />
       </TouchableOpacity>
-      <Text style={styles.title2}>Notifications</Text>
+      {/* <Text style={styles.title2}>Notifications</Text>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Text style={{ flex: 1 }}>Sales</Text>
         <Switch
@@ -162,7 +172,7 @@ export default function SettingScreen({ navigation }) {
           onValueChange={toggleStatus}
           value={isEnabledStatus}
         />
-      </View>
+      </View> */}
       <TouchableOpacity style={styles.button} onPress={() => handleSaving()}>
         <Text
           style={{

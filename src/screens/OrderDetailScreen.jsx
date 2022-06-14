@@ -3,7 +3,6 @@ import React from "react";
 
 const OrderDetailScreen = ({ navigation, route }) => {
   const info = route.params;
-  console.log(info);
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flexDirection: "row", alignItems: "center", padding: 14 }}>
@@ -121,7 +120,7 @@ const Item = (props) => {
         source={{ uri: props.image }}
         style={{
           width: 100,
-          height: 100,
+          height: "100%",
           marginRight: 15,
           borderBottomLeftRadius: 10,
           borderTopLeftRadius: 10,

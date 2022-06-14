@@ -40,6 +40,7 @@ export default function MyOrdersScreen({ navigation }) {
             listDelivery.map((item) => {
               return (
                 <Order
+                  key={item.id}
                   idNumber={getOrderID(item.id)}
                   date={item.date}
                   trackingNumber={item.trackingNumber}
@@ -74,6 +75,7 @@ export default function MyOrdersScreen({ navigation }) {
             listProcessing.map((item) => {
               return (
                 <Order
+                  key={item.id}
                   idNumber={getOrderID(item.id)}
                   date={item.date}
                   trackingNumber={item.trackingNumber}
@@ -108,6 +110,7 @@ export default function MyOrdersScreen({ navigation }) {
             listCancelled.map((item) => {
               return (
                 <Order
+                  key={item.id}
                   idNumber={getOrderID(item.id)}
                   date={item.date}
                   trackingNumber={item.trackingNumber}

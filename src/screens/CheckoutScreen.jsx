@@ -81,6 +81,8 @@ export default function CheckoutScreen({ navigation, route }) {
             name={defaultAddress.name}
             addressOne={defaultAddress.address}
             addressTwo={defaultAddress.ward}
+            addressThree={defaultAddress.district}
+            addressFour={defaultAddress.province}
             navigation={navigation}
           />
         ) : (
@@ -180,7 +182,8 @@ const Address = (props) => {
         </TouchableOpacity>
       </View>
       <Text>{props.addressOne}</Text>
-      <Text>{props.addressTwo}</Text>
+      <Text>{`${props.addressTwo}, ${props.addressThree}`}</Text>
+      <Text>{props.addressFour}</Text>
     </View>
   );
 };
